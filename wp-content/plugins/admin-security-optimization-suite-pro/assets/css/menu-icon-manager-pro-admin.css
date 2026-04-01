@@ -1,0 +1,1682 @@
+/**
+ * Menu Icon Manager Pro - Admin Styles
+ * Implements DEFAULT MODAL STYLING TEMPLATE (section 3.2)
+ * Reference: docs/dev-instructions.md
+ */
+
+/* ===== TYPOGRAPHY BASE - SCOPED TO PLUGIN ELEMENTS ONLY ===== */
+/* Apply Inter font only to plugin-specific elements, NOT globally */
+.field-mimp-icon,
+.mimp-chooser-modal,
+.mimp-icon-picker,
+.mimp-icon-settings,
+.mimp-item-tabs,
+.mimp-item-panel,
+[data-mimp-modal] {
+    font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+    font-size: 13px;
+    font-weight: 400;
+    line-height: 1.5;
+    color: #0f172a;
+}
+
+/* ===== THEME COLOR PALETTE ===== */
+:root {
+    --mimp-primary: #002d72;
+    --mimp-primary-light: #b3e5ff;
+    --mimp-accent: #ffe4b2;
+    --mimp-accent-dark: #b45309;
+    --mimp-success: #065f46;
+    --mimp-error: #d11e14;
+    --mimp-border: #e2e8f0;
+    --mimp-bg-light: #f9f9f9;
+    --mimp-text-dark: #0f172a;
+    --mimp-text-muted: #666;
+    --mimp-text-secondary: #64748b;
+    --mimp-wp-blue: #0073aa;
+    --mimp-wp-blue-dark: #005a87;
+    --mimp-wp-blue-light: rgba(0, 115, 170, 0.1);
+}
+
+/* Tooltip Icon - per dev-instructions 3.2 */
+.tooltip-icon {
+    display: inline-block;
+    margin-left: 6px;
+    color: #0ea5e9;
+    font-size: 14px;
+    vertical-align: middle;
+    cursor: help;
+    transition: color 0.2s;
+    line-height: 1;
+}
+.tooltip-icon:hover {
+    color: #2563eb;
+}
+
+/* Icon field wrapper */
+.field-mimp-icon {
+    background: var(--mimp-bg-light);
+    border: 1px solid var(--mimp-border);
+    border-radius: 3px;
+    padding: 10px;
+    margin: 10px 0;
+}
+
+.field-mimp-icon .description {
+    margin: 0;
+}
+
+/* Icon preview */
+.mimp-icon-preview {
+    margin: 8px 0;
+    min-height: 30px;
+    display: flex;
+    align-items: center;
+}
+
+.mimp-preview-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 1.2em;
+    height: 1.2em;
+    border: none;
+    border-radius: 0;
+    padding: 0;
+    background: transparent;
+    margin-right: 8px;
+    line-height: 1;
+}
+
+.mimp-preview-icon .dashicons {
+    font-family: dashicons !important;
+    font-size: inherit;
+    width: 1em;
+    height: 1em;
+    line-height: 1;
+}
+
+.mimp-preview-icon .genericon {
+    font-family: 'Genericons' !important;
+    font-size: inherit;
+    width: 1em;
+    height: 1em;
+    line-height: 1;
+}
+
+.mimp-preview-icon .fa-solid {
+    font-size: inherit;
+    width: 1em;
+    height: 1em;
+    line-height: 1;
+}
+
+.mimp-preview-icon svg.mimp-inline-fallback {
+    width: 1em;
+    height: 1em;
+    display: inline-block !important;
+}
+
+.mimp-preview-icon .mimp-fallback-icon {
+    display: inline-block;
+    vertical-align: middle;
+}
+
+/* Icon settings */
+.mimp-icon-settings {
+    margin-top: 10px;
+    padding: 10px;
+    background: #fff;
+    border: 1px solid #e0e0e0;
+    border-radius: 3px;
+    display: none;
+}
+
+.mimp-icon-settings.hidden {
+    display: none;
+}
+
+.mimp-icon-settings label {
+    display: block;
+    margin-bottom: 10px;
+    font-size: 13px;
+}
+
+.mimp-icon-settings label strong {
+    display: block;
+    margin-bottom: 4px;
+    color: #333;
+    font-weight: 600;
+}
+
+.mimp-icon-settings input[type="text"],
+.mimp-icon-settings input[type="number"],
+.mimp-icon-settings input[type="color"],
+.mimp-icon-settings select {
+    width: 100%;
+    max-width: 300px;
+    padding: 6px 8px;
+    border: 1px solid var(--mimp-border);
+    border-radius: 3px;
+    font-size: 13px;
+}
+
+.mimp-icon-settings input[type="checkbox"] {
+    margin-right: 6px;
+}
+
+/* Icon Colors Row - 3 color pickers */
+.mimp-icon-colors-row {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    margin: 12px 0;
+}
+
+.mimp-icon-colors-row label {
+    display: flex;
+    flex-direction: column;
+}
+
+.mimp-icon-colors-row strong {
+    font-size: 12px;
+    color: var(--mimp-text-dark);
+    margin-bottom: 6px;
+    display: block;
+    line-height: 1.2;
+}
+
+.mimp-icon-colors-row input[type="color"] {
+    width: 100%;
+    height: 40px;
+    border: 1px solid var(--mimp-border);
+    border-radius: 4px;
+    cursor: pointer;
+    padding: 2px;
+}
+
+/* Tabs for per-item UI */
+.mimp-item-tabs {
+    display: flex;
+    gap: 6px;
+    margin-bottom: 8px;
+}
+
+/* Per-item tab styling (in menu item editor) */
+.mimp-item-tab {
+    background: #fff;
+    border: 2px dashed var(--mimp-border);
+    padding: 6px 10px;
+    border-radius: 6px;
+    font-size: 13px;
+    cursor: pointer;
+    color: var(--mimp-text-dark);
+    transition: all 0.2s ease;
+}
+
+.mimp-item-tab.active {
+    background: #fff;
+    border-color: var(--mimp-wp-blue);
+    border-style: dashed;
+    color: var(--mimp-wp-blue);
+    font-weight: 500;
+}
+
+.mimp-item-tab[data-mimp-tab="button"] {
+    border-style: dashed;
+}
+
+.mimp-item-tab[data-mimp-tab="badges"] {
+    border-style: dashed;
+}
+
+/* Reset button styling */
+.mimp-reset-button {
+    background: #fff;
+    border: 2px solid var(--mimp-error);
+    padding: 6px 10px;
+    border-radius: 6px;
+    font-size: 13px;
+    cursor: pointer;
+    color: var(--mimp-error);
+    font-weight: 500;
+    transition: all 0.2s ease;
+    margin-left: auto;
+}
+
+.mimp-reset-button:hover {
+    background: var(--mimp-error);
+    color: #fff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+}
+
+.mimp-reset-button:active {
+    transform: scale(0.98);
+}
+
+/* ===== BUTTON PANEL LAYOUTS ===== */
+
+/* Button Toggle Row - Convert to Button + Checkbox in single row */
+.mimp-button-toggle-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin: 12px 0;
+    padding: 10px;
+    background: linear-gradient(135deg, #f8f9fa 0%, #f3f4f6 100%);
+    border-radius: 6px;
+    border-left: 4px solid var(--mimp-accent);
+}
+
+.mimp-checkbox-label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--mimp-text-dark);
+    margin: 0;
+}
+
+.mimp-checkbox-label input[type="checkbox"] {
+    width: 18px;
+    height: 18px;
+    cursor: pointer;
+    accent-color: var(--mimp-accent-dark);
+}
+
+.mimp-checkbox-label span {
+    user-select: none;
+}
+
+/* Icon/Image + 3 buttons in single row */
+.mimp-icon-buttons-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 12px 0;
+    padding: 10px;
+    background: #f9fafb;
+    border-radius: 6px;
+}
+
+.mimp-row-label {
+    min-width: 80px;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--mimp-text-dark);
+    white-space: nowrap;
+}
+
+.mimp-button-group {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+}
+
+.mimp-button-group .button {
+    padding: 6px 12px;
+    font-size: 12px;
+    white-space: nowrap;
+}
+
+/* Button Settings Row - 2 fields */
+.mimp-button-settings-row {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+    margin: 12px 0;
+    padding: 10px;
+    background: #fafbfc;
+    border-radius: 6px;
+}
+
+/* Border Size, Border Radius, Padding - 3 columns in 1 row */
+.mimp-button-border-row {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    margin: 12px 0;
+    padding: 10px;
+    background: #fafbfc;
+    border-radius: 6px;
+}
+
+.mimp-button-border-row label {
+    display: flex;
+    flex-direction: column;
+}
+
+.mimp-button-border-row input[type="number"] {
+    width: 100%;
+    padding: 6px 8px;
+    font-size: 13px;
+    border: 1px solid var(--mimp-border);
+    border-radius: 4px;
+}
+
+.mimp-button-settings-row label {
+    display: flex;
+    flex-direction: column;
+}
+
+.mimp-mini-label {
+    font-size: 11px;
+    color: var(--mimp-text-muted);
+    margin-bottom: 4px;
+    display: inline-block;
+    line-height: 1;
+    font-weight: 500;
+}
+
+.mimp-button-settings-row input[type="text"],
+.mimp-button-settings-row input[type="number"],
+.mimp-button-settings-row input[type="color"],
+.mimp-button-settings-row select {
+    width: 100%;
+    padding: 6px 8px;
+    font-size: 13px;
+    border: 1px solid var(--mimp-border);
+    border-radius: 4px;
+}
+
+/* Normal State - Label + 3 Color Pickers in 1 row (4 columns) */
+.mimp-normal-state {
+    margin: 12px 0;
+}
+
+.mimp-state-label {
+    display: block;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--mimp-primary);
+    margin-bottom: 8px;
+    padding-left: 4px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.mimp-color-row {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    padding: 10px;
+    background: linear-gradient(135deg, #fffbf7 0%, #fff9f5 100%);
+    border-radius: 6px;
+    border-left: 3px solid var(--mimp-accent);
+}
+
+.mimp-color-row label {
+    display: flex;
+    flex-direction: column;
+}
+
+.mimp-color-row input[type="color"] {
+    width: 100%;
+    height: 40px;
+    border: 1px solid var(--mimp-border);
+    border-radius: 4px;
+    cursor: pointer;
+    padding: 2px;
+    background-color: white;
+}
+
+/* Hover State - Label + 3 Color Pickers in 1 row (4 columns) */
+.mimp-hover-state {
+    margin: 12px 0;
+}
+
+.mimp-hover-state .mimp-state-label {
+    color: var(--mimp-primary-light);
+}
+
+.mimp-hover-state .mimp-color-row {
+    background: linear-gradient(135deg, #f0f9ff 0%, #e6f6ff 100%);
+    border-left-color: var(--mimp-primary-light);
+}
+
+/* Compact layout for button and badge fields */
+.mimp-compact-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(110px, 1fr));
+    gap: 8px 12px;
+    align-items: flex-start;
+}
+
+.mimp-compact-grid label {
+    display: flex;
+    flex-direction: column;
+    font-size: 13px;
+    margin: 0;
+}
+
+/* Badge Settings Layout */
+.mimp-badge-settings {
+    padding: 10px;
+    background: linear-gradient(135deg, #fff5f5 0%, #ffe8e8 100%);
+    border-radius: 6px;
+    border-left: 3px solid var(--mimp-error);
+}
+
+.mimp-badge-row {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+}
+
+.mimp-badge-row label {
+    display: flex;
+    flex-direction: column;
+}
+
+.mimp-badge-row input[type="text"],
+.mimp-badge-row input[type="number"],
+.mimp-badge-row input[type="color"],
+.mimp-badge-row select {
+    width: 100%;
+    padding: 6px 8px;
+    font-size: 13px;
+    border: 1px solid var(--mimp-border);
+    border-radius: 4px;
+}
+
+.mimp-badge-row input[type="color"] {
+    height: 38px;
+    padding: 2px;
+}
+
+.mimp-compact-grid input[type="text"],
+.mimp-compact-grid input[type="number"],
+.mimp-compact-grid input[type="color"],
+.mimp-compact-grid select {
+    width: 100%;
+    padding: 6px 8px;
+    font-size: 13px;
+    border: 1px solid var(--mimp-border);
+    border-radius: 6px;
+}
+
+.mimp-settings-preview,
+.mimp-settings-preview[aria-hidden="true"] {
+    margin-top: 8px;
+    padding: 8px;
+    background: #fafafb;
+    border: 1px dashed #e9eef8;
+    border-radius: 6px;
+    font-size: 13px;
+    color: #334155;
+}
+
+/* Settings Modal Styles - DEFAULT MODAL STYLING TEMPLATE */
+.mimp-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 99999;
+    display: none;
+}
+
+.mimp-modal.visible {
+    display: flex !important;
+}
+
+.mimp-modal__backdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.65);
+    cursor: pointer;
+}
+
+.mimp-modal__dialog {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+    max-width: 800px;
+    width: 90%;
+    max-height: 90vh;
+    overflow: auto;
+    z-index: 100000;
+    font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    font-size: 13px;
+    line-height: 1.5;
+}
+
+/* Modal Header - Template Style */
+.mimp-modal__header {
+    padding: 24px;
+    background: linear-gradient(135deg, #f8fbff 0%, #eef2ff 100%);
+    border-bottom: 1px solid #e2e8f0;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 16px;
+}
+
+.mimp-modal__header-content {
+    flex: 1;
+}
+
+/* Kicker Text */
+.mimp-modal__kicker {
+    margin: 0;
+    font-family: Inter, sans-serif;
+    font-size: 12px;
+    font-weight: 500;
+    line-height: 1.4;
+    letter-spacing: 0.08em;
+    color: #64748b;
+    text-transform: uppercase;
+}
+
+/* Modal Title */
+.mimp-modal__title {
+    margin: 4px 0 0;
+    font-family: Inter, sans-serif;
+    font-size: 20px;
+    font-weight: 600;
+    line-height: 1.3;
+    color: #0f172a;
+    letter-spacing: -0.02em;
+}
+
+/* Close Button - Circular, white background */
+.mimp-modal__close {
+    background: #ffffff;
+    border: none;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    font-size: 24px;
+    line-height: 1;
+    cursor: pointer;
+    color: #666;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    transition: all 0.2s;
+    flex-shrink: 0;
+}
+
+.mimp-modal__close:hover {
+    background: #f1f5f9;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+    color: #000;
+}
+
+/* Tab Navigation - Template Style */
+.mimp-modal__tabs {
+    display: flex;
+    border-bottom: 1px solid #e2e8f0;
+    padding: 0 24px;
+    gap: 20px;
+    font-family: Inter, sans-serif;
+    margin: 0;
+    margin-bottom: 16px;
+}
+
+.mimp-tab {
+    background: none;
+    border: none;
+    padding: 16px 0;
+    font-family: Inter, sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 1.4;
+    color: #666;
+    border-bottom: 2px solid transparent;
+    cursor: pointer;
+    transition: all 0.2s;
+    white-space: nowrap;
+    letter-spacing: 0;
+    margin: 0;
+}
+
+.mimp-tab:hover {
+    color: var(--mimp-wp-blue);
+}
+
+.mimp-tab.active,
+.mimp-tab[aria-selected="true"] {
+    color: var(--mimp-wp-blue);
+    border-bottom-color: var(--mimp-wp-blue);
+}
+
+/* Tab Content */
+.mimp-tab-panel {
+    padding: 0 24px;
+    font-family: Inter, sans-serif;
+    font-size: 13px;
+    line-height: 1.5;
+    margin-bottom: 12px;
+}
+
+.mimp-tab-panel[style*="display: none"] {
+    display: none !important;
+}
+
+.mimp-tab-panel h3 {
+    margin: 0 0 16px 0;
+    font-family: Inter, sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 1.4;
+    color: #0f172a;
+    letter-spacing: 0;
+}
+
+.mimp-tab-panel label {
+    display: block;
+    margin-bottom: 20px;
+    font-family: Inter, sans-serif;
+    font-size: 13px;
+    color: #0f172a;
+}
+
+.mimp-tab-panel input[type="text"],
+.mimp-tab-panel input[type="number"],
+.mimp-tab-panel input[type="color"],
+.mimp-tab-panel select {
+    width: 100%;
+    padding: 8px 12px;
+    border: 1px solid #cbd5f5;
+    border-radius: 6px;
+    font-family: Inter, sans-serif;
+    font-size: 13px;
+    font-weight: 400;
+    line-height: 1.5;
+    color: #0f172a;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    margin-top: 6px;
+}
+
+.mimp-tab-panel input[type="text"]:focus,
+.mimp-tab-panel input[type="number"]:focus,
+.mimp-tab-panel input[type="color"]:focus,
+.mimp-tab-panel select:focus {
+    outline: none;
+    border-color: var(--mimp-wp-blue);
+    box-shadow: 0 0 0 3px rgba(0, 115, 170, 0.1);
+}
+
+.mimp-tab-panel fieldset {
+    margin: 20px 0;
+    padding: 12px;
+    border: 1px solid #e5e7eb;
+    border-radius: 4px;
+}
+
+.mimp-tab-panel legend {
+    font-weight: 600;
+    font-size: 13px;
+    padding: 0 4px;
+    color: #0f172a;
+}
+
+/* Modal Row - 2 columns */
+.mimp-modal-row {
+    display: flex;
+    gap: 28px;
+    margin-top: 12px;
+}
+
+.mimp-modal-row label {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    margin-bottom: 0;
+}
+
+.mimp-modal-row input {
+    width: 100%;
+    margin-top: 6px;
+}
+
+/* Three-column row for Button settings top row */
+.mimp-modal-row--three {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 12px;
+    align-items: start;
+}
+.mimp-modal-col label { display: flex; flex-direction: column; }
+.mimp-modal-col .mimp-modal-col-title { font-weight: 600; margin-bottom: 8px; }
+.mimp-modal-icon-label .mimp-button-group { margin-top: 6px; }
+
+/* Color section two-column layout */
+.mimp-modal-color-section .mimp-modal-color-inner {
+    display: grid;
+    grid-template-columns: 1fr 320px;
+    gap: 16px;
+    align-items: center;
+}
+.mimp-modal-color-desc h4 { margin: 0 0 6px 0; }
+.mimp-modal-color-note { margin: 0 0 0.5rem 0; color: #6b7280; font-size: 13px; }
+.mimp-modal-color-row { justify-self: end; display: flex; gap: 12px; }
+.mimp-modal-color-row label { display: flex; flex-direction: column; align-items: center; gap: 6px; }
+.mimp-modal-color-row input[type="color"] { width: 48px; height: 48px; border-radius: 999px; border: 2px solid #d7deeb; padding: 0; }
+
+/* Modal Color Section - Normal and Hover states */
+.mimp-modal-color-section {
+    margin: 20px 0;
+    padding: 12px;
+    background: linear-gradient(135deg, #f9f9fa 0%, #f3f4f6 100%);
+    border-radius: 6px;
+    border-left: 3px solid var(--mimp-accent);
+}
+
+.mimp-modal-color-section--hover {
+    background: linear-gradient(135deg, #f0f9ff 0%, #e6f6ff 100%);
+    border-left-color: var(--mimp-primary-light);
+}
+
+.mimp-modal-color-section h4 {
+    margin: 0 0 12px 0;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--mimp-text-dark);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    font-family: Inter, sans-serif;
+}
+
+/* Modal Color Row - 3 colors */
+.mimp-modal-color-row {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+}
+
+.mimp-modal-color-row label {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 0;
+}
+
+.mimp-modal-color-row input[type="color"] {
+    width: 48px;
+    height: 48px;
+    border: 2px solid #d7deeb;
+    border-radius: 999px;
+    cursor: pointer;
+    padding: 0;
+    margin: 0;
+    margin-top: 6px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    display: block;
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    background: none;
+    outline: none;
+    box-sizing: border-box;
+    transition: all 0.2s ease;
+}
+
+.mimp-modal-color-row input[type="color"]::-webkit-color-swatch-wrapper {
+    padding: 0 !important;
+    margin: 0 !important;
+    border: none !important;
+}
+
+.mimp-modal-color-row input[type="color"]::-webkit-color-swatch {
+    border: none !important;
+    border-radius: 999px !important;
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+.mimp-modal-color-row input[type="color"]::-moz-color-swatch {
+    border: none !important;
+    border-radius: 999px !important;
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+.mimp-modal-color-row input[type="color"]::-moz-color-swatch-wrapper {
+    border: none !important;
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+.mimp-modal-color-row input[type="color"]:hover {
+    border-color: #0073aa;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+}
+
+.mimp-modal-color-row input[type="color"]:focus {
+    outline: none;
+    border-color: #0073aa;
+    box-shadow: 0 0 0 3px rgba(0, 115, 170, 0.2);
+}
+
+/* Modal Badges Row - 4 columns */
+.mimp-modal-badges-row {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+    padding: 12px;
+    background: linear-gradient(135deg, #fff5f5 0%, #ffe8e8 100%);
+    border-radius: 6px;
+    border-left: 3px solid var(--mimp-error);
+}
+
+.mimp-modal-badges-row label {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 0;
+}
+
+.mimp-modal-badges-row input,
+.mimp-modal-badges-row select {
+    width: 100%;
+    padding: 6px 8px;
+    border: 1px solid var(--mimp-border);
+    border-radius: 4px;
+    font-size: 13px;
+    margin-top: 6px;
+    font-family: Inter, sans-serif;
+}
+
+.mimp-modal-badges-row input[type="color"] {
+    width: 48px;
+    height: 48px;
+    border: 2px solid #d7deeb;
+    border-radius: 999px;
+    padding: 0;
+    margin: 0;
+    margin-top: 6px;
+    display: block;
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    background: none;
+    outline: none;
+    box-sizing: border-box;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.mimp-modal-badges-row input[type="color"]::-webkit-color-swatch-wrapper {
+    padding: 0 !important;
+    margin: 0 !important;
+    border: none !important;
+}
+
+.mimp-modal-badges-row input[type="color"]::-webkit-color-swatch {
+    border: none !important;
+    border-radius: 999px !important;
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+.mimp-modal-badges-row input[type="color"]::-moz-color-swatch {
+    border: none !important;
+    border-radius: 999px !important;
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+.mimp-modal-badges-row input[type="color"]::-moz-color-swatch-wrapper {
+    border: none !important;
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+.mimp-modal-badges-row input[type="color"]:hover {
+    border-color: #0073aa;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+}
+
+.mimp-modal-badges-row input[type="color"]:focus {
+    outline: none;
+    border-color: #0073aa;
+    box-shadow: 0 0 0 3px rgba(0, 115, 170, 0.2);
+}
+
+/* Modal Icon Label */
+.mimp-modal-icon-label {
+    display: block;
+    margin-bottom: 12px;
+    font-size: 13px;
+    color: #0f172a;
+    font-family: Inter, sans-serif;
+}
+
+.mimp-button-group {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+    margin-top: 8px;
+}
+
+.mimp-button-group .button {
+    padding: 6px 12px;
+    font-size: 12px;
+    white-space: nowrap;
+    font-family: Inter, sans-serif;
+}
+
+/* Modal Footer - Template Style */
+.mimp-modal__footer {
+    padding: 24px;
+    border-top: 1px solid #e5e7eb;
+    display: flex;
+    gap: 10px;
+    justify-content: flex-end;
+    align-items: center;
+    background: #f9fafb;
+    font-family: Inter, sans-serif;
+}
+
+.mimp-modal__messages {
+    flex: 1;
+    margin-right: auto;
+}
+
+.mimp-modal__footer .button {
+    font-family: Inter, sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    padding: 8px 16px;
+    border-radius: 10px;
+    height: 38px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 110px;
+    border: none;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.mimp-modal__footer .button-primary {
+    background: var(--mimp-wp-blue) !important;
+    color: #fff !important;
+    border: none !important;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+}
+
+.mimp-modal__footer .button-primary:hover {
+    background: var(--mimp-wp-blue-dark) !important;
+}
+
+.mimp-modal__footer .button {
+    background: transparent !important;
+    color: var(--mimp-wp-blue) !important;
+    border: 1px solid var(--mimp-wp-blue) !important;
+}
+
+.mimp-modal__footer .button:hover {
+    background: rgba(0,115,170,0.06) !important;
+}
+
+/* Ensure primary button retains solid blue style */
+.mimp-modal__footer .button.button-primary {
+    background: var(--mimp-wp-blue) !important;
+    color: #fff !important;
+    border: 1px solid var(--mimp-wp-blue) !important;
+}
+
+.mimp-modal__footer .button.button-primary:hover {
+    background: var(--mimp-wp-blue-dark) !important;
+}
+
+.mimp-message {
+    padding: 8px 12px;
+    border-radius: 4px;
+    font-size: 13px;
+    font-weight: 500;
+}
+
+.mimp-message--success {
+    background: transparent;
+    color: #065f46;
+    border: none;
+}
+
+.mimp-message--error {
+    background: #fee2e2;
+    color: #991b1b;
+    border: 1px solid #fecaca;
+}
+
+.mimp-message--info {
+    background: #dbeafe;
+    color: #1e40af;
+    border: 1px solid #93c5fd;
+}
+
+/* Buttons */
+.mimp-select-icon,
+.mimp-remove-icon {
+    margin-right: 5px;
+}
+
+.mimp-remove-icon-mini {
+    width: 26px;
+    height: 26px;
+    min-width: 26px;
+    padding: 0 !important;
+    border-radius: 999px !important;
+    line-height: 24px !important;
+    text-align: center;
+    font-size: 16px !important;
+    font-weight: 700;
+    color: #b91c1c !important;
+    border-color: #fca5a5 !important;
+    background: #fff5f5 !important;
+}
+
+.mimp-remove-icon-mini:hover {
+    color: #ffffff !important;
+    border-color: #dc2626 !important;
+    background: #dc2626 !important;
+}
+
+.mimp-remove-icon.hidden {
+    display: none;
+}
+
+/* Admin bar customizations */
+.mimp-icon-settings input[type="color"] {
+    cursor: pointer;
+    height: 38px;
+    padding: 2px;
+}
+
+/* Icon picker modal */
+.mimp-chooser-modal {
+    position: fixed;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 99999;
+}
+
+.mimp-chooser-inner {
+    background: #fff;
+    border-radius: 6px;
+    padding: 12px;
+    width: 720px;
+    max-width: 95%;
+    max-height: 80vh;
+    overflow: auto;
+}
+
+.mimp-chooser-actions {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 12px;
+}
+
+.mimp-chooser-search {
+    flex: 1 1 220px;
+    padding: 8px 10px;
+    border: 1px solid var(--mimp-border);
+    border-radius: 4px;
+}
+
+.mimp-chooser-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.mimp-picker-icon {
+    width: 48px;
+    height: 48px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid var(--mimp-border);
+    background: #fff;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+/* ===== ICON PICKER STYLES ===== */
+
+/* Icon chooser modal */
+.mimp-chooser-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.6);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 100000;
+}
+
+.mimp-chooser-inner {
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+    max-width: 600px;
+    width: 90%;
+    max-height: 80vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.mimp-chooser-actions {
+    padding: 16px;
+    border-bottom: 1px solid #e2e8f0;
+    display: flex;
+    gap: 12px;
+}
+
+.mimp-chooser-search {
+    flex: 1;
+    padding: 8px 12px;
+    border: 1px solid #cbd5f5;
+    border-radius: 4px;
+    font-size: 13px;
+}
+
+.mimp-chooser-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(48px, 1fr));
+    gap: 8px;
+    padding: 16px;
+    overflow-y: auto;
+    flex: 1;
+}
+
+/* Icon picker button */
+.mimp-picker-icon {
+    width: 48px;
+    height: 48px;
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid var(--mimp-border);
+    background: #fff;
+    border-radius: 4px;
+    cursor: pointer;
+    padding: 6px;
+    transition: all 0.2s ease;
+}
+
+.mimp-picker-icon:hover {
+    border-color: var(--mimp-wp-blue);
+    background: var(--mimp-wp-blue-light);
+    transform: translateY(-2px);
+}
+
+/* Dashicons in picker - ensure proper display and prevent genericons interference */
+.mimp-picker-icon .dashicons {
+    font-family: dashicons !important;
+    font-size: 20px;
+    width: 20px;
+    height: 20px;
+    line-height: 1;
+    display: block;
+}
+
+/* Genericons in picker - ensure proper display and prevent dashicons interference */
+.mimp-picker-icon .genericon {
+    font-family: 'Genericons' !important;
+    font-size: 20px;
+    width: 20px;
+    height: 20px;
+    line-height: 1;
+    display: block;
+}
+
+/* Font Awesome in picker */
+.mimp-picker-icon .fa-solid {
+    font-size: 20px;
+    width: 20px;
+    height: 20px;
+    line-height: 1;
+    display: block;
+}
+
+.mimp-picker-icon .mimp-icon-name-label {
+    display: block;
+    font-size: 9px;
+    color: #666;
+    margin-top: 4px;
+    text-align: center;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 100%;
+}
+
+.mimp-message {
+    padding: 8px 12px;
+    border-radius: 4px;
+    font-size: 13px;
+    font-weight: 500;
+    font-family: Inter, sans-serif;
+}
+
+.mimp-message--success {
+    background: transparent;
+    color: #065f46;
+    border: none;
+}
+
+.mimp-message--error {
+    background: #fee2e2;
+    color: #991b1b;
+    border: 1px solid #fecaca;
+}
+
+.mimp-message--info {
+    background: #dbeafe;
+    color: #1e40af;
+    border: 1px solid #93c5fd;
+}
+
+.mimp-settings-preview {
+    margin-top: 12px;
+    padding: 8px 12px;
+    background: #fafafb;
+    border: 1px dashed #e9eef8;
+    border-radius: 6px;
+    font-size: 13px;
+    color: #334155;
+    font-family: Inter, sans-serif;
+}
+
+/* Button preview inside settings */
+[data-mimp-preview-button] .mimp-btn-preview {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 14px;
+    border: 1px solid #b45309;
+    border-radius: 4px;
+    background: #ffe4b2;
+    color: #002d72;
+    font-weight: 600;
+}
+
+[data-mimp-preview-button] .mimp-btn-preview:focus {
+    outline: none;
+    box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+}
+
+[data-mimp-preview-button] .mimp-preview-btn-icon {
+    font-size: 16px;
+    line-height: 1;
+}
+
+/* Row layout: label left, preview centered in right column */
+.mimp-settings-preview-row {
+    display: grid;
+    grid-template-columns: 160px 1fr;
+    gap: 12px;
+    align-items: center;
+    margin-top: 12px;
+}
+
+.mimp-settings-preview-label {
+    font-size: 13px;
+    color: var(--mimp-text-dark);
+}
+
+.mimp-settings-preview {
+    display: flex;
+    align-items: center;
+    justify-content: center; /* center the preview button */
+}
+
+/* Badge preview styles */
+.mimp-badge-previews .mimp-preview-menu,
+.mimp-badge-previews .mimp-preview-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: auto; /* wrapper fits content; no background */
+    padding: 0;
+    background: transparent;
+    border: none;
+    border-radius: 0;
+}
+
+/* Ensure badge preview button text is vertically centered like main preview */
+.mimp-badge-previews .mimp-btn-preview,
+.mimp-settings-preview [data-mimp-badge-button-preview] .mimp-btn-preview {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center;
+    gap: 8px;
+}
+
+.mimp-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2px 6px;
+    border-radius: 999px;
+    color: #fff;
+    font-weight: 600;
+    position: absolute;
+    z-index: 20;
+    white-space: nowrap;
+    /* set a small transform origin for predictable corner placement */
+    transform-origin: center center;
+    width: auto !important;
+    min-width: 0 !important;
+    max-width: none !important;
+    box-sizing: border-box;
+}
+
+/* Position helpers applied to the preview wrapper */
+.mimp-badge-pos-top-right .mimp-badge { top: 0; right: 0; transform: translate(50%,-50%); }
+.mimp-badge-pos-top-left .mimp-badge { top: 0; left: 0; transform: translate(-50%,-50%); }
+.mimp-badge-pos-bottom-right .mimp-badge { bottom: 0; right: 0; transform: translate(50%,50%); }
+.mimp-badge-pos-bottom-left .mimp-badge { bottom: 0; left: 0; transform: translate(-50%,50%); }
+
+/* Ensure the preview wrappers are positioned relative for badges */
+[data-mimp-badge-menu-preview],
+[data-mimp-badge-button-preview] {
+    position: relative;
+}
+
+/* Expanded-left badges: increase width and overlap fully over the target */
+/* remove left-expansion behaviour; badges are placed as superscript/subscript at corners */
+
+/* For menu preview (inline text), ensure expanded badge height and vertical centering */
+.mimp-badge-pos-top-left .mimp-badge,
+.mimp-badge-pos-top-right .mimp-badge,
+.mimp-badge-pos-bottom-left .mimp-badge,
+.mimp-badge-pos-bottom-right .mimp-badge {
+    line-height: 1;
+}
+
+.mimp-mini-label {
+    font-size: 11px;
+    color: var(--mimp-text-muted);
+    margin-bottom: 4px;
+    display: inline-block;
+    line-height: 1;
+    font-weight: 500;
+    font-family: Inter, sans-serif;
+}
+
+/* ===== RESPONSIVE BEHAVIOR ===== */
+@media screen and (max-width: 782px) {
+    .mimp-modal__dialog {
+        width: 95%;
+        max-width: none;
+    }
+
+    .mimp-modal__header {
+        flex-wrap: wrap;
+        gap: 12px;
+    }
+
+    .mimp-modal-row {
+        flex-direction: column;
+        gap: 12px;
+    }
+
+    .mimp-modal-row label {
+        flex: 1;
+    }
+
+    .mimp-modal-color-row {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .mimp-modal-badges-row {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .mimp-icon-colors-row,
+    .mimp-color-row,
+    .mimp-badge-row {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .mimp-button-settings-row {
+        grid-template-columns: 1fr;
+    }
+
+    .mimp-icon-buttons-row {
+        flex-wrap: wrap;
+    }
+
+    .mimp-tab-panel input[type="text"],
+    .mimp-tab-panel input[type="number"],
+    .mimp-tab-panel input[type="color"],
+    .mimp-tab-panel select {
+        max-width: 100%;
+    }
+
+    .mimp-icon-settings input[type="text"],
+    .mimp-icon-settings input[type="number"],
+    .mimp-icon-settings input[type="color"],
+    .mimp-icon-settings select {
+        max-width: 100%;
+    }
+
+    .mimp-modal__footer {
+        flex-direction: column-reverse;
+        gap: 8px;
+    }
+
+    .mimp-modal__footer .button {
+        width: 100%;
+    }
+
+    .mimp-tab {
+        font-size: 12px;
+        padding: 12px 0;
+    }
+
+    .mimp-tab-panel {
+        font-size: 12px;
+        padding: 0 16px;
+    }
+
+    .mimp-modal__header {
+        padding: 16px;
+    }
+
+    .mimp-modal__footer {
+        padding: 16px;
+    }
+
+    body.wp-admin {
+        font-size: 12px;
+    }
+}
+
+/* Custom layout for settings modal grid and preview */
+.mimp-grid {
+    display: flex;
+    gap: 12px;
+}
+.mimp-grid--two .mimp-grid-col {
+    flex: 1 1 50%;
+}
+.mimp-inline-checks label {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    margin-right: 12px;
+}
+.mimp-margin-row {
+    display: flex;
+    gap: 8px;
+    align-items: end;
+}
+.mimp-margin-field {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+}
+.mimp-margin-field input[type="number"] {
+    width: 64px;
+    padding: 6px 8px;
+}
+.mimp-preview-row {
+    text-align: center;
+    margin-top: 12px;
+}
+.mimp-preview {
+    margin: 0 auto;
+}
+.mimp-inline-row .mimp-icon-types {
+    margin: 0;
+}
+.mimp-icon-margins {
+    margin: 0 0 0 0;
+    padding: 8px;
+    border: 1px solid #e5e7eb;
+    border-radius: 4px;
+    background: #fff;
+}
+.mimp-icon-margins legend {
+    font-weight: 600;
+    font-size: 13px;
+    padding: 0 4px;
+    color: #0f172a;
+}
+.mimp-margin-field .mimp-mini-label {
+    margin-bottom: 4px;
+    font-size: 12px;
+}
+.mimp-margin-field input[type="number"] {
+    padding: 6px 8px;
+}
+.mimp-preview {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px;
+    border: 1px dashed #d7deeb;
+    border-radius: 6px;
+    background: #fff;
+}
+.mimp-preview-icon {
+    font-size: 1.2em;
+    line-height: 1;
+}
+.mimp-preview-icon img.mimp-preview-svg {
+    height: 1em;
+    width: auto;
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.mimp-fallback-icon {
+    display: inline-block;
+    vertical-align: middle;
+}
+.mimp-preview-label {
+    font-weight: 600;
+    letter-spacing: 0.03em;
+}
+
+/* Strong override to ensure badges remain tight to their text and never stretch */
+.mimp-settings-preview [data-mimp-badge-menu-preview] .mimp-badge,
+.mimp-settings-preview [data-mimp-badge-button-preview] .mimp-badge,
+.mimp-badge-previews .mimp-badge {
+    display: inline-flex !important;
+    width: auto !important;
+    min-width: 0 !important;
+    max-width: none !important;
+    padding: 2px 6px !important;
+    border-radius: 999px !important;
+    box-sizing: border-box !important;
+    white-space: nowrap !important;
+    align-self: flex-start !important;
+    position: absolute !important;
+}
+
+/* Explicit per-corner placement to avoid transforms causing layout stretch */
+[data-mimp-badge-menu-preview].mimp-badge-pos-top-right .mimp-badge,
+[data-mimp-badge-button-preview].mimp-badge-pos-top-right .mimp-badge { top: 6px; right: 6px; transform: none !important; }
+[data-mimp-badge-menu-preview].mimp-badge-pos-top-left .mimp-badge,
+[data-mimp-badge-button-preview].mimp-badge-pos-top-left .mimp-badge { top: 6px; left: 6px; transform: none !important; }
+[data-mimp-badge-menu-preview].mimp-badge-pos-bottom-right .mimp-badge,
+[data-mimp-badge-button-preview].mimp-badge-pos-bottom-right .mimp-badge { bottom: 6px; right: 6px; transform: none !important; }
+[data-mimp-badge-menu-preview].mimp-badge-pos-bottom-left .mimp-badge,
+[data-mimp-badge-button-preview].mimp-badge-pos-bottom-left .mimp-badge { bottom: 6px; left: 6px; transform: none !important; }
+
+/* Prevent preview wrapper backgrounds from leaking into badge sizing */
+.mimp-settings-preview .mimp-preview,
+.mimp-settings-preview .mimp-preview-button,
+.mimp-settings-preview .mimp-preview-menu {
+    overflow: visible !important;
+}
+
+/* Prevent wrapper padding from shifting layout; ensure wrappers don't alter baseline */
+.mimp-badge-previews .mimp-preview-menu,
+.mimp-badge-previews .mimp-preview-button,
+.mimp-settings-preview [data-mimp-badge-menu-preview],
+.mimp-settings-preview [data-mimp-badge-button-preview] {
+    padding: 0 !important;
+    margin: 0 !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    min-height: 0 !important;
+}
+
+/* Ensure button and label remain vertically centered and unaffected by badge */
+.mimp-preview-button .mimp-btn-preview,
+.mimp-preview-menu .mimp-preview-label,
+.mimp-preview .mimp-preview-label {
+    vertical-align: middle !important;
+    line-height: 1 !important;
+}
+
+/* Badge specifics: tight pill, not interactive, doesn't affect layout */
+.mimp-badge {
+    pointer-events: none !important;
+    line-height: 1 !important;
+    vertical-align: middle !important;
+    padding: 2px 6px !important;
+}
+
+/* Use transform to place badge visually at corners without changing flow */
+[data-mimp-badge-menu-preview].mimp-badge-pos-top-right .mimp-badge,
+[data-mimp-badge-button-preview].mimp-badge-pos-top-right .mimp-badge { top: 0; right: 0; transform: translate(40%,-40%) !important; }
+[data-mimp-badge-menu-preview].mimp-badge-pos-top-left .mimp-badge,
+[data-mimp-badge-button-preview].mimp-badge-pos-top-left .mimp-badge { top: 0; left: 0; transform: translate(-40%,-40%) !important; }
+[data-mimp-badge-menu-preview].mimp-badge-pos-bottom-right .mimp-badge,
+[data-mimp-badge-button-preview].mimp-badge-pos-bottom-right .mimp-badge { bottom: 0; right: 0; transform: translate(40%,40%) !important; }
+[data-mimp-badge-menu-preview].mimp-badge-pos-bottom-left .mimp-badge,
+[data-mimp-badge-button-preview].mimp-badge-pos-bottom-left .mimp-badge { bottom: 0; left: 0; transform: translate(-40%,40%) !important; }
+
+/* Use inline-block wrappers instead of flex to avoid flex spacing affecting text when badges are near corners */
+.mimp-badge-previews .mimp-preview-menu,
+.mimp-badge-previews .mimp-preview-button,
+.mimp-settings-preview [data-mimp-badge-menu-preview],
+.mimp-settings-preview [data-mimp-badge-button-preview] {
+    display: inline-block !important;
+    vertical-align: middle !important;
+}
+
+/* Reduce extra gap around preview label when badge is present */
+.mimp-preview { gap: 8px; }
+

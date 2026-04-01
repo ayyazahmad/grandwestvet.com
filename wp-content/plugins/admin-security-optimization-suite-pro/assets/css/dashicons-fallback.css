@@ -1,0 +1,219 @@
+/**
+ * Dashicons Fallback CSS
+ * 
+ * Provides fallback icon content for common dashicons when WordPress's
+ * dashicons.css doesn't load properly or in modal contexts.
+ * 
+ * Font-face is injected inline via PHP in menu-icon-manager-pro.php
+ * to ensure the font loads with an absolute URL in all contexts.
+ * 
+ * This file provides the unicode values from WordPress's dashicons font.
+ */
+
+/* Ensure dashicons display properly */
+.dashicons {
+    display: inline-block;
+    line-height: 1;
+    font-family: dashicons !important;
+    font-size: 20px;
+    font-weight: 400;
+    font-style: normal;
+    font-variant: normal;
+    text-transform: none;
+    letter-spacing: 0;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    vertical-align: top;
+}
+
+/* Common dashicons - using Unicode values */
+.dashicons-menu::before { content: '\f333'; }
+.dashicons-dashboard::before { content: '\f226'; }
+.dashicons-admin-site::before { content: '\f319'; }
+.dashicons-admin-site-alt::before { content: '\f320'; }
+.dashicons-admin-site-alt2::before { content: '\f321'; }
+.dashicons-admin-site-alt3::before { content: '\f322'; }
+.dashicons-admin-post::before { content: '\f109'; }
+.dashicons-admin-media::before { content: '\f104'; }
+.dashicons-admin-page::before { content: '\f105'; }
+.dashicons-admin-comments::before { content: '\f117'; }
+.dashicons-admin-appearance::before { content: '\f100'; }
+.dashicons-admin-plugins::before { content: '\f106'; }
+.dashicons-admin-users::before { content: '\f110'; }
+.dashicons-admin-tools::before { content: '\f107'; }
+.dashicons-admin-settings::before { content: '\f108'; }
+.dashicons-admin-network::before { content: '\f112'; }
+.dashicons-admin-generic::before { content: '\f111'; }
+.dashicons-admin-home::before { content: '\f102'; }
+.dashicons-admin-collapse::before { content: '\f148'; }
+.dashicons-admin-customizer::before { content: '\f540'; }
+.dashicons-admin-multisite::before { content: '\f541'; }
+.dashicons-analytics::before { content: '\f185'; }
+.dashicons-chart-area::before { content: '\f185'; }
+.dashicons-chart-bar::before { content: '\f184'; }
+.dashicons-chart-line::before { content: '\f238'; }
+.dashicons-chart-pie::before { content: '\f239'; }
+.dashicons-welcome-add-page::before { content: '\f133'; }
+.dashicons-welcome-comments::before { content: '\f117'; }
+.dashicons-welcome-edit-page::before { content: '\f119'; }
+.dashicons-welcome-learn-more::before { content: '\f118'; }
+.dashicons-welcome-view-site::before { content: '\f115'; }
+.dashicons-welcome-widgets-menus::before { content: '\f116'; }
+.dashicons-welcome-write-blog::before { content: '\f119'; }
+.dashicons-format-aside::before { content: '\f123'; }
+.dashicons-format-audio::before { content: '\f127'; }
+.dashicons-format-chat::before { content: '\f125'; }
+.dashicons-format-gallery::before { content: '\f124'; }
+.dashicons-format-image::before { content: '\f128'; }
+.dashicons-format-quote::before { content: '\f122'; }
+.dashicons-format-standard::before { content: '\f109'; }
+.dashicons-format-video::before { content: '\f126'; }
+.dashicons-post-status-draft::before { content: '\f175'; }
+.dashicons-post-status-scheduled::before { content: '\f23d'; }
+.dashicons-post-status-trash::before { content: '\f182'; }
+.dashicons-post-status-pending::before { content: '\f16d'; }
+.dashicons-post-status-private::before { content: '\f160'; }
+.dashicons-visibility::before { content: '\f177'; }
+.dashicons-hidden::before { content: '\f178'; }
+.dashicons-edit::before { content: '\f119'; }
+.dashicons-edit-large::before { content: '\f327'; }
+.dashicons-edit-page::before { content: '\f119'; }
+.dashicons-add::before { content: '\f132'; }
+.dashicons-add-media::before { content: '\f104'; }
+.dashicons-remove::before { content: '\f335'; }
+.dashicons-trash::before { content: '\f182'; }
+.dashicons-trash-alt::before { content: '\f544'; }
+.dashicons-arrow-up::before { content: '\f142'; }
+.dashicons-arrow-down::before { content: '\f140'; }
+.dashicons-arrow-right::before { content: '\f141'; }
+.dashicons-arrow-left::before { content: '\f139'; }
+.dashicons-arrow-up-alt::before { content: '\f342'; }
+.dashicons-arrow-down-alt::before { content: '\f343'; }
+.dashicons-arrow-right-alt::before { content: '\f344'; }
+.dashicons-arrow-left-alt::before { content: '\f341'; }
+.dashicons-arrow-up-alt2::before { content: '\f346'; }
+.dashicons-arrow-down-alt2::before { content: '\f347'; }
+.dashicons-arrow-right-alt2::before { content: '\f348'; }
+.dashicons-arrow-left-alt2::before { content: '\f345'; }
+.dashicons-sort::before { content: '\f156'; }
+.dashicons-sort-descending::before { content: '\f158'; }
+.dashicons-sort-ascending::before { content: '\f157'; }
+.dashicons-redo::before { content: '\f15a'; }
+.dashicons-undo::before { content: '\f159'; }
+.dashicons-help::before { content: '\f223'; }
+.dashicons-info::before { content: '\f534'; }
+.dashicons-search::before { content: '\f179'; }
+.dashicons-star-filled::before { content: '\f155'; }
+.dashicons-star-half::before { content: '\f459'; }
+.dashicons-star::before { content: '\f154'; }
+.dashicons-heart::before { content: '\f487'; }
+.dashicons-thumbs-up::before { content: '\f164'; }
+.dashicons-thumbs-down::before { content: '\f165'; }
+.dashicons-flag::before { content: '\f227'; }
+.dashicons-bell::before { content: '\f16b'; }
+.dashicons-site-alt::before { content: '\f359'; }
+.dashicons-site-alt2::before { content: '\f35a'; }
+.dashicons-site-alt3::before { content: '\f35b'; }
+.dashicons-clock::before { content: '\f469'; }
+.dashicons-download::before { content: '\f316'; }
+.dashicons-upload::before { content: '\f317'; }
+.dashicons-backup::before { content: '\f529'; }
+.dashicons-resume::before { content: '\f529'; }
+.dashicons-lock::before { content: '\f160'; }
+.dashicons-unlock::before { content: '\f528'; }
+.dashicons-calendar::before { content: '\f145'; }
+.dashicons-calendar-alt::before { content: '\f508'; }
+.dashicons-visibility::before { content: '\f177'; }
+.dashicons-hidden::before { content: '\f178'; }
+.dashicons-image-crop::before { content: '\f165'; }
+.dashicons-image-rotate::before { content: '\f165'; }
+.dashicons-image-rotate-left::before { content: '\f166'; }
+.dashicons-image-rotate-right::before { content: '\f167'; }
+.dashicons-image-flip-vertical::before { content: '\f168'; }
+.dashicons-image-flip-horizontal::before { content: '\f169'; }
+.dashicons-image-filter::before { content: '\f173'; }
+.dashicons-sos::before { content: '\f16d'; }
+.dashicons-yes-alt::before { content: '\f536'; }
+.dashicons-no-alt::before { content: '\f537'; }
+.dashicons-plus::before { content: '\f132'; }
+.dashicons-plus-alt::before { content: '\f502'; }
+.dashicons-plus-alt2::before { content: '\f543'; }
+.dashicons-minus::before { content: '\f460'; }
+.dashicons-dismiss::before { content: '\f335'; }
+.dashicons-marker::before { content: '\f159'; }
+.dashicons-marker-alt::before { content: '\f340'; }
+.dashicons-trash::before { content: '\f182'; }
+.dashicons-sticky::before { content: '\f16a'; }
+.dashicons-external::before { content: '\f504'; }
+.dashicons-externalblue::before { content: '\f504'; }
+.dashicons-new-window::before { content: '\f504'; }
+.dashicons-expand::before { content: '\f211'; }
+.dashicons-resize::before { content: '\f506'; }
+.dashicons-resumeblue::before { content: '\f529'; }
+.dashicons-share::before { content: '\f237'; }
+.dashicons-share-alt::before { content: '\f503'; }
+.dashicons-share-alt2::before { content: '\f546'; }
+.dashicons-twitter::before { content: '\f301'; }
+.dashicons-rss::before { content: '\f303'; }
+.dashicons-email::before { content: '\f465'; }
+.dashicons-email-alt::before { content: '\f466'; }
+.dashicons-facebook::before { content: '\f304'; }
+.dashicons-facebook-alt::before { content: '\f305'; }
+.dashicons-googleplus::before { content: '\f306'; }
+.dashicons-networking::before { content: '\f325'; }
+.dashicons-hammer::before { content: '\f308'; }
+.dashicons-hammer-alt::before { content: '\f538'; }
+.dashicons-wrench::before { content: '\f309'; }
+.dashicons-code::before { content: '\f475'; }
+.dashicons-code-standards::before { content: '\f30a'; }
+.dashicons-lightbulb::before { content: '\f30c'; }
+.dashicons-rss::before { content: '\f303'; }
+.dashicons-smiley::before { content: '\f529'; }
+.dashicons-wordpress::before { content: '\f120'; }
+.dashicons-wordpress-alt::before { content: '\f307'; }
+.dashicons-pressthis::before { content: '\f469'; }
+.dashicons-update::before { content: '\f113'; }
+.dashicons-update-alt::before { content: '\f534'; }
+.dashicons-screenoptions::before { content: '\f180'; }
+.dashicons-cart::before { content: '\f174'; }
+.dashicons-feedback::before { content: '\f175'; }
+.dashicons-cloud::before { content: '\f176'; }
+.dashicons-translation::before { content: '\f326'; }
+.dashicons-tag::before { content: '\f323'; }
+.dashicons-category::before { content: '\f32d'; }
+.dashicons-list-view::before { content: '\f163'; }
+.dashicons-excerpt-view::before { content: '\f164'; }
+.dashicons-archive::before { content: '\f480'; }
+.dashicons-unarchive::before { content: '\f481'; }
+.dashicons-text::before { content: '\f481'; }
+.dashicons-media-audio::before { content: '\f500'; }
+.dashicons-media-code::before { content: '\f499'; }
+.dashicons-media-default::before { content: '\f501'; }
+.dashicons-media-document::before { content: '\f493'; }
+.dashicons-media-interactive::before { content: '\f508'; }
+.dashicons-media-spreadsheet::before { content: '\f50b'; }
+.dashicons-media-text::before { content: '\f491'; }
+.dashicons-media-video::before { content: '\f490'; }
+.dashicons-media-archive::before { content: '\f481'; }
+.dashicons-playlist-audio::before { content: '\f50c'; }
+.dashicons-playlist-video::before { content: '\f50d'; }
+.dashicons-controls-play::before { content: '\f522'; }
+.dashicons-controls-pause::before { content: '\f523'; }
+.dashicons-controls-forward::before { content: '\f519'; }
+.dashicons-controls-skipforward::before { content: '\f516'; }
+.dashicons-controls-back::before { content: '\f518'; }
+.dashicons-controls-skipback::before { content: '\f517'; }
+.dashicons-controls-volumeon::before { content: '\f50e'; }
+.dashicons-controls-volumeoff::before { content: '\f50f'; }
+.dashicons-yes::before { content: '\f147'; }
+.dashicons-no::before { content: '\f158'; }
+.dashicons-no-alt::before { content: '\f537'; }
+.dashicons-table::before { content: '\f535'; }
+.dashicons-align-left::before { content: '\f206'; }
+.dashicons-align-center::before { content: '\f207'; }
+.dashicons-align-right::before { content: '\f208'; }
+.dashicons-align-justify::before { content: '\f209'; }
+.dashicons-list-ul::before { content: '\f203'; }
+.dashicons-list-ol::before { content: '\f204'; }
+.dashicons-indent::before { content: '\f20a'; }
+.dashicons-outdent::before { content: '\f20b'; }

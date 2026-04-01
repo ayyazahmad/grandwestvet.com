@@ -1,0 +1,1939 @@
+/* Vertically center config row fields and buttons in shortcode modal */
+.was-shortcode-config-row .was-mcs-input {
+    height: 40px;
+    /* Keep input styling for perfect centering */
+}
+
+.was-shortcode-config-row select,
+.was-shortcode-config-row button {
+    height: 40px;
+    padding-top: 0;
+    padding-bottom: 0;
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.was-shortcode-config-row button {
+    line-height: 40px;
+    text-align: center;
+}
+
+.was-shortcode-config-row select {
+    line-height: normal;
+}
+:root {
+    --aso-font-sans: "Inter", "Segoe UI", -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, sans-serif;
+    --aso-font-heading: "Inter", "Segoe UI", -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, sans-serif;
+
+    --aso-color-primary: #0ea5e9;
+    --aso-color-primary-dark: #0284c7;
+    --aso-color-secondary: #6366f1;
+    --aso-color-success: #16a34a;
+    --aso-color-warning: #f59e0b;
+    --aso-color-danger: #dc2626;
+    --aso-color-surface: #ffffff;
+    --aso-color-muted: #475467;
+    --aso-color-border: #e2e8f0;
+    --aso-color-background: #f8fafc;
+
+    --aso-radius-sm: 8px;
+    --aso-radius-md: 12px;
+    --aso-radius-lg: 18px;
+
+    --aso-shadow-xs: 0 1px 3px rgba(15, 23, 42, 0.08);
+    --aso-shadow-sm: 0 4px 12px rgba(15, 23, 42, 0.12);
+    --aso-shadow-md: 0 12px 30px rgba(15, 23, 42, 0.14);
+
+    --aso-spacing-2: 8px;
+    --aso-spacing-3: 12px;
+    --aso-spacing-4: 16px;
+    --aso-spacing-6: 24px;
+    --aso-spacing-8: 32px;
+
+    --aso-size-sm: 420px;
+    --aso-size-md: 560px;
+    --aso-size-lg: 720px;
+}
+
+body.toplevel_page_admin-security-optimization-suite-pro #wpcontent,
+body.admin_page_admin-security-optimization-suite-pro #wpcontent,
+body.admin_page_bulk-creator #wpcontent,
+body.admin_page_activity-log-page #wpcontent,
+body.admin_page_aso-chatpulse-bubble #wpcontent,
+body.admin_page_aso-style-guide #wpcontent {
+    font-family: var(--aso-font-sans);
+    color: #0f172a;
+}
+
+.aso-heading-xl {
+    font-family: var(--aso-font-heading);
+    font-size: 32px;
+    line-height: 1.2;
+    font-weight: 700;
+    color: #0f172a;
+}
+
+.aso-heading-lg {
+    font-family: var(--aso-font-heading);
+    font-size: 24px;
+    line-height: 1.3;
+    font-weight: 600;
+}
+
+.aso-heading-md {
+    font-family: var(--aso-font-heading);
+    font-size: 18px;
+    line-height: 1.35;
+    font-weight: 600;
+}
+
+.aso-text-muted {
+    color: var(--aso-color-muted);
+}
+
+.aso-card {
+    background: var(--aso-color-surface);
+    border: 1px solid var(--aso-color-border);
+    border-radius: var(--aso-radius-lg);
+    box-shadow: var(--aso-shadow-sm);
+    padding: var(--aso-spacing-6);
+}
+
+.aso-hero,
+.aso-suite-hero {
+    width: 100%;
+    box-sizing: border-box;
+    background: linear-gradient(135deg,#0073aa 0%,#005a87 100%);
+    border-radius: var(--aso-radius-lg);
+    padding: 22px 28px;
+    margin-bottom: 32px !important;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 18px;
+    flex-wrap: wrap;
+    box-shadow: 0 20px 45px rgba(0,115,170,0.22);
+    color: #fff;
+}
+.aso-hero__info,
+.aso-suite-hero__info { display:flex;align-items:center;gap:14px;min-width:0;flex:1; }
+.aso-hero__emoji,
+.aso-suite-hero__emoji { font-size:36px;line-height:1; }
+.aso-hero__title,
+.aso-suite-hero__title { margin:0;font-size:24px;font-weight:700;line-height:1.2;white-space:normal;overflow:hidden;text-overflow:ellipsis;word-break:break-word;color:#fff;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical; }
+.aso-hero__copy,
+.aso-suite-hero__copy { display:flex;flex-direction:column;gap:4px; }
+.aso-hero__subtitle,
+.aso-suite-hero__subtitle { margin:4px 0 0;font-size:13px;color:rgba(255,255,255,0.85); }
+body.toplevel_page_admin-security-optimization-suite-pro .aso-suite-hero__cta,
+body.admin_page_admin-security-optimization-suite-pro .aso-suite-hero__cta,
+.aso-hero__cta,
+.aso-suite-hero__cta { background:#ffc107 !important;border:none !important;color:#000 !important;font-weight:700 !important;padding:12px 22px !important;border-radius:8px !important;box-shadow:0 6px 16px rgba(0,0,0,0.18) !important;white-space:nowrap !important;display:inline-flex !important;align-items:center !important;gap:6px !important;text-decoration:none !important;transition:all 0.2s ease !important;cursor:pointer !important; }
+body.toplevel_page_admin-security-optimization-suite-pro .aso-suite-hero__cta:hover,
+body.admin_page_admin-security-optimization-suite-pro .aso-suite-hero__cta:hover,
+.aso-hero__cta:hover,
+.aso-suite-hero__cta:hover { background:#ffb300 !important;box-shadow:0 8px 20px rgba(0,0,0,0.22) !important;transform:translateY(-2px) !important; }
+body.toplevel_page_admin-security-optimization-suite-pro .aso-suite-hero__cta:active,
+body.admin_page_admin-security-optimization-suite-pro .aso-suite-hero__cta:active,
+.aso-hero__cta:active,
+.aso-suite-hero__cta:active { background:#ff9800 !important;box-shadow:0 4px 10px rgba(0,0,0,0.15) !important;transform:none !important; }
+
+.aso-inline-notice,
+.aso-suite-inline-notice {
+    margin:0 0 18px 0;
+    background:#e7f5ff;
+    border:1px solid #b7dcff;
+    border-left:4px solid #0073aa;
+    border-radius:10px;
+    padding:12px 16px;
+    color:#0a3052;
+    font-weight:600;
+}
+
+.was-module-card {
+    position:relative;
+    border:1px solid var(--aso-color-border);
+    border-radius: var(--aso-radius-lg);
+    padding: 26px 24px 24px;
+    background: var(--aso-color-surface);
+    box-shadow: 0 12px 30px rgba(15,23,42,0.08);
+    display:flex;
+    flex-direction:column;
+    gap:14px;
+    overflow:hidden;
+}
+
+.was-module-head { display:flex;align-items:center;gap:16px; }
+.was-module-icon { width:56px;height:56px;border-radius:18px;background:#f3f6fc;display:flex;align-items:center;justify-content:center;font-size:28px;line-height:1;box-shadow:inset 0 0 0 1px #e3e9f6; }
+.was-module-title { font-size:16px;font-weight:600;margin:0;color:#0f172a; }
+.was-module-desc { font-size:13px;color:#4b5563;margin:0;line-height:1.5; }
+.was-module-footer { margin-top:auto;display:flex;align-items:center;justify-content:space-between;gap:8px;padding:16px 24px;margin-left:-24px;margin-right:-24px;margin-bottom:-24px;background:#f7f9fc;border-top:1px solid #e4e9f4;border-radius:0 0 16px 16px;flex-wrap:nowrap; }
+.was-module-card.is-premium { box-shadow:0 16px 40px rgba(15,23,42,0.12); }
+.was-module-headline { display:flex;flex-direction:column;gap:4px; }
+.was-module-ribbon { position:absolute;top:10px;right:-46px;width:140px;transform:rotate(45deg);background:#f97316;color:#fff;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;text-align:center;padding:6px 0;box-shadow:0 6px 16px rgba(249,115,22,0.35);pointer-events:none; }
+.was-module-switch label { display:inline-flex;align-items:center; }
+.was-card-cta { display:flex;gap:10px;flex-wrap:nowrap;margin-left:auto;justify-content:flex-end;flex-shrink:0; }
+.was-card-cta--stacked { flex-direction:column;align-items:stretch; }
+.was-card-cta .button { display:inline-flex;align-items:center;gap:6px;background:#0f172a;color:#fff !important;border:none;border-radius:10px;padding:4px 12px;font-weight:600;text-decoration:none;box-shadow:0 10px 24px rgba(15,23,42,0.18);transition:transform 0.15s ease, box-shadow 0.15s ease, background-color 0.15s ease; }
+.was-card-cta .button.button-primary { background:#0ea5e9;color:#fff !important; }
+.was-card-cta .button:hover { transform:translateY(-1px);box-shadow:0 16px 28px rgba(15,23,42,0.25);background:#111f3b;color:#fff !important; }
+.was-card-cta .button.button-primary:hover { background:#0284c7;color:#fff !important; }
+
+.was-switch {
+    display:inline-flex;
+    align-items:center;
+    justify-content:flex-start;
+    width:56px;
+    height:30px;
+    border-radius:30px;
+    background:#cfd8e3;
+    position:relative;
+    cursor:pointer;
+    padding:0 4px;
+    box-shadow:inset 0 1px 2px rgba(15,23,42,0.18);
+    transition:background .18s ease, box-shadow .18s ease;
+}
+.was-switch[data-state="on"] { background:#0ea5e9 !important;box-shadow:inset 0 1px 2px rgba(15,23,42,0.28) !important; }
+.was-switch[data-state="mixed"] { background:#f59e0b !important;box-shadow:inset 0 1px 2px rgba(245,158,11,0.28) !important; }
+.was-switch-dot { position:absolute;top:3px;left:3px;width:24px;height:24px;border-radius:24px;background:#fff;box-shadow:0 4px 10px rgba(15,23,42,0.25);transition:left .18s ease;pointer-events:none; }
+.was-switch[data-state="on"] .was-switch-dot { left:calc(100% - 27px) !important; }
+.was-switch[data-state="mixed"] .was-switch-dot { left:calc(50% - 12px) !important; }
+
+.aso-form-control {
+    width: 100%;
+    border: 1px solid var(--aso-color-border);
+    border-radius: var(--aso-radius-sm);
+    padding: 10px 12px;
+    font-size: 14px;
+    font-family: var(--aso-font-sans);
+    background: #fff;
+}
+
+/* Default ASO admin page wrapper width (applies to current and future plugin pages) */
+.wrap.aso-chatpulse-wrap,
+.aso-chatpulse-wrap {
+    max-width: 1100px !important;
+    margin: 20px 0 40px;
+    box-sizing: border-box;
+}
+
+.aso-section {
+    margin-bottom: var(--aso-spacing-8);
+}
+
+.aso-color-swatch {
+    width: 48px;
+    height: 48px;
+    border-radius: var(--aso-radius-sm);
+    border: 1px solid var(--aso-color-border);
+}
+
+.aso-popup-section { border:1px solid var(--aso-color-border);border-radius:var(--aso-radius-md);padding:16px 18px;background:#fafbff;margin-bottom:18px; }
+.aso-popup-section__title { font-size:15px;font-weight:600;margin:0 0 6px; }
+.aso-popup-section__desc { margin:0;font-size:13px;color:var(--aso-color-muted); }
+
+.aso-grid { display:grid;gap:18px; }
+.aso-grid--two { grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); }
+
+
+.aso-chatpulse-preview { border:1px dashed var(--aso-color-border);border-radius:var(--aso-radius-md);padding:18px;background:#f5f8ff;display:flex;flex-direction:column;gap:12px; }
+.aso-chatpulse-channel { border:1px solid #e2e8f0;border-radius:16px;padding:18px;margin-bottom:10px;background:#fdfdff;box-shadow:0 4px 14px rgba(15,23,42,0.06); }
+.aso-chatpulse-channel__header { display:flex;justify-content:space-between;gap:16px;align-items:center;margin-bottom:14px; }
+.aso-chatpulse-channel__icon { width:42px;height:42px;border-radius:50%;background:#111827;color:#fff;display:flex;align-items:center;justify-content:center;font-size:20px; }
+.aso-chatpulse-channel__meta { flex:1; }
+.aso-chatpulse-channel__meta strong { display:block;font-size:15px;color:#0f172a; }
+.aso-chatpulse-channel__type { font-size:12px;text-transform:uppercase;letter-spacing:0.08em;color:#64748b;display:block;margin-top:2px; }
+.aso-chatpulse-channel__status { font-size:12px;font-weight:600; }
+.aso-chatpulse-channel__status.is-online { color:#0f9d58; }
+.aso-chatpulse-channel__status.is-offline { color:#b91c1c; }
+.aso-chatpulse-channel__header-actions { display:flex;gap:6px;align-items:center; }
+.aso-chatpulse-channel__remove { border:none;background:#fee2e2;color:#b91c1c;border-radius:50%;width:30px;height:30px;font-size:18px;line-height:1;cursor:pointer; }
+.aso-chatpulse-channel__grid { display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px; }
+.aso-chatpulse-field { display:flex;flex-direction:column;gap:6px; }
+.aso-chatpulse-field label { font-weight:600;font-size:13px;color:#0f172a; }
+.aso-chatpulse-field .description { margin:2px 0 0;font-size:12px;color:#64748b; }
+.aso-chatpulse-field input,
+.aso-chatpulse-field select { border:1px solid #cbd5f5;border-radius:10px;padding:9px 11px;font-size:13px; }
+
+.aso-demo-notes { font-size:13px;color:var(--aso-color-muted);margin:0; }
+
+.aso-color-picker-row { display:flex;align-items:flex-start;gap:32px;flex-wrap:wrap; }
+.aso-color-picker-field { display:flex;flex-direction:column;align-items:center;gap:8px; }
+.aso-color-picker-field label { font-weight:500;font-size:13px;color:#0f172a;text-align:center;white-space:nowrap;margin:0;letter-spacing:0; }
+.aso-color-picker {
+    width:48px;
+    height:48px;
+    border-radius:999px !important;
+    border:2px solid #d7deeb !important;
+    padding:0 !important;
+    background:none;
+    cursor:pointer;
+    appearance:none;
+    -webkit-appearance:none;
+    box-shadow:0 2px 8px rgba(0, 0, 0, 0.08);
+    transition:all 0.2s ease;
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    overflow:hidden;
+    background-clip:padding-box;
+}
+.aso-color-picker:focus-visible {
+    outline:none;
+    border-color:var(--aso-color-secondary);
+    box-shadow:0 0 0 3px rgba(99,102,241,0.25);
+}
+.aso-color-picker::-webkit-color-swatch-wrapper { padding:0; border-radius:999px; }
+.aso-color-picker::-webkit-color-swatch { border: none; border-radius:999px; }
+.aso-color-picker::-moz-color-swatch { border: none; border-radius:999px; }
+
+/* Strong override: force color input swatches to fully fill the circular container
+     and remove any browser-drawn inner borders. Uses high-specificity + !important
+     to defeat conflicting rules and user-agent quirks. */
+.aso-color-picker::-webkit-color-swatch-wrapper,
+.aso-color-picker::-webkit-color-swatch,
+.aso-color-picker::-moz-color-swatch,
+.aso-color-picker::-moz-color-swatch-wrapper {
+    display: block !important;
+    width: 100% !important;
+    height: 100% !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    border: 0 !important;
+    border-width: 0 !important;
+    border-color: transparent !important;
+    box-shadow: none !important;
+    outline: none !important;
+    background: transparent !important;
+    background-clip: padding-box !important;
+    border-radius: inherit !important;
+    box-sizing: border-box !important;
+}
+
+/* ===================================================================
+   UNIFIED COLOR PICKER GLOBAL STANDARD
+   
+   This is the standardized color picker styling for ALL modules.
+   All color inputs should use this class for consistency.
+   
+   SPECIFICATIONS:
+   - Size: 48px ? 48px (fixed, do not modify)
+   - Border: 2px solid #d7deeb (standard light gray-blue)
+   - Border Radius: 999px (perfect circle)
+   - Hover State: Border ? #0073aa, Shadow ? 0 4px 12px (lift effect)
+   - Focus State: Blue border (#0073aa) with 3px glow (rgba(0,115,170,0.2))
+   - All properties use !important to prevent CSS cascade conflicts
+   
+   MODULES USING THIS STANDARD:
+   ? Google Reviews (.aso-reviews-color-picker)
+   ? M&C Modal (.aso-reviews-color-picker)
+   ? ChatPulse (.was-chatpulse-color)
+   ? Scroll to Top (.was-scroll-color)
+   ? Menu Icon Manager (.aso-reviews-color-picker)
+   ? Download Manager (.aso-reviews-color-picker)
+   ? Design System (.aso-color-picker-global)
+   
+   FUTURE UPDATES:
+   When adding NEW color pickers to any module:
+   1. Use the class defined below (or one of the module-specific aliases)
+   2. DO NOT add inline styles to input elements
+   3. DO NOT use custom sizes or border colors
+   4. Always include browser-specific pseudo-element overrides
+   5. Test hover and focus states for accessibility
+   
+   FOR CUSTOMIZATION:
+   - If a module needs different colors, create a wrapper class
+   - Never modify size, padding, border-radius, or interaction states
+   - Always preserve the hover and focus state styling
+   =================================================================== */
+/* Global Unified Color Picker (All Modules) */
+input[type="color"].aso-color-picker-global {
+    width: 48px !important;
+    height: 48px !important;
+    border-radius: 999px !important;
+    border: 2px solid #d7deeb !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    background: none !important;
+    cursor: pointer !important;
+    appearance: none !important;
+    -webkit-appearance: none !important;
+    box-shadow: none !important;
+    transition: border-color 0.15s ease, box-shadow 0.15s ease !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    overflow: hidden !important;
+    background-clip: padding-box !important;
+}
+
+input[type="color"].aso-color-picker-global:hover {
+    border-color: #0073aa !important;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12) !important;
+}
+
+input[type="color"].aso-color-picker-global:focus {
+    outline: none !important;
+    border-color: #0073aa !important;
+    box-shadow: 0 0 0 3px rgba(0, 115, 170, 0.2) !important;
+}
+
+input[type="color"].aso-color-picker-global::-webkit-color-swatch-wrapper {
+    padding: 0 !important;
+    margin: 0 !important;
+    border: 0 !important;
+    border-radius: 999px !important;
+    width: 100% !important;
+    height: 100% !important;
+    outline: none !important;
+    box-shadow: inset 0 0 0 0px transparent !important;
+    -webkit-box-shadow: inset 0 0 0 0px transparent !important;
+}
+
+input[type="color"].aso-color-picker-global::-webkit-color-swatch {
+    border: 0 !important;
+    border-radius: 999px !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    width: 100% !important;
+    height: 100% !important;
+    outline: none !important;
+    box-shadow: inset 0 0 0 0px transparent !important;
+    -webkit-box-shadow: inset 0 0 0 0px transparent !important;
+}
+
+input[type="color"].aso-color-picker-global::-moz-color-swatch {
+    border: 0 !important;
+    border-radius: 999px !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    width: 100% !important;
+    height: 100% !important;
+    outline: none !important;
+    box-shadow: inset 0 0 0 0px transparent !important;
+}
+
+input[type="color"].aso-color-picker-global::-moz-color-swatch-wrapper {
+    border: 0 !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    width: 100% !important;
+    height: 100% !important;
+    outline: none !important;
+    box-shadow: inset 0 0 0 0px transparent !important;
+}
+    margin: 0 !important;
+}
+
+/* Label styling for color picker containers */
+label:has(input[type="color"].aso-color-picker-global) {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    gap: 8px !important;
+    width: auto !important;
+}
+
+/* Ensure color picker inputs stay circular in all contexts */
+.asos-gsheet-style-grid label {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    width: auto;
+    gap: 8px;
+}
+
+.asos-gsheet-style-grid input[type="color"].aso-color-picker-global {
+    width: 48px !important;
+    height: 48px !important;
+    flex-shrink: 0;
+}
+
+/* Extra strong rule for modal context to override width:100% on inputs */
+.was-shortcode-tab-panel input[type="color"].aso-color-picker-global,
+.was-shortcode-tab-panel.is-active input[type="color"].aso-color-picker-global {
+    width: 48px !important;
+    height: 48px !important;
+    padding: 0 !important;
+    border-radius: 999px !important;
+    border: 2px solid #d7deeb !important;
+    box-sizing: content-box !important;
+    display: inline-flex !important;
+}
+
+/* Tooltip Icon System (Active) */
+.tooltip-icon {
+    font-weight: 700;
+    color: #0ea5e9;
+    cursor: help;
+    margin: 0 4px;
+    position: relative;
+    display: inline-block;
+    transition: color 0.15s ease;
+}
+
+/* Firefox and strong-context overrides: force circular color pickers */
+input[type="color"].aso-color-picker-global {
+    -moz-appearance: none !important;
+    appearance: none !important;
+    width: 48px !important;
+    height: 48px !important;
+    padding: 0 !important;
+    border-radius: 999px !important;
+    border: 2px solid #d7deeb !important;
+    box-shadow: none !important;
+    box-sizing: content-box !important;
+    background: none !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    overflow: hidden !important;
+    flex-shrink: 0 !important;
+}
+
+input[type="color"].aso-color-picker-global::-moz-focus-inner { border: 0 !important; padding: 0 !important; }
+input[type="color"].aso-color-picker-global::-moz-color-swatch { border: none !important; border-radius: 999px !important; }
+input[type="color"].aso-color-picker-global::-moz-color-swatch-wrapper { border: none !important; padding: 0 !important; border-radius: 999px !important; }
+
+/* Very high specificity for modal context - handles both Pro (appearance) and Free (styles) versions */
+.was-shortcode-tab-panel[data-asos-gsheet-section="appearance"] input[type="color"].aso-color-picker-global,
+.was-shortcode-tab-panel[data-asos-gsheet-section="styles"] input[type="color"].aso-color-picker-global,
+.was-shortcode-tab-panel.is-active input[type="color"].aso-color-picker-global,
+.asos-accordion-content input[type="color"].aso-color-picker-global {
+    width: 48px !important;
+    height: 48px !important;
+    padding: 0 !important;
+    border-radius: 999px !important;
+    border: 2px solid #d7deeb !important;
+    box-sizing: content-box !important;
+}
+
+.tooltip-icon:hover {
+    color: #0284c7;
+}
+
+.tooltip-icon[data-tooltip]:hover::after,
+.tooltip-icon[data-tooltip]:focus::after,
+.tooltip-icon[data-tooltip]:focus-visible::after {
+    content: attr(data-tooltip);
+    position: absolute;
+    bottom: 125%;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #ffffff;
+    color: #334155;
+    border: 1px solid #dbe2ea;
+    padding: 5px 8px;
+    border-radius: 6px;
+    font-size: 12px;
+    font-weight: 400;
+    font-family: var(--aso-font-sans, "Segoe UI", Arial, sans-serif);
+    letter-spacing: 0;
+    white-space: pre-line;
+    text-align: left;
+    min-width: 180px;
+    max-width: 320px;
+    z-index: 10000;
+    box-shadow: 0 6px 16px rgba(15, 23, 42, 0.16);
+    pointer-events: none;
+}
+
+.tooltip-icon.aso-tooltip-rich[data-tooltip]:hover::after,
+.tooltip-icon.aso-tooltip-rich[data-tooltip]:focus::after,
+.tooltip-icon.aso-tooltip-rich[data-tooltip]:focus-visible::after {
+    content: none !important;
+    display: none !important;
+}
+
+.aso-tooltip-bubble {
+    position: fixed;
+    z-index: 100001;
+    background: #ffffff;
+    color: #334155;
+    border: 1px solid #dbe2ea;
+    border-radius: 8px;
+    padding: 8px 10px;
+    min-width: 180px;
+    max-width: 340px;
+    box-shadow: 0 8px 18px rgba(15, 23, 42, 0.16);
+    font-size: 12px;
+    font-weight: 400;
+    line-height: normal;
+    font-family: var(--aso-font-sans, "Segoe UI", Arial, sans-serif);
+    pointer-events: none;
+    letter-spacing: 0;
+    text-align: left;
+}
+
+.aso-tooltip-bubble p {
+    margin: 0;
+    font-size: inherit;
+    line-height: inherit;
+    font-weight: 400;
+}
+
+.aso-tooltip-bubble p + p {
+    margin-top: 6px;
+}
+
+.aso-tooltip-bubble .aso-tooltip-label {
+    font-size: inherit;
+    line-height: inherit;
+    font-weight: 700;
+    color: #0f172a;
+}
+
+/* Universal ASO admin page wrapper ? single source of truth for all current/future pages */
+.wrap.aso-design-wrap,
+.aso-design-wrap {
+    max-width: 1100px !important;
+    margin: 20px 0 40px;
+    box-sizing: border-box;
+    font-family: var(--aso-font-sans);
+    color: #0f172a;
+}
+
+/* Hero Card - Desktop and Tablet */
+.aso-chatpulse-hero-card {
+    border-radius: 18px;
+    padding: 28px;
+    color: #e2e8f0;
+    display: flex;
+    justify-content: space-between;
+    gap: 24px;
+    align-items: flex-start;
+    box-shadow: 0 20px 60px rgba(15,23,42,0.35);
+}
+
+.aso-chatpulse-hero-card h1 {
+    margin: 4px 0 8px;
+    font-size: 28px;
+}
+
+.aso-chatpulse-hero-kicker {
+    margin: 0;
+    letter-spacing: 0.08em;
+    font-size: 11px;
+    text-transform: uppercase;
+    font-weight: 600;
+}
+
+.aso-chatpulse-hero-subtext {
+    margin: 0;
+    max-width: 560px;
+    font-size: 14px;
+}
+
+.aso-chatpulse-hero-count {
+    font-size: 13px;
+    display: block;
+    margin-top: 8px;
+}
+
+/* Unified hero actions layout for module pages (excludes dashboard/global settings). */
+.wrap.aso-design-wrap .aso-chatpulse-hero-card {
+    flex-wrap: wrap;
+}
+
+.wrap.aso-design-wrap .aso-chatpulse-hero-card > div:first-child {
+    flex: 1 1 420px;
+    min-width: 280px;
+}
+
+.wrap.aso-design-wrap .aso-chatpulse-hero-card > div + div {
+    width: 100%;
+    flex: 1 1 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    text-align: center;
+    gap: 18px;
+    margin-left: 0 !important;
+    margin-top: 10px;
+}
+
+.wrap.aso-design-wrap .aso-chatpulse-hero-card > div + div .aso-chatpulse-hero-count {
+    width: 100%;
+    text-align: center;
+    margin: 0 auto;
+}
+
+.wrap.aso-design-wrap .aso-chatpulse-hero-card > div + div .button,
+.wrap.aso-design-wrap .aso-chatpulse-hero-card > div + div button {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 auto;
+    padding: 7px 16px;
+    min-height: 0;
+    height: auto;
+    line-height: 1.2;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+/* Layout and Cards */
+.aso-chatpulse-layout {
+    display: grid;
+    gap: 24px;
+}
+
+.aso-chatpulse-card {
+    background: #fff;
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: 0 8px 24px rgba(15,23,42,0.05);
+}
+
+.aso-chatpulse-card--channels {
+    min-height: 400px;
+}
+
+.aso-chatpulse-card__header {
+    display: flex;
+    justify-content: space-between;
+    gap: 18px;
+    align-items: flex-start;
+    margin-bottom: 16px;
+}
+
+.aso-chatpulse-card__header h2 {
+    margin: 0 0 6px;
+}
+
+/* Tablet/Mobile responsiveness (max-width: 940px) */
+@media (max-width: 940px) {
+    .wrap.aso-design-wrap,
+    .aso-design-wrap {
+        padding: 12px !important;
+        margin: 12px 0 20px !important;
+    }
+
+    .aso-chatpulse-hero-card {
+        flex-direction: column !important;
+        padding: 16px !important;
+        gap: 12px !important;
+        align-items: stretch !important;
+    }
+
+    .aso-chatpulse-hero-card h1,
+    .aso-heading-xl {
+        font-size: 20px !important;
+        line-height: 1.25 !important;
+    }
+
+    .aso-chatpulse-hero-subtext {
+        max-width: 100% !important;
+        font-size: 13px !important;
+    }
+
+    .aso-chatpulse-hero-count {
+        display: block !important;
+        width: 100% !important;
+        text-align: right !important;
+        order: 2 !important;
+        font-size: 13px !important;
+        opacity: 0.9 !important;
+        margin-bottom: 12px !important;
+    }
+
+    .aso-chatpulse-hero-card .button,
+    .aso-chatpulse-hero-card button {
+        /* center the button on mobile while keeping it touch-friendly */
+        width: auto !important;
+        max-width: 360px !important;
+        margin: 8px auto 0 !important;
+        align-self: center !important;
+        order: 3 !important;
+        display: inline-flex !important;
+        justify-content: center !important;
+        align-items: center !important;
+        vertical-align: middle !important;
+        line-height: 1 !important;
+        padding-left: 18px !important;
+        padding-right: 18px !important;
+    }
+
+    .aso-chatpulse-layout,
+    .aso-grid--two,
+    .aso-grid {
+        grid-template-columns: 1fr !important;
+    }
+}
+
+/* Small mobile (max-width: 768px) */
+@media (max-width: 768px) {
+    .wrap.aso-design-wrap,
+    .aso-design-wrap {
+        padding: 12px !important;
+        margin: 8px 0 20px !important;
+    }
+
+    .aso-chatpulse-hero-card {
+        flex-direction: column !important;
+        padding: 12px !important;
+        gap: 10px !important;
+        align-items: center !important;
+        text-align: center !important;
+    }
+
+    .aso-chatpulse-hero-card > div:first-child {
+        width: 100% !important;
+        text-align: center !important;
+    }
+
+    .aso-chatpulse-hero-card h1,
+    .aso-heading-xl {
+        font-size: 18px !important;
+        line-height: 1.2 !important;
+        margin: 0 !important;
+    }
+
+    .aso-chatpulse-hero-subtext {
+        max-width: 100% !important;
+        font-size: 12px !important;
+    }
+
+    .aso-chatpulse-hero-count {
+        display: block !important;
+        width: 100% !important;
+        text-align: center !important;
+        order: 2 !important;
+        font-size: 12px !important;
+        opacity: 0.85 !important;
+        margin: 8px 0 !important;
+    }
+
+    .aso-chatpulse-hero-card .button,
+    .aso-chatpulse-hero-card button {
+        width: auto !important;
+        max-width: 280px !important;
+        margin: 8px auto 0 !important;
+        align-self: center !important;
+        order: 3 !important;
+        display: inline-flex !important;
+        justify-content: center !important;
+        align-items: center !important;
+        vertical-align: middle !important;
+        line-height: 1 !important;
+        padding: 8px 16px !important;
+    }
+
+    .aso-chatpulse-layout,
+    .aso-grid--two,
+    .aso-grid {
+        grid-template-columns: 1fr !important;
+    }
+
+    .aso-suite-hero {
+        flex-direction: column !important;
+        align-items: flex-start !important;
+    }
+
+    .aso-suite-hero__info {
+        flex: 1 !important;
+        width: 100% !important;
+    }
+
+    .aso-suite-hero__title {
+        font-size: 20px !important;
+    }
+
+    .aso-suite-hero__cta {
+        width: 100% !important;
+        justify-content: center !important;
+    }
+}
+
+/* Final module-page hero overrides to prevent page-level drift on mobile/tablet */
+@media (max-width: 1200px) {
+    .wrap.aso-design-wrap .aso-chatpulse-hero-card {
+        flex-direction: column !important;
+        align-items: flex-start !important;
+        text-align: left !important;
+    }
+
+    .wrap.aso-design-wrap .aso-chatpulse-hero-card > div:first-child {
+        width: 100% !important;
+        text-align: left !important;
+        min-width: 0 !important;
+        flex: 1 1 auto !important;
+    }
+
+    .wrap.aso-design-wrap .aso-chatpulse-hero-card > div + div {
+        width: 100% !important;
+        flex: 1 1 auto !important;
+        margin-left: 0 !important;
+        align-items: center !important;
+        justify-content: flex-start !important;
+        text-align: center !important;
+        gap: 10px !important;
+        order: 2 !important;
+    }
+
+    .wrap.aso-design-wrap .aso-chatpulse-hero-card > div + div .aso-chatpulse-hero-count {
+        width: 100% !important;
+        text-align: center !important;
+        margin: 0 !important;
+        order: 1 !important;
+    }
+
+    .wrap.aso-design-wrap .aso-chatpulse-hero-card > div + div .button,
+    .wrap.aso-design-wrap .aso-chatpulse-hero-card > div + div button {
+        margin: 0 auto !important;
+        order: 2 !important;
+        padding: 7px 16px !important;
+        font-size: 14px !important;
+        line-height: 1.2 !important;
+        min-height: 0 !important;
+        height: auto !important;
+    }
+}
+
+/* Shortcode Builder Modal Styles */
+.was-scroll-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(15, 23, 42, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+    animation: fadeIn 0.2s ease;
+}
+
+/* Reset WordPress styles inside modal */
+#was-shortcode-builder-modal,
+#was-shortcode-builder-modal * {
+    box-sizing: border-box;
+    font-family: var(--aso-font-sans);
+}
+
+#was-shortcode-builder-modal button:not(.button) {
+    margin: 0;
+    padding: 0;
+    background: transparent;
+    border: none;
+    font-size: inherit;
+}
+
+/* Standard button styling for Download Manager modal */
+#was-shortcode-builder-modal .button {
+    padding: 8px 16px !important;
+    border-radius: 10px !important;
+    border: 1px solid transparent !important;
+    font-size: 13px !important;
+    font-weight: 600 !important;
+    cursor: pointer !important;
+    transition: all 0.2s !important;
+    min-width: 110px !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    height: 38px !important;
+    letter-spacing: 0 !important;
+    background-color: #f0f0f0 !important;
+    color: #0f172a !important;
+}
+
+#was-shortcode-builder-modal .button:hover {
+    background-color: #e8e8e8 !important;
+}
+
+#was-shortcode-builder-modal .button.button-primary {
+    background-color: #0073aa !important;
+    color: #fff !important;
+    border: none !important;
+}
+
+#was-shortcode-builder-modal .button.button-primary:hover {
+    background-color: #005a87 !important;
+}
+
+#was-shortcode-builder-modal .button.button-secondary {
+    background-color: #f0f0f0 !important;
+    color: #0f172a !important;
+    border: 1px solid #e2e8f0 !important;
+}
+
+#was-shortcode-builder-modal .button.button-secondary:hover {
+    background-color: #e8e8e8 !important;
+}
+
+#was-shortcode-builder-modal .button.button-danger {
+    background-color: #dc2626 !important;
+    color: #fff !important;
+    border: none !important;
+}
+
+#was-shortcode-builder-modal .button.button-danger:hover {
+    background-color: #b91c1c !important;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+.was-scroll-modal-panel {
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 20px 60px rgba(15, 23, 42, 0.2);
+    display: flex;
+    flex-direction: column;
+    max-width: 900px;
+    width: 90vw;
+    max-height: 90vh;
+    overflow: hidden;
+    animation: slideUp 0.3s ease;
+    font-family: var(--aso-font-sans);
+    font-size: 14px;
+    color: #0f172a;
+    line-height: 1.5;
+}
+
+@keyframes slideUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* ========================================
+   UNIFIED MODAL ANIMATION SYSTEM
+   Applied to all module modals for consistency
+   ======================================== */
+
+/* Unified overlay animation - applies to all modal overlays */
+.aso-modal-overlay,
+.was-scroll-modal-overlay,
+.was-chatpulse-overlay,
+.was-activity-log-overlay,
+.was-sio-overlay,
+.was-maintenance-coming-soon-overlay,
+.mimp-modal-overlay,
+.mcs-modal-overlay {
+    animation: fadeIn 0.25s ease !important;
+}
+
+/* Fallback modal shell rules (critical for Free build stability)
+   Keeps overlays as true popups even if inline modal CSS is not printed. */
+.aso-modal-overlay,
+.was-toolbar-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(15, 23, 42, 0.55);
+    backdrop-filter: blur(4px);
+    padding: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 100000;
+}
+
+.aso-modal-overlay[aria-hidden="true"],
+.was-toolbar-overlay[aria-hidden="true"] {
+    display: none !important;
+}
+
+/* Shared panel structure fallback for toolbar-style module modals. */
+.was-toolbar-panel {
+    width: min(860px, 96vw);
+    max-height: 92vh;
+    background: #fff;
+    border: 1px solid #e5e9f2;
+    border-radius: 16px;
+    box-shadow: 0 25px 60px rgba(15, 23, 42, 0.2);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.was-toolbar-header {
+    padding: 18px 22px;
+    border-bottom: 1px solid #e5e9f2;
+    background: linear-gradient(135deg, #f8fbff, #eef2ff);
+}
+
+.was-toolbar-body {
+    padding: 18px 22px;
+    overflow-y: auto;
+}
+
+.was-toolbar-footer {
+    padding: 14px 22px;
+    border-top: 1px solid #e5e9f2;
+    background: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 10px;
+}
+
+/* Keep premium lock badge anchored to the module icon, never the card corner. */
+.was-module-icon {
+    position: relative;
+}
+
+.was-module-icon .premium-card__badge {
+    position: absolute;
+    right: -4px;
+    bottom: -4px;
+    top: auto;
+    z-index: 2;
+}
+
+/* Unified panel animation - applies to all modal panels */
+.aso-modal-panel,
+.was-scroll-modal-panel,
+.was-chatpulse-panel,
+.was-activity-log-modal,
+.was-sio-panel,
+.mimp-modal__content,
+.mcs-modal-panel {
+    animation: slideUp 0.3s ease !important;
+}
+
+.was-scroll-modal-header {
+    padding: 24px;
+    border-bottom: 1px solid #e2e8f0;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 16px;
+}
+
+/* Unified modal header layout for all module headers
+   Keeps padding, spacing and layout consistent without forcing
+   module-specific visual overrides (backgrounds, colors remain).
+*/
+.was-modal-header,
+.was-scroll-modal-header,
+.was-activity-log-modal-header,
+.was-mcs-modal-header,
+.aso-google-reviews-modal-header,
+.mimp-modal__header {
+    padding: 24px;
+    border-bottom: 1px solid #e2e8f0;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 16px;
+}
+
+.was-modal-header > div,
+.was-scroll-modal-header > div,
+.was-activity-log-modal-header > div,
+.was-mcs-modal-header > div,
+.aso-google-reviews-modal-header > div,
+.mimp-modal__header-content {
+    flex: 1;
+}
+
+/* Standardize header background and close button appearance across modules */
+.was-modal-header,
+.was-scroll-modal-header,
+.was-activity-log-modal-header,
+.was-mcs-modal-header,
+.aso-google-reviews-modal-header,
+.mimp-modal__header {
+    background: linear-gradient(135deg, #f8fbff 0%, #eef2ff 100%);
+    border-bottom: 1px solid #e2e8f0;
+}
+
+/* Unified close button: white circular button with thin border and hover shadow */
+.was-scroll-close,
+.mimp-modal__close,
+.aso-google-reviews-modal-close,
+.was-activity-log-close-icon,
+.was-chatpulse-close,
+.aso-chatpulse-panel__close {
+    background: #ffffff !important;
+    border: 1px solid #e6edf5 !important;
+    width: 36px !important;
+    height: 36px !important;
+    border-radius: 999px !important;
+    font-size: 24px !important;
+    line-height: 1 !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    cursor: pointer !important;
+    padding: 0 !important;
+    box-shadow: none !important;
+    color: #666 !important;
+    transition: box-shadow .15s ease, background .15s ease, color .15s ease !important;
+}
+
+.was-scroll-close:hover,
+.mimp-modal__close:hover,
+.aso-google-reviews-modal-close:hover,
+.was-activity-log-close-icon:hover,
+.was-chatpulse-close:hover,
+.aso-chatpulse-panel__close:hover {
+    background: #f1f5f9 !important;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.15) !important;
+    color: #000 !important;
+}
+
+#was-shortcode-builder-modal .was-scroll-modal-header {
+    padding: 24px !important;
+    border-bottom: 1px solid #e2e8f0 !important;
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: flex-start !important;
+    gap: 16px !important;
+}
+
+.was-scroll-modal-header > div {
+    flex: 1;
+}
+
+#was-shortcode-builder-modal .was-scroll-modal-header > div {
+    flex: 1 !important;
+}
+
+.was-scroll-kicker {
+    margin: 0 0 4px 0;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    color: #0ea5e9;
+    text-transform: uppercase;
+}
+
+.was-scroll-modal-header h2 {
+    margin: 0;
+    font-size: 24px;
+    font-weight: 700;
+    color: #0f172a;
+}
+
+.was-scroll-close {
+    background: none;
+    border: none;
+    font-size: 28px;
+    line-height: 1;
+    cursor: pointer;
+    color: #6b7280;
+    padding: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 32px;
+    min-height: 32px;
+    border-radius: 6px;
+    transition: all 0.2s ease;
+}
+
+.was-scroll-close:hover {
+    background: #f3f4f6;
+    color: #0f172a;
+}
+
+.was-scroll-modal-body {
+    flex: 1;
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding: 28px;
+    min-height: 0;
+    background: #ffffff;
+    font-family: var(--aso-font-sans);
+}
+
+#was-shortcode-builder-modal .was-scroll-modal-body {
+    flex: 1 !important;
+    overflow-y: auto !important;
+    overflow-x: hidden !important;
+    padding: 28px !important;
+    min-height: 0 !important;
+    background: #ffffff !important;
+    font-family: var(--aso-font-sans) !important;
+}
+
+.was-scroll-modal-footer {
+    padding: 16px 24px;
+    border-top: 1px solid #e2e8f0;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 12px;
+    background: #f9fafb;
+}
+
+#was-shortcode-builder-modal .was-scroll-modal-footer {
+    padding: 16px 24px !important;
+    border-top: 1px solid #e2e8f0 !important;
+    display: flex !important;
+    justify-content: flex-end !important;
+    align-items: center !important;
+    gap: 12px !important;
+    background: #f9fafb !important;
+}
+
+/* Shortcode Config Row */
+.was-shortcode-config-row {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 24px;
+    flex-wrap: wrap;
+    padding: 16px;
+    background: #f9fafb;
+    border-radius: 8px;
+    border: 1px solid #e5e7eb;
+}
+
+.was-shortcode-config-row > input {
+    flex: 1;
+    min-width: 150px;
+}
+
+.was-shortcode-config-select {
+    display: flex;
+    gap: 8px;
+}
+
+/* Source sections */
+.was-shortcode-source-single,
+.was-shortcode-source-category {
+    padding: 16px;
+    margin-bottom: 16px;
+    background: #f0f9ff;
+    border-left: 4px solid #0ea5e9;
+    border-radius: 4px;
+}
+
+.was-shortcode-source-single label,
+.was-shortcode-source-category label {
+    display: block;
+    margin-bottom: 8px;
+    font-size: 13px;
+    font-weight: 700;
+    color: #0f172a;
+}
+
+/* Tabs */
+
+#was-shortcode-builder-modal .was-shortcode-tabs {
+    display: flex !important;
+    gap: 4px !important;
+    flex-wrap: wrap !important;
+    margin: 24px 0 24px 0 !important;
+    border-bottom: 2px solid #e2e8f0 !important;
+    padding-bottom: 0 !important;
+    background: transparent !important;
+    list-style: none !important;
+}
+
+#was-shortcode-builder-modal .was-shortcode-tab-btn {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    background: transparent !important;
+    border: none !important;
+    border-bottom: 3px solid transparent !important;
+    border-radius: 0 !important;
+    padding: 14px 18px !important;
+    font-size: 14px !important;
+    font-weight: 600 !important;
+    color: #6b7280 !important;
+    cursor: pointer !important;
+    transition: all 0.25s ease !important;
+    min-height: 48px !important;
+    white-space: nowrap !important;
+    position: relative !important;
+    box-shadow: none !important;
+    text-decoration: none !important;
+    outline: none !important;
+    appearance: none !important;
+    margin: 0 !important;
+    line-height: 1 !important;
+}
+
+#was-shortcode-builder-modal .was-shortcode-tab-btn:hover {
+    color: #0b82c4 !important;
+    background: transparent !important;
+    border-bottom-color: #cbd5e1 !important;
+}
+
+#was-shortcode-builder-modal .was-shortcode-tab-btn:focus {
+    outline: 2px solid #0ea5e9 !important;
+    outline-offset: -2px !important;
+}
+
+#was-shortcode-builder-modal .was-shortcode-tab-btn.was-shortcode-tab-active {
+    color: #0b82c4 !important;
+    border-bottom-color: #0ea5e9 !important;
+    background: transparent !important;
+    font-weight: 700 !important;
+    box-shadow: none !important;
+}
+
+/* Tab Panels */
+#was-shortcode-builder-modal .was-shortcode-tab-panels {
+    display: block !important;
+    width: 100% !important;
+}
+
+#was-shortcode-builder-modal .was-shortcode-tab-panels .was-shortcode-tab-panel {
+    display: none !important;
+    width: 100% !important;
+}
+
+#was-shortcode-builder-modal .was-shortcode-tab-panels .was-shortcode-tab-panel.was-shortcode-tab-active {
+    display: block !important;
+    animation: fadeIn 0.2s ease;
+    width: 100% !important;
+}
+
+/* Tab Panel Styles */
+.was-shortcode-tab-panel {
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.was-shortcode-tab-panel h3 {
+    margin: 0 0 12px 0;
+    font-size: 16px;
+    font-weight: 700;
+    color: #0f172a;
+}
+
+/* Color picker sizing */
+
+.was-shortcode-tab-panel input[type="color"].aso-color-picker {
+    width: 48px !important;
+    height: 48px !important;
+    border-radius: 999px !important;
+    border: 2px solid #d7deeb !important;
+    padding: 0 !important;
+    background: none !important;
+    box-shadow: none !important;
+    cursor: pointer;
+    margin-bottom: 0 !important;
+    appearance: none !important;
+    -webkit-appearance: none !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    overflow: hidden !important;
+    background-clip: padding-box !important;
+}
+
+.aso-color-picker-row {
+    display: flex;
+    gap: 32px;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+    align-items: flex-start;
+}
+
+.aso-color-picker-field {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    align-items: center;
+    min-width: 80px;
+    flex: 0 1 auto;
+}
+
+.aso-color-picker-field label {
+    font-weight: 500;
+    font-size: 13px;
+    color: #0f172a;
+    display: block;
+    margin-bottom: 0;
+    text-align: center;
+    white-space: nowrap;
+    margin: 0;
+    letter-spacing: 0;
+    line-height: 1.4;
+}
+
+.was-shortcode-tab-description {
+    margin: 0 0 24px 0;
+    padding: 12px 14px;
+    font-size: 13px;
+    color: #6b7280;
+    line-height: 1.6;
+    background: #f8fafc;
+    border-left: 3px solid #0ea5e9;
+    border-radius: 4px;
+}
+
+.was-shortcode-tab-panel > label {
+    display: block;
+    margin-top: 20px;
+    margin-bottom: 8px;
+    font-size: 13px;
+    font-weight: 700;
+    color: #0f172a;
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+}
+
+/* Form Controls */
+.was-mcs-input {
+    display: block;
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid #d1d5db;
+    border-radius: 8px;
+    font-size: 14px;
+    font-family: inherit;
+    transition: all 0.2s ease;
+    box-sizing: border-box;
+    margin-bottom: 0;
+}
+
+.was-shortcode-grid .was-mcs-input {
+    margin-bottom: 0;
+}
+
+.was-mcs-input:focus {
+    outline: none;
+    border-color: #0ea5e9;
+    box-shadow: 0 0 0 3px rgba(14, 165, 233, 0.1);
+}
+
+.was-mcs-input[readonly] {
+    background: #f3f4f6;
+    cursor: not-allowed;
+}
+
+/* Grid Layouts */
+.was-shortcode-grid {
+    display: grid;
+    gap: 16px;
+    margin-bottom: 24px;
+    width: 100%;
+    box-sizing: border-box;
+    padding: 16px;
+    background: #f9fafb;
+    border-radius: 8px;
+    border: 1px solid #e5e7eb;
+}
+
+.was-shortcode-grid--two {
+    grid-template-columns: repeat(2, 1fr);
+}
+
+.was-shortcode-grid--three {
+    grid-template-columns: repeat(3, 1fr);
+}
+
+.was-shortcode-grid > div {
+    min-width: 0;
+}
+
+.was-shortcode-grid > label {
+    display: block;
+    font-size: 12px;
+    font-weight: 700;
+    color: #0f172a;
+    margin-bottom: 8px;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+    grid-column: 1 / -1;
+}
+
+.was-shortcode-grid > input,
+.was-shortcode-grid > select {
+    grid-column: span 1;
+    width: 100%;
+}
+
+/* Color picker field wrapper */
+.was-shortcode-color-field {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.was-shortcode-color-field label {
+    font-size: 13px;
+    font-weight: 600;
+    color: #0f172a;
+}
+
+/* Checkboxes */
+.was-shortcode-checkbox {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 14px;
+    cursor: pointer;
+    padding: 10px 0;
+    user-select: none;
+}
+
+.was-shortcode-checkbox input[type="checkbox"] {
+    width: 18px;
+    height: 18px;
+    cursor: pointer;
+    flex-shrink: 0;
+    accent-color: #0ea5e9;
+}
+
+/* Radio/Segmented Controls */
+.was-shortcode-display-type,
+.was-shortcode-button-states {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 24px;
+    margin-top: 12px;
+    flex-wrap: wrap;
+    padding: 12px;
+    background: #f9fafb;
+    border-radius: 8px;
+    border: 1px solid #e5e7eb;
+}
+
+.was-shortcode-segmented-item,
+.was-shortcode-button-state {
+    padding: 12px 18px;
+    border: 2px solid #d1d5db;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.25s ease;
+    background: white;
+    user-select: none;
+    flex: 1;
+    min-width: 120px;
+    text-align: center;
+}
+
+.was-shortcode-segmented-item:hover,
+.was-shortcode-button-state:hover {
+    border-color: #0ea5e9;
+    background: #f0f9ff;
+}
+
+.was-shortcode-segmented-item:has(input[type="radio"]:checked),
+.was-shortcode-button-state.was-shortcode-button-state--active {
+    background: linear-gradient(135deg, #0ea5e9 0%, #0284c7 100%);
+    border-color: #0284c7;
+    color: white;
+    font-weight: 700;
+    box-shadow: 0 4px 12px rgba(14, 165, 233, 0.3);
+}
+
+.was-shortcode-segmented-item input[type="radio"] {
+    display: none;
+}
+
+/* Button State Panels */
+.was-shortcode-button-state-panel {
+    margin-bottom: 20px;
+    margin-top: 16px;
+    padding: 16px;
+    background: linear-gradient(135deg, #f0f9ff 0%, #f9fafb 100%);
+    border: 1px solid #bfdbfe;
+    border-radius: 8px;
+}
+
+.was-shortcode-button-state-panel[hidden] {
+    display: none !important;
+}
+
+/* Output Row */
+.was-shortcode-output-row {
+    margin-top: 24px;
+    padding-top: 24px;
+    border-top: 2px solid #e2e8f0;
+}
+
+.was-shortcode-output-row > label {
+    display: block;
+    font-size: 13px;
+    font-weight: 600;
+    color: #0f172a;
+    margin-bottom: 8px;
+}
+
+#was-shortcode-output {
+    font-family: "Monaco", "Courier New", monospace;
+    font-size: 13px;
+    min-height: 80px;
+    padding: 12px;
+    background: #0f172a;
+    color: #10b981;
+    border: 1px solid #1f2937;
+    border-radius: 6px;
+    margin-bottom: 12px;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .was-scroll-modal-panel {
+        width: 95vw;
+        max-height: 95vh;
+        max-width: calc(100vw - 32px);
+    }
+
+    .was-shortcode-grid--two,
+    .was-shortcode-grid--three {
+        grid-template-columns: 1fr;
+    }
+
+    .was-shortcode-tabs {
+        gap: 4px;
+        border-bottom: 1px solid #e2e8f0;
+        padding-bottom: 8px;
+    }
+
+    .was-shortcode-tab-btn {
+        padding: 10px 12px;
+        font-size: 13px;
+        min-height: 40px;
+        flex: 1;
+        min-width: 100px;
+    }
+
+    .aso-color-picker-row {
+        gap: 12px;
+        justify-content: space-between;
+    }
+
+    .aso-color-picker-field {
+        min-width: 60px;
+    }
+
+    .was-scroll-modal-footer {
+        flex-direction: column-reverse;
+        gap: 8px;
+    }
+
+    .was-scroll-modal-footer > button {
+        width: 100%;
+    }
+
+    .was-scroll-modal-body {
+        padding: 16px;
+    }
+
+    .was-scroll-modal-header {
+        padding: 16px;
+    }
+
+    .was-shortcode-config-row {
+        flex-direction: column;
+    }
+
+    .was-shortcode-config-row > input,
+    .was-shortcode-config-row .was-shortcode-config-select {
+        width: 100%;
+    }
+
+    .was-shortcode-config-select {
+        flex-direction: column;
+    }
+
+    .was-shortcode-config-select button,
+    .was-shortcode-config-select select {
+        width: 100%;
+    }
+}
+
+/* Maintenance & Coming Soon Modal - Color Pickers */
+.was-maintenance-coming-soon-modal input[type="color"].aso-reviews-color-picker {
+    width: 48px !important;
+    height: 48px !important;
+    border-radius: 999px !important;
+    border: 2px solid #d7deeb !important;
+    padding: 0 !important;
+    background: none !important;
+    cursor: pointer;
+    appearance: none !important;
+    -webkit-appearance: none !important;
+    display: block !important;
+    overflow: hidden !important;
+    background-clip: padding-box !important;
+}
+
+.was-maintenance-coming-soon-modal input[type="color"].aso-reviews-color-picker:focus {
+    outline: none !important;
+    border-color: #0073aa !important;
+    box-shadow: 0 0 0 3px rgba(0, 115, 170, 0.2) !important;
+}
+
+/* ============================================================
+   Module Requirements & Compatibility Badge Styling
+   ============================================================ */
+
+/* Base badge styling */
+.aso-extension-badge {
+    display: inline-block;
+    padding: 6px 12px;
+    border-radius: 4px;
+    font-size: 13px;
+    font-weight: 500;
+    white-space: nowrap;
+    transition: all 0.2s ease;
+}
+
+/* Badge variants */
+.aso-extension-badge-ok {
+    background-color: #dcfce7;
+    color: #16a34a;
+    border: 1px solid #bbf7d0;
+}
+
+.aso-extension-badge-ok:hover {
+    background-color: #bbf7d0;
+    box-shadow: 0 2px 4px rgba(22, 163, 74, 0.2);
+}
+
+.aso-extension-badge-missing {
+    background-color: #fee2e2;
+    color: #dc2626;
+    border: 1px solid #fecaca;
+}
+
+.aso-extension-badge-missing:hover {
+    background-color: #fecaca;
+    box-shadow: 0 2px 4px rgba(220, 38, 38, 0.2);
+}
+
+.aso-extension-badge-warning {
+    background-color: #fef3c7;
+    color: #92400e;
+    border: 1px solid #fde68a;
+}
+
+.aso-extension-badge-warning:hover {
+    background-color: #fde68a;
+    box-shadow: 0 2px 4px rgba(180, 83, 9, 0.2);
+}
+
+/* Requirements section container */
+.aso-requirements-section {
+    padding: 15px;
+    background: #f9fafb;
+    border-left: 4px solid #3b82f6;
+    border-radius: 4px;
+    margin-bottom: 20px;
+}
+
+.aso-requirements-section h4 {
+    margin: 0 0 15px 0;
+    color: #1f2937;
+    font-weight: 600;
+    font-size: 14px;
+}
+
+/* Requirements grid layout */
+.aso-requirements-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 12px;
+    margin-bottom: 12px;
+}
+
+/* Individual requirement item */
+.aso-requirement-item {
+    padding: 10px;
+    background: #ffffff;
+    border: 1px solid #e5e7eb;
+    border-radius: 6px;
+    font-size: 12px;
+}
+
+.aso-requirement-item strong {
+    display: block;
+    color: #374151;
+    margin-bottom: 4px;
+    font-weight: 600;
+}
+
+.aso-requirement-item span {
+    display: block;
+    color: #6b7280;
+}
+
+/* Requirements list (extensions, etc.) */
+.aso-requirements-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 10px;
+}
+
+.aso-requirements-label {
+    font-weight: 500;
+    color: #374151;
+    font-size: 12px;
+    margin-bottom: 8px;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+}
+
+/* Critical requirement warning box */
+.aso-requirements-warning {
+    padding: 12px;
+    background: #fef3c7;
+    border-left: 4px solid #f59e0b;
+    border-radius: 4px;
+    color: #92400e;
+    font-size: 12px;
+    line-height: 1.5;
+}
+
+.aso-requirements-warning strong {
+    display: block;
+    margin-bottom: 4px;
+    font-weight: 600;
+}
+
+/* Requirements info in modals */
+.aso-modal-requirements-info {
+    padding: 15px;
+    background: #f0f9ff;
+    border-left: 4px solid #0284c7;
+    border-radius: 4px;
+    margin-bottom: 16px;
+    font-size: 12px;
+}
+
+.aso-modal-requirements-info h5 {
+    margin: 0 0 10px 0;
+    color: #0c4a6e;
+    font-weight: 600;
+    font-size: 13px;
+}
+
+/* Responsive adjustments for badges */
+@media (max-width: 768px) {
+    .aso-requirements-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .aso-extension-badge {
+        font-size: 12px;
+        padding: 5px 10px;
+    }
+
+    .aso-requirements-section {
+        padding: 12px;
+        margin-bottom: 16px;
+    }
+
+    .aso-modal-requirements-info {
+        padding: 12px;
+        margin-bottom: 12px;
+        font-size: 11px;
+    }
+}
+
+

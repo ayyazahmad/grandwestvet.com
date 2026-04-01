@@ -1,0 +1,606 @@
+/**
+ * ASOS GSheet Tables - Table Editor Styles
+ * 2-Column Layout: Collapsible Sidebar + Live Preview
+ */
+
+/* ===========================
+   Base Editor Layout
+   =========================== */
+.asos-gsheet-editor {
+    background: transparent !important;
+    margin: 0 !important;
+    padding: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    box-shadow: none !important;
+}
+
+/* Header */
+.asos-gsheet-editor-header {
+    background: #ffffff !important;
+    padding: 16px 20px;
+    border: 1px solid #e5e7eb !important;
+    border-radius: 12px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+    flex-wrap: wrap;
+    box-shadow: none !important;
+    margin: 24px 0 12px 0;
+}
+
+.asos-gsheet-editor-title {
+    display: flex;
+    gap: 15px;
+    align-items: center;
+    flex: 1;
+}
+
+.asos-gsheet-title-input {
+    font-size: 18px;
+    font-weight: 600;
+    padding: 10px 14px;
+    border: 2px solid #e5e7eb;
+    border-radius: 8px;
+    flex: 1;
+    max-width: 500px;
+    transition: border-color 0.2s;
+}
+
+.asos-gsheet-title-input:focus {
+    outline: none;
+    border-color: #3b82f6;
+}
+
+.asos-gsheet-status-select {
+    padding: 10px 14px;
+    border: 2px solid #e5e7eb;
+    border-radius: 8px;
+    font-weight: 500;
+    background: white;
+}
+
+.asos-gsheet-editor-actions {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+/* Shortcode Display in Header */
+.asos-gsheet-shortcode-display {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    padding: 0 16px;
+    border-left: 1px solid #e5e7eb;
+}
+
+.asos-gsheet-shortcode-display code {
+    background: #f0f9ff;
+    border: 1px solid #0ea5e9;
+    padding: 6px 10px;
+    border-radius: 4px;
+    font-family: monospace;
+    font-size: 12px;
+    color: #0ea5e9;
+}
+
+/* ===========================
+   2-Column Body Layout
+   =========================== */
+.asos-gsheet-editor-body {
+    display: grid;
+    grid-template-columns: 340px 1fr;
+    min-height: calc(100vh - 200px);
+    gap: 0;
+}
+
+/* ===========================
+   Left Sidebar (Collapsible)
+   =========================== */
+.asos-gsheet-sidebar {
+    background: white;
+    border-right: 1px solid #e5e7eb;
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding: 15px;
+}
+
+/* Accordion Section */
+.asos-accordion-section {
+    margin-bottom: 12px;
+}
+
+.asos-accordion-section:first-of-type {
+    margin-top: 16px;
+}
+
+.asos-accordion-header {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    padding: 14px 16px;
+    background: #ffffff;
+    border: 2px solid #e5e7eb;
+    border-radius: 12px;
+    text-align: left;
+    font-size: 15px;
+    color: #1f2937;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    user-select: none;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+    box-sizing: border-box;
+}
+
+.asos-accordion-header:hover {
+    background: #f9fafb;
+    border-color: #2563eb;
+    box-shadow: 0 4px 6px rgba(37, 99, 235, 0.1);
+}
+
+.asos-accordion-section.is-open .asos-accordion-header {
+    background: #2563eb;
+    border-color: #2563eb;
+    color: #ffffff;
+    box-shadow: 0 4px 6px rgba(37, 99, 235, 0.2);
+}
+
+.asos-accordion-title {
+    font-weight: 600;
+    font-size: 15px;
+    line-height: 1.3;
+}
+
+.asos-accordion-description {
+    font-size: 12px;
+    color: #6b7280;
+    line-height: 1.4;
+    font-weight: 400;
+}
+
+.asos-accordion-section.is-open .asos-accordion-description {
+    color: #dbeafe;
+}
+
+.asos-accordion-content {
+    padding: 15px 0;
+    display: none;
+    animation: slideDown 0.3s ease-out;
+}
+
+.asos-accordion-section.is-open .asos-accordion-content {
+    display: block;
+}
+
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Form Fields */
+.asos-accordion-content label {
+    display: block;
+    margin-bottom: 8px;
+    font-size: 12px;
+    font-weight: 500;
+    color: #374151;
+}
+
+.asos-accordion-content input[type="text"],
+.asos-accordion-content input[type="url"],
+.asos-accordion-content input[type="number"],
+.asos-accordion-content input[type="color"],
+.asos-accordion-content textarea,
+.asos-accordion-content select {
+    display: block;
+    width: 100%;
+    padding: 6px 10px;
+    margin-top: 4px;
+    border: 1px solid #d1d5db;
+    border-radius: 4px;
+    font-size: 13px;
+    transition: border-color 0.2s;
+    box-sizing: border-box;
+}
+
+.asos-accordion-content input[type="text"]:focus,
+.asos-accordion-content input[type="url"]:focus,
+.asos-accordion-content input[type="number"]:focus,
+.asos-accordion-content textarea:focus,
+.asos-accordion-content select:focus {
+    outline: none;
+    border-color: #3b82f6;
+}
+
+.asos-accordion-content input[type="color"] {
+    height: 32px;
+    padding: 2px;
+    cursor: pointer;
+}
+
+/* Color picker styling - let browser render natively */
+
+
+.asos-accordion-content textarea {
+    min-height: 60px;
+    font-family: monospace;
+    resize: vertical;
+}
+
+.asos-accordion-content .description {
+    margin-top: 6px;
+    font-size: 12px;
+    color: #6b7280;
+}
+
+/* Field Rows */
+.asos-field-row,
+.asos-gsheet-field-row {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+    gap: 8px;
+    margin-bottom: 8px;
+}
+
+/* Toggle Grid */
+.asos-toggle-grid,
+.asos-gsheet-toggle-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 6px;
+    background: #f9fafb;
+    padding: 10px;
+    border-radius: 6px;
+    margin-bottom: 8px;
+}
+
+.asos-toggle-grid label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin: 0;
+    font-weight: 400;
+    cursor: pointer;
+}
+
+.asos-toggle-grid input[type="checkbox"] {
+    width: auto;
+    margin: 0;
+    cursor: pointer;
+}
+
+/* Style Grid */
+.asos-style-grid,
+.asos-gsheet-style-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+    gap: 8px;
+    margin-bottom: 8px;
+}
+
+.asos-style-grid label {
+    margin-bottom: 0;
+}
+
+/* Column Visibility Controls */
+.asos-column-visibility {
+    margin-bottom: 18px;
+}
+
+.asos-column-visibility h4 {
+    margin: 0 0 8px;
+    font-size: 13px;
+    font-weight: 600;
+    color: #1f2937;
+}
+
+.asos-column-list {
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.asos-column-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px;
+    background: white;
+    border-bottom: 1px solid #f3f4f6;
+    cursor: move;
+}
+
+.asos-column-item:last-child {
+    border-bottom: none;
+}
+
+.asos-column-item:hover {
+    background: #f9fafb;
+}
+
+.asos-column-drag-handle {
+    color: #9ca3af;
+    cursor: grab;
+}
+
+.asos-column-drag-handle:active {
+    cursor: grabbing;
+}
+
+.asos-column-name {
+    flex: 1;
+    font-size: 13px;
+    font-weight: 500;
+    color: #374151;
+}
+
+.asos-column-visibility-toggles {
+    display: flex;
+    gap: 8px;
+}
+
+.asos-visibility-toggle {
+    padding: 4px 8px;
+    border: 1px solid #e5e7eb;
+    border-radius: 4px;
+    background: white;
+    font-size: 11px;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.asos-visibility-toggle.is-visible {
+    background: #10b981;
+    border-color: #10b981;
+    color: white;
+}
+
+.asos-visibility-toggle:hover {
+    background: #f3f4f6;
+}
+
+.asos-visibility-toggle.is-visible:hover {
+    background: #059669;
+}
+
+.asos-column-placeholder {
+    padding: 40px 20px;
+    text-align: center;
+    color: #9ca3af;
+    font-size: 13px;
+    background: #f9fafb;
+    border-radius: 8px;
+}
+
+/* Shortcode Box */
+.asos-shortcode-box {
+    background: #f0f9ff;
+    border: 2px dashed #0ea5e9;
+    border-radius: 8px;
+    padding: 16px;
+    text-align: center;
+}
+
+.asos-shortcode-box code {
+    display: block;
+    background: white;
+    padding: 12px 16px;
+    border-radius: 6px;
+    font-family: monospace;
+    font-size: 14px;
+    color: #0ea5e9;
+    margin-bottom: 12px;
+}
+
+.asos-shortcode-box .description {
+    margin-top: 12px;
+    font-size: 12px;
+    color: #6b7280;
+}
+
+/* ===========================
+   Right Preview Panel
+   =========================== */
+.asos-gsheet-preview {
+    background: #f3f4f6;
+    padding: 30px;
+    overflow-y: auto;
+}
+
+.asos-gsheet-preview-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 20px;
+    padding: 16px;
+    background: white;
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+}
+
+.asos-preview-header-left {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.asos-preview-header-left h3 {
+    margin: 0;
+    font-size: 16px;
+    font-weight: 600;
+    color: #1f2937;
+}
+
+.asos-preview-header-right {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    white-space: nowrap;
+}
+
+.asos-gsheet-badge {
+    display: inline-flex;
+    align-items: center;
+    padding: 4px 12px;
+    background: #fef3c7;
+    color: #92400e;
+    font-size: 12px;
+    font-weight: 600;
+    border-radius: 6px;
+    margin-right: 8px;
+    border-left: 3px solid #f59e0b;
+}
+
+.asos-preview-body {
+    background: white;
+    border: 1px solid #e5e7eb;
+    border-radius: 12px;
+    padding: 24px;
+    min-height: 400px;
+}
+
+.asos-preview-placeholder {
+    text-align: center;
+    padding: 60px 20px;
+    color: #9ca3af;
+}
+
+.asos-preview-skeleton {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-bottom: 24px;
+}
+
+.asos-skeleton-row {
+    height: 40px;
+    background: linear-gradient(90deg, #f3f4f6 25%, #e5e7eb 50%, #f3f4f6 75%);
+    background-size: 200% 100%;
+    animation: shimmer 2s infinite;
+    border-radius: 6px;
+}
+
+@keyframes shimmer {
+    0% {
+        background-position: -200% 0;
+    }
+    100% {
+        background-position: 200% 0;
+    }
+}
+
+/* ===========================
+   Responsive Design
+   =========================== */
+@media (max-width: 1200px) {
+    .asos-gsheet-editor-body {
+        grid-template-columns: 1fr;
+    }
+    
+    .asos-gsheet-preview {
+        border-top: 1px solid #e5e7eb;
+    }
+}
+
+@media (max-width: 768px) {
+    .asos-gsheet-editor-header {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    
+    .asos-gsheet-editor-title {
+        flex-direction: column;
+    }
+    
+    .asos-gsheet-title-input {
+        max-width: 100%;
+    }
+    
+    .asos-field-row,
+    .asos-style-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* ===========================
+   Utility Classes
+   =========================== */
+.button-danger {
+    background: #ef4444;
+    border-color: #ef4444;
+    color: white;
+}
+
+.button-danger:hover {
+    background: #dc2626;
+    border-color: #dc2626;
+    color: white;
+}
+
+.button-small {
+    padding: 6px 12px;
+    font-size: 13px;
+    height: auto;
+    line-height: 1.4;
+}
+
+/* Templates grid */
+.asos-templates-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+    margin-top: 8px;
+}
+
+.asos-template-card {
+    background: #ffffff;
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.asos-template-swatch {
+    display: flex;
+    gap: 6px;
+}
+
+.asos-template-swatch .swatch {
+    width: 28px;
+    height: 14px;
+    border-radius: 4px;
+    display: inline-block;
+    border: 1px solid rgba(0,0,0,0.06);
+}
+
+.asos-template-desc {
+    font-size: 12px;
+    color: #64748b;
+}
+
+.asos-template-actions {
+    margin-top: 6px;
+    text-align: right;
+}
+
+.asos-template-card:hover {
+    cursor: pointer;
+    border-color: #2563eb;
+    box-shadow: 0 6px 14px rgba(37,99,235,0.08);
+}
+
+.asos-template-card.selected {
+    border-color: #2563eb;
+    box-shadow: 0 8px 18px rgba(37,99,235,0.12);
+}

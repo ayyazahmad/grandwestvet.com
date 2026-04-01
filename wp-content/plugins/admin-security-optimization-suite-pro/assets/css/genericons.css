@@ -1,0 +1,61 @@
+/**
+ * Genericons Font - woff Font Face Declaration
+ * 
+ * This file provides:
+ * 1. Font face declaration for Genericons.woff (located in assets/fonts/)
+ * 2. Base .genericon styling with proper font rendering
+ * 3. Icon class definitions using actual font glyphs (no content override)
+ */
+
+@font-face {
+    font-family: 'Genericons';
+    src: url('/wp-content/plugins/admin-security-optimization-suite-pro/assets/fonts/Genericons.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+/* Base genericon styling - NO content override, let font render glyphs */
+.genericon {
+    font-family: 'Genericons', 'Genericons Neue', sans-serif;
+    font-size: 1em;
+    font-weight: normal;
+    font-style: normal;
+    display: inline-block;
+    line-height: 1;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+    width: 1.2em;
+    text-align: center;
+    vertical-align: middle;
+}
+
+/* 
+ * Genericons class definitions
+ * Uses ::before pseudo-element to inject unicode character content
+ */
+
+.genericon::before {
+    font-family: 'Genericons';
+    font-weight: normal;
+    font-style: normal;
+}
+
+/* Genericons icon mappings - unicode characters */
+.genericon-bookmark::before { content: "\f469"; }
+.genericon-tag::before { content: "\f479"; }
+.genericon-star::before { content: "\f471"; }
+.genericon-heart::before { content: "\f205"; }
+.genericon-user::before { content: "\f338"; }
+.genericon-settings::before { content: "\f389"; }
+.genericon-mail::before { content: "\f410"; }
+.genericon-search::before { content: "\f400"; }
+.genericon-link::before { content: "\f434"; }
+.genericon-location::before { content: "\f432"; }
+.genericon-lock::before { content: "\f429"; }
+.genericon-unlock::before { content: "\f42b"; }
+.genericon-chat::before { content: "\f403"; }
+.genericon-check::before { content: "\f418"; }
+.genericon-star-empty::before { content: "\f470"; }
+.genericon-star-filled::before { content: "\f471"; }

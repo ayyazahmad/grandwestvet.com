@@ -1,0 +1,84 @@
+/**
+ * Premium Module Card Styling
+ * 
+ * Styles locked/dimmed appearance of premium modules in Free edition.
+ * Applied only when ASOS_EDITION === 'free' and module has 'premium_badge' => true
+ */
+
+/* Premium module card - locked state */
+.was-module-card.is-premium.locked {
+    opacity: 0.6;
+    background: linear-gradient(135deg, #f8f9fb, #f3f5f8);
+    border-color: #d8dce6;
+}
+
+/* Text elements in locked premium cards */
+.was-module-card.is-premium.locked .was-module-title,
+.was-module-card.is-premium.locked .was-module-desc {
+    color: #6b7280;
+}
+
+/* Toggle switch in locked premium cards - clickable to open upgrade modal */
+.was-module-card.is-premium.locked .was-switch {
+    background: repeating-linear-gradient(
+        45deg,
+        #cbd5e1,
+        #cbd5e1 6px,
+        #a8b5cc 6px,
+        #a8b5cc 8px
+    ) !important;
+    cursor: pointer;
+    opacity: 0.85;
+}
+
+/* Toggle switch dot position in locked state */
+.was-module-card.is-premium.locked .was-switch-dot {
+    left: 3px !important;
+}
+
+/* Ensure buttons remain clickable in locked cards */
+.was-module-card.is-premium.locked .was-card-cta {
+    pointer-events: auto;
+}
+
+/* Disabled premium toggle styling */
+.premium-card__toggle.disabled {
+    cursor: pointer;
+    opacity: 0.5;
+}
+
+/* Premium lock badge on module icon */
+.premium-card__badge {
+    position: absolute;
+    bottom: -4px;
+    right: -4px;
+    background: #ef4444;
+    color: #fff;
+    border-radius: 50%;
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    font-weight: 700;
+    box-shadow: 0 2px 8px rgba(239, 68, 68, 0.35);
+}
+
+/* Premium buttons in locked cards - greyed out */
+.is-premium-button {
+    /* Use requested primary color */
+    background: #2271b1 !important;
+    color: #ffffff !important;
+    cursor: pointer;
+    opacity: 1;
+    border: none !important;
+    box-shadow: 0 8px 20px rgba(34,113,177,0.18);
+}
+
+/* Premium button hover state */
+.is-premium-button:hover {
+    background: #195d93 !important;
+    color: #ffffff !important;
+    opacity: 1;
+}

@@ -1,0 +1,62 @@
+/* 
+ * ASOS GSheet Tables - Frontend Styles
+ * Provides base styling for tables rendered via [asos_gsheet_table] shortcode
+ * All configuration-specific styles are inline in PHP
+ */
+
+.asos-gsheet-table-frontend {
+    max-width: 100%;
+    box-sizing: border-box;
+}
+
+.asos-gsheet-table-frontend h3,
+.asos-gsheet-table-frontend p {
+    box-sizing: border-box;
+}
+
+.asos-gsheet-table-frontend table {
+    background-color: transparent;
+    margin: 0;
+    padding: 0;
+}
+
+.asos-gsheet-table-frontend table thead th {
+    vertical-align: middle;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 300px;
+}
+
+.asos-gsheet-table-frontend table tbody td {
+    vertical-align: top;
+    word-break: break-word;
+    hyphens: auto;
+}
+
+/* Responsive - stack on mobile */
+@media (max-width: 768px) {
+    .asos-gsheet-table-frontend {
+        font-size: 14px !important;
+    }
+
+    .asos-gsheet-table-frontend table thead th {
+        padding: 10px 12px !important;
+        font-size: 13px !important;
+    }
+
+    .asos-gsheet-table-frontend table tbody td {
+        padding: 10px 12px !important;
+        font-size: 13px !important;
+    }
+}
+
+/* Accessibility */
+.asos-gsheet-table-frontend table:focus-visible {
+    outline: 2px solid #0ea5e9;
+    outline-offset: 2px;
+}
+
+.asos-gsheet-table-frontend table tbody tr:focus-within {
+    background-color: rgba(14, 165, 233, 0.05) !important;
+}
