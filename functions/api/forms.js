@@ -4,7 +4,7 @@ const JSON_HEADERS = {
 };
 const SITE_NAME = "Grand Ave. Pet Hospital";
 const SITE_URL = "https://grandwestvet.com";
-const DEFAULT_LOGO_URL = `${SITE_URL}/wp-content/uploads/2025/02/Grand-Ave-Pet-Hospital-Logo.webp`;
+const DEFAULT_LOGO_URL = `${SITE_URL}/assets/images/grand-ave-pet-hospital-logo-email.png`;
 const APPOINTMENT_FORM_IDS = new Set(["341358df"]);
 
 function json(data, status = 200) {
@@ -201,7 +201,7 @@ function isAppointmentForm({ formId, formName, pagePath }) {
   return lowerName.includes("appointment") || lowerPath.includes("get-an-appointment");
 }
 
-function renderAutoReplyHtml({ visitorName }) {
+function renderAutoReplyHtml({ visitorName, env }) {
   const safeName = escapeHtml(visitorName || "there");
   return `<!doctype html>
   <html>
@@ -212,7 +212,7 @@ function renderAutoReplyHtml({ visitorName }) {
             <table role="presentation" cellpadding="0" cellspacing="0" width="680" style="max-width:680px;background:#ffffff;border:1px solid #dce6f2;border-radius:14px;overflow:hidden;">
               <tr>
                 <td style="padding:18px 22px;background:linear-gradient(90deg,#0d6ea6,#178dc7);">
-                  <img src="${escapeHtml(DEFAULT_LOGO_URL)}" alt="${escapeHtml(
+                  <img src="${escapeHtml(getBrandLogo(env))}" alt="${escapeHtml(
     SITE_NAME
   )}" style="display:block;max-width:230px;height:auto;">
                 </td>
@@ -356,7 +356,7 @@ export async function onRequestPost(context) {
       from: fromAddress,
       to: [replyTo],
       subject: "We received your appointment request - Grand Ave. Pet Hospital",
-      html: renderAutoReplyHtml({ visitorName }),
+      html: renderAutoReplyHtml({ visitorName, env }),
       text: renderAutoReplyText({ visitorName }),
       replyTo: recipients[0] || undefined,
       tags: [

@@ -112,6 +112,10 @@
       .elementor-form .elementor-message,
       .elementor-form .elementor-error,
       .elementor-form .elementor-message-danger,
+      .elementor-widget-form .elementor-message,
+      .elementor-widget-form .elementor-error,
+      .elementor-widget-form .elementor-message-danger,
+      .elementor-widget-form .e-form__indicators,
       .lpsc-container,
       .lpsc-wrapper,
       .lpsc-error-msg {
@@ -120,6 +124,20 @@
     `;
 
     document.head.appendChild(style);
+  }
+
+  function removeLegacyStatusNoise(form) {
+    const widget = form.closest(".elementor-widget-form");
+    const scope = widget || form.parentElement || form;
+
+    scope
+      .querySelectorAll(
+        ".elementor-message, .elementor-error, .elementor-message-danger, .lpsc-container, .lpsc-wrapper, .lpsc-error-msg"
+      )
+      .forEach((node) => {
+        if (node.classList.contains(STATUS_CLASS)) return;
+        node.remove();
+      });
   }
 
   function setStatus(form, kind, message) {
@@ -247,6 +265,7 @@
     event.preventDefault();
 
     const form = event.currentTarget;
+    removeLegacyStatusNoise(form);
     if (!form.reportValidity()) return;
 
     const payload = buildPayload(form);
@@ -278,6 +297,7 @@
 
       form.reset();
       setStatus(form, "success", result.message || "Thanks. Your message has been sent.");
+      removeLegacyStatusNoise(form);
     } catch (error) {
       setStatus(
         form,
@@ -286,6 +306,7 @@
       );
     } finally {
       setSubmitting(form, false);
+      removeLegacyStatusNoise(form);
     }
   }
 
@@ -293,6 +314,7 @@
     if (form.dataset.cfStaticReady === "1") return;
     form.dataset.cfStaticReady = "1";
     removeStaticOnlyNoise(form);
+    removeLegacyStatusNoise(form);
     addHoneypot(form);
     ensureNoiseStyles();
     ensureStatusElement(form);
