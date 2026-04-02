@@ -86,6 +86,28 @@
     form.querySelectorAll(".elementor-field-type-recaptcha_v3").forEach((node) => {
       node.remove();
     });
+
+    form
+      .querySelectorAll(".elementor-g-recaptcha, .g-recaptcha")
+      .forEach((node) => {
+        const group = node.closest(".elementor-field-group");
+        if (group) {
+          group.remove();
+        } else {
+          node.remove();
+        }
+      });
+
+    form
+      .querySelectorAll(".lpsc-container, .lpsc-wrapper, .lpsc-error-msg")
+      .forEach((node) => {
+        const container = node.closest(".lpsc-container");
+        if (container) {
+          container.remove();
+        } else {
+          node.remove();
+        }
+      });
   }
 
   function addHoneypot(form) {
