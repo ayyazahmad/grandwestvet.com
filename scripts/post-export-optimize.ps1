@@ -33,12 +33,14 @@ $galleryScriptPath = "/assets/js/gallery-fallback.js"
 $servicePagesCssPath = "/assets/css/service-pages-fallback.css"
 $heroEnhancementsCssPath = "/assets/css/hero-background-enhancements.css"
 $archiveCardsCssPath = "/assets/css/archive-cards-fallback.css"
-$formsScriptTagPattern = '<script src="[^"]*assets/js/forms-handler\.js" defer></script>\s*'
-$navMenuScriptTagPattern = '<script src="[^"]*assets/js/nav-menu-fallback\.js" defer></script>\s*'
-$galleryScriptTagPattern = '<script src="[^"]*assets/js/gallery-fallback\.js" defer></script>\s*'
-$servicePagesCssTagPattern = '<link rel="stylesheet" href="[^"]*assets/css/service-pages-fallback\.css">\s*'
-$heroEnhancementsCssTagPattern = '<link rel="stylesheet" href="[^"]*assets/css/hero-background-enhancements\.css">\s*'
-$archiveCardsCssTagPattern = '<link rel="stylesheet" href="[^"]*assets/css/archive-cards-fallback\.css">\s*'
+$fontPreloadCssPath = "/assets/css/font-preload.css"
+$formsScriptTagPattern = '<script src="[^"]*assets/js/forms-handler\.js(?:\?v=[^"]*)?" defer></script>\s*'
+$navMenuScriptTagPattern = '<script src="[^"]*assets/js/nav-menu-fallback\.js(?:\?v=[^"]*)?" defer></script>\s*'
+$galleryScriptTagPattern = '<script src="[^"]*assets/js/gallery-fallback\.js(?:\?v=[^"]*)?" defer></script>\s*'
+$servicePagesCssTagPattern = '<link rel="stylesheet" href="[^"]*assets/css/service-pages-fallback\.css(?:\?v=[^"]*)?">\s*'
+$heroEnhancementsCssTagPattern = '<link rel="stylesheet" href="[^"]*assets/css/hero-background-enhancements\.css(?:\?v=[^"]*)?">\s*'
+$archiveCardsCssTagPattern = '<link rel="stylesheet" href="[^"]*assets/css/archive-cards-fallback\.css(?:\?v=[^"]*)?">\s*'
+$fontPreloadCssTagPattern = '<link rel="stylesheet" href="[^"]*assets/css/font-preload\.css(?:\?v=[^"]*)?">\s*'
 $recaptchaScriptPattern = '<script src="https://www\.google\.com/recaptcha/api\.js\?render=explicit&amp;ver=[^"]+" id="elementor-recaptcha_v3-api-js"></script>'
 $oembedLinePattern = '(?m)^.*oEmbed.*\r?\n?'
 $jsonAltPattern = '<link rel="alternate" title="JSON" type="application/json" href="/wp-json/[^"]+">'
@@ -250,70 +252,74 @@ function Convert-LocalPageHref(
     [System.Uri]$CurrentDirectoryUri,
     [System.Uri]$SiteRootUri
 ) {
-    $Url = Normalize-LocalSiteUrl -Url $Url
+    try {
+        $Url = Normalize-LocalSiteUrl -Url $Url
 
-    if ([string]::IsNullOrWhiteSpace($Url)) {
-        return $Url
-    }
-
-    if (
-        $Url.StartsWith("#") -or
-        $Url.StartsWith("mailto:") -or
-        $Url.StartsWith("tel:") -or
-        $Url.StartsWith("javascript:") -or
-        $Url.StartsWith("data:") -or
-        $Url.StartsWith("//") -or
-        $Url -match '^[a-zA-Z][a-zA-Z0-9+\-.]*:'
-    ) {
-        return $Url
-    }
-
-    $pathPart = $Url
-    $suffix = ""
-    $queryIndex = $Url.IndexOfAny([char[]]@("?", "#"))
-
-    if ($queryIndex -ge 0) {
-        $pathPart = $Url.Substring(0, $queryIndex)
-        $suffix = $Url.Substring($queryIndex)
-    }
-
-    if ([string]::IsNullOrWhiteSpace($pathPart)) {
-        return $Url
-    }
-
-    $candidatePath = if ($pathPart.StartsWith("/")) {
-        $relativeTarget = $pathPart.TrimStart("/").Replace("/", [IO.Path]::DirectorySeparatorChar)
-        if ($relativeTarget) {
-            Join-Path $SiteRootPath $relativeTarget
-        } else {
-            $SiteRootPath
+        if ([string]::IsNullOrWhiteSpace($Url)) {
+            return $Url
         }
-    } else {
-        $relativeTarget = $pathPart.Replace("/", [IO.Path]::DirectorySeparatorChar)
-        if ($relativeTarget) {
-            Join-Path $CurrentDirectoryPath $relativeTarget
-        } else {
-            $CurrentDirectoryPath
+
+        if (
+            $Url.StartsWith("#") -or
+            $Url.StartsWith("mailto:") -or
+            $Url.StartsWith("tel:") -or
+            $Url.StartsWith("javascript:") -or
+            $Url.StartsWith("data:") -or
+            $Url.StartsWith("//") -or
+            $Url -match '^[a-zA-Z][a-zA-Z0-9+\-.]*:'
+        ) {
+            return $Url
         }
-    }
 
-    if (-not (Test-Path -LiteralPath $candidatePath -PathType Container)) {
+        $pathPart = $Url
+        $suffix = ""
+        $queryIndex = $Url.IndexOfAny([char[]]@("?", "#"))
+
+        if ($queryIndex -ge 0) {
+            $pathPart = $Url.Substring(0, $queryIndex)
+            $suffix = $Url.Substring($queryIndex)
+        }
+
+        if ([string]::IsNullOrWhiteSpace($pathPart)) {
+            return $Url
+        }
+
+        $candidatePath = if ($pathPart.StartsWith("/")) {
+            $relativeTarget = $pathPart.TrimStart("/").Replace("/", [IO.Path]::DirectorySeparatorChar)
+            if ($relativeTarget) {
+                Join-Path $SiteRootPath $relativeTarget
+            } else {
+                $SiteRootPath
+            }
+        } else {
+            $relativeTarget = $pathPart.Replace("/", [IO.Path]::DirectorySeparatorChar)
+            if ($relativeTarget) {
+                Join-Path $CurrentDirectoryPath $relativeTarget
+            } else {
+                $CurrentDirectoryPath
+            }
+        }
+
+        if (-not (Test-Path -LiteralPath $candidatePath -PathType Container)) {
+            return $Url
+        }
+
+        $indexPath = Join-Path $candidatePath "index.html"
+        if (-not (Test-Path -LiteralPath $indexPath -PathType Leaf)) {
+            return $Url
+        }
+
+        $targetUri = [System.Uri]$indexPath
+        $relativeUrl = [System.Uri]::UnescapeDataString($CurrentDirectoryUri.MakeRelativeUri($targetUri).ToString())
+
+        if ([string]::IsNullOrEmpty($relativeUrl)) {
+            $relativeUrl = "index.html"
+        }
+
+        return $relativeUrl + $suffix
+    } catch {
         return $Url
     }
-
-    $indexPath = Join-Path $candidatePath "index.html"
-    if (-not (Test-Path -LiteralPath $indexPath -PathType Leaf)) {
-        return $Url
-    }
-
-    $targetUri = [System.Uri]$indexPath
-    $relativeUrl = [System.Uri]::UnescapeDataString($CurrentDirectoryUri.MakeRelativeUri($targetUri).ToString())
-
-    if ([string]::IsNullOrEmpty($relativeUrl)) {
-        $relativeUrl = "index.html"
-    }
-
-    return $relativeUrl + $suffix
 }
 
 function Remove-ElementorInvisibleClass([string]$Content) {
@@ -473,6 +479,51 @@ function Build-StylesheetTag([string]$StylesheetPath, [System.Uri]$CurrentDirect
     return '<link rel="stylesheet" href="' + $resolvedPath + '">'
 }
 
+function Get-AssetVersion([string]$AssetPath, [string]$SiteRootPath) {
+    $relativePath = $AssetPath.TrimStart("/").Replace("/", [IO.Path]::DirectorySeparatorChar)
+    $fullPath = Join-Path $SiteRootPath $relativePath
+    if (-not (Test-Path -LiteralPath $fullPath -PathType Leaf)) {
+        throw "Asset not found for versioning: $AssetPath"
+    }
+
+    $hash = (Get-FileHash -LiteralPath $fullPath -Algorithm SHA256).Hash.ToLowerInvariant()
+    return $hash.Substring(0, 10)
+}
+
+function Add-AssetVersion([string]$ResolvedPath, [string]$Version) {
+    if ([string]::IsNullOrWhiteSpace($ResolvedPath)) {
+        return $ResolvedPath
+    }
+
+    if ($ResolvedPath -match '\?') {
+        return $ResolvedPath + "&v=" + $Version
+    }
+
+    return $ResolvedPath + "?v=" + $Version
+}
+
+function Build-VersionedDeferredScriptTag(
+    [string]$ScriptPath,
+    [System.Uri]$CurrentDirectoryUri,
+    [System.Uri]$SiteRootUri,
+    [string]$SiteRootPath
+) {
+    $resolvedPath = Convert-RootRelativeUrl -Url $ScriptPath -CurrentDirectoryUri $CurrentDirectoryUri -SiteRootUri $SiteRootUri
+    $versionedPath = Add-AssetVersion -ResolvedPath $resolvedPath -Version (Get-AssetVersion -AssetPath $ScriptPath -SiteRootPath $SiteRootPath)
+    return '<script src="' + $versionedPath + '" defer></script>'
+}
+
+function Build-VersionedStylesheetTag(
+    [string]$StylesheetPath,
+    [System.Uri]$CurrentDirectoryUri,
+    [System.Uri]$SiteRootUri,
+    [string]$SiteRootPath
+) {
+    $resolvedPath = Convert-RootRelativeUrl -Url $StylesheetPath -CurrentDirectoryUri $CurrentDirectoryUri -SiteRootUri $SiteRootUri
+    $versionedPath = Add-AssetVersion -ResolvedPath $resolvedPath -Version (Get-AssetVersion -AssetPath $StylesheetPath -SiteRootPath $SiteRootPath)
+    return '<link rel="stylesheet" href="' + $versionedPath + '">'
+}
+
 $siteRootUri = Get-DirectoryUri -Path $siteRoot
 
 foreach ($file in $htmlFiles) {
@@ -480,12 +531,13 @@ foreach ($file in $htmlFiles) {
     $updated = Strip-LocalSiteDomain -Content $content
     $currentDirectoryUri = Get-DirectoryUri -Path $file.DirectoryName
     $currentDirectoryPath = (Resolve-Path -LiteralPath $file.DirectoryName).Path
-    $formsScriptTag = Build-DeferredScriptTag -ScriptPath $formsScriptPath -CurrentDirectoryUri $currentDirectoryUri -SiteRootUri $siteRootUri
-    $navMenuScriptTag = Build-DeferredScriptTag -ScriptPath $navMenuScriptPath -CurrentDirectoryUri $currentDirectoryUri -SiteRootUri $siteRootUri
-    $galleryScriptTag = Build-DeferredScriptTag -ScriptPath $galleryScriptPath -CurrentDirectoryUri $currentDirectoryUri -SiteRootUri $siteRootUri
-    $servicePagesCssTag = Build-StylesheetTag -StylesheetPath $servicePagesCssPath -CurrentDirectoryUri $currentDirectoryUri -SiteRootUri $siteRootUri
-    $heroEnhancementsCssTag = Build-StylesheetTag -StylesheetPath $heroEnhancementsCssPath -CurrentDirectoryUri $currentDirectoryUri -SiteRootUri $siteRootUri
-    $archiveCardsCssTag = Build-StylesheetTag -StylesheetPath $archiveCardsCssPath -CurrentDirectoryUri $currentDirectoryUri -SiteRootUri $siteRootUri
+    $formsScriptTag = Build-VersionedDeferredScriptTag -ScriptPath $formsScriptPath -CurrentDirectoryUri $currentDirectoryUri -SiteRootUri $siteRootUri -SiteRootPath $siteRoot
+    $navMenuScriptTag = Build-VersionedDeferredScriptTag -ScriptPath $navMenuScriptPath -CurrentDirectoryUri $currentDirectoryUri -SiteRootUri $siteRootUri -SiteRootPath $siteRoot
+    $galleryScriptTag = Build-VersionedDeferredScriptTag -ScriptPath $galleryScriptPath -CurrentDirectoryUri $currentDirectoryUri -SiteRootUri $siteRootUri -SiteRootPath $siteRoot
+    $servicePagesCssTag = Build-VersionedStylesheetTag -StylesheetPath $servicePagesCssPath -CurrentDirectoryUri $currentDirectoryUri -SiteRootUri $siteRootUri -SiteRootPath $siteRoot
+    $heroEnhancementsCssTag = Build-VersionedStylesheetTag -StylesheetPath $heroEnhancementsCssPath -CurrentDirectoryUri $currentDirectoryUri -SiteRootUri $siteRootUri -SiteRootPath $siteRoot
+    $archiveCardsCssTag = Build-VersionedStylesheetTag -StylesheetPath $archiveCardsCssPath -CurrentDirectoryUri $currentDirectoryUri -SiteRootUri $siteRootUri -SiteRootPath $siteRoot
+    $fontPreloadCssTag = Build-VersionedStylesheetTag -StylesheetPath $fontPreloadCssPath -CurrentDirectoryUri $currentDirectoryUri -SiteRootUri $siteRootUri -SiteRootPath $siteRoot
 
     $updated = [regex]::Replace($updated, $recaptchaScriptPattern, "")
     $updated = [regex]::Replace($updated, $oembedLinePattern, "")
@@ -500,6 +552,7 @@ foreach ($file in $htmlFiles) {
     $updated = [regex]::Replace($updated, $servicePagesCssTagPattern, "")
     $updated = [regex]::Replace($updated, $heroEnhancementsCssTagPattern, "")
     $updated = [regex]::Replace($updated, $archiveCardsCssTagPattern, "")
+    $updated = [regex]::Replace($updated, $fontPreloadCssTagPattern, "")
     $updated = Decode-CloudflareEmailsInHtml -Content $updated
     $updated = Convert-MaskUrlsToDataUris -Content $updated -CurrentDirectoryPath $currentDirectoryPath -SiteRootPath $siteRoot
     if ($updated -match 'class=["''][^"'']*elementor-widget-nav-menu[^"'']*["'']' -and $updated -notmatch 'nav-menu-fallback\.js') {
@@ -528,6 +581,10 @@ foreach ($file in $htmlFiles) {
 
     if ($updated -match 'data-elementor-type="single-post"' -and $updated -notmatch 'service-pages-fallback\.css') {
         $updated = $updated -replace '</head>', "$servicePagesCssTag`r`n</head>"
+    }
+
+    if ($updated -notmatch 'font-preload\.css') {
+        $updated = $updated -replace '</head>', "$fontPreloadCssTag`r`n</head>"
     }
 
     if ($updated -notmatch 'hero-background-enhancements\.css') {
