@@ -76,6 +76,21 @@ body.single-post .elementor-widget-posts.elementor-posts--thumbnail-left .elemen
   align-items: center !important;
 }
 
+body.single-post .elementor-widget-posts .elementor-post__thumbnail__link,
+.elementor-widget-posts .elementor-post__thumbnail__link {
+  clip-path: circle(50% at 50% 50%) !important;
+  -webkit-clip-path: circle(50% at 50% 50%) !important;
+}
+
+body.single-post .elementor-widget-posts .elementor-post__thumbnail,
+.elementor-widget-posts .elementor-post__thumbnail,
+body.single-post .elementor-widget-posts .elementor-post__thumbnail img,
+.elementor-widget-posts .elementor-post__thumbnail img {
+  clip-path: circle(50% at 50% 50%) !important;
+  -webkit-clip-path: circle(50% at 50% 50%) !important;
+  transform: translateZ(0) !important;
+}
+
 @media (max-width: 767px) {
   body.single-post .elementor-widget-posts.elementor-posts--thumbnail-left .elementor-post__thumbnail__link,
   body.single-post .elementor-widget-posts.elementor-posts--thumbnail-left .elementor-post__thumbnail,
