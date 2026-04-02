@@ -1824,21 +1824,64 @@
 
       const overlay = document.createElement("div");
       overlay.className = "aso-maps-overlay";
+      overlay.style.position = "fixed";
+      overlay.style.inset = "0";
+      overlay.style.background = "transparent";
+      overlay.style.zIndex = "1200500";
 
       const panel = document.createElement("div");
       panel.className = "aso-maps-panel";
       panel.setAttribute("role", "dialog");
       panel.setAttribute("aria-modal", "true");
+      panel.style.position = "fixed";
+      panel.style.width = `min(360px, calc(100vw - 28px))`;
+      panel.style.height = `min(240px, calc(100vh - 40px))`;
+      panel.style.maxWidth = "360px";
+      panel.style.maxHeight = "240px";
+      panel.style.background = "#ffffff";
+      panel.style.borderRadius = "22px";
+      panel.style.overflow = "hidden";
+      panel.style.boxShadow = "0 30px 80px rgba(2,6,23,0.28)";
+      panel.style.zIndex = "1200501";
 
       const closeBtn = document.createElement("button");
       closeBtn.type = "button";
       closeBtn.className = "aso-maps-close";
       closeBtn.setAttribute("aria-label", "Close map");
       closeBtn.textContent = "×";
+      closeBtn.style.position = "absolute";
+      closeBtn.style.top = "10px";
+      closeBtn.style.right = "10px";
+      closeBtn.style.width = "40px";
+      closeBtn.style.height = "40px";
+      closeBtn.style.display = "flex";
+      closeBtn.style.alignItems = "center";
+      closeBtn.style.justifyContent = "center";
+      closeBtn.style.border = "none";
+      closeBtn.style.borderRadius = "14px";
+      closeBtn.style.background = "#0072a8";
+      closeBtn.style.color = "#ffffff";
+      closeBtn.style.fontSize = "22px";
+      closeBtn.style.lineHeight = "1";
+      closeBtn.style.cursor = "pointer";
+      closeBtn.style.zIndex = "2";
 
       const content = document.createElement("div");
       content.className = "aso-maps-content";
+      content.style.width = "100%";
+      content.style.height = "100%";
       content.innerHTML = iframeHtml;
+
+      content.querySelectorAll("iframe").forEach((iframe) => {
+        iframe.style.display = "block";
+        iframe.style.width = "100%";
+        iframe.style.height = "100%";
+        iframe.style.border = "none";
+        iframe.style.borderRadius = "22px";
+        iframe.style.margin = "0";
+        iframe.style.padding = "0";
+        iframe.style.background = "transparent";
+      });
 
       panel.appendChild(content);
       panel.appendChild(closeBtn);
