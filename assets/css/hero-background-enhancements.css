@@ -92,6 +92,12 @@ body.single-post [data-elementor-type="single-post"] > .elementor-element:first-
   z-index: 1;
 }
 
+/* Pull standard page heroes upward to reduce blank space under sticky header.
+   Excludes home and single-post layouts (services/articles) as requested. */
+body:not(.home):not(.single-post) [data-elementor-type="wp-page"] > .elementor-element:first-child[data-settings*="background_background"] {
+  margin-top: -50px;
+}
+
 body.single-post [data-elementor-type="single-post"] > .elementor-element:first-child[data-settings*="background_background"] > .e-con-inner > .e-con:last-child {
   padding-top: 50px;
   position: relative;
@@ -105,6 +111,10 @@ body.single-post [data-elementor-type="single-post"] > .elementor-element:first-
 }
 
 @media (max-width: 1024px) {
+  body:not(.home):not(.single-post) [data-elementor-type="wp-page"] > .elementor-element:first-child[data-settings*="background_background"] {
+    margin-top: -34px;
+  }
+
   body:not(.home) [data-elementor-type="wp-page"] > .elementor-element:first-child[data-settings*="background_background"]::after,
   body.single-post [data-elementor-type="single-post"] > .elementor-element:first-child[data-settings*="background_background"]::after {
     transform: rotate(-8deg) scale(0.9);
@@ -120,6 +130,10 @@ body.single-post [data-elementor-type="single-post"] > .elementor-element:first-
 }
 
 @media (max-width: 767px) {
+  body:not(.home):not(.single-post) [data-elementor-type="wp-page"] > .elementor-element:first-child[data-settings*="background_background"] {
+    margin-top: -20px;
+  }
+
   body:not(.home) [data-elementor-type="wp-page"] > .elementor-element:first-child[data-settings*="background_background"]::after,
   body.single-post [data-elementor-type="single-post"] > .elementor-element:first-child[data-settings*="background_background"]::after {
     height: 118px;
