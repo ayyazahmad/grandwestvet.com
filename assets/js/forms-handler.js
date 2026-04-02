@@ -2,7 +2,8 @@
   const FORM_SELECTOR = "form.elementor-form";
   const ENDPOINT = "/api/forms";
   const STATUS_CLASS = "cf-form-status";
-  const HONEYPOT_NAME = "company_website";
+  const HONEYPOT_NAME = "__cf_hp_website";
+  const NOISE_STYLE_ID = "cf-form-noise-style";
   const IGNORED_FIELDS = new Set([
     "post_id",
     "form_id",
@@ -100,6 +101,25 @@
     }
 
     return status;
+  }
+
+  function ensureNoiseStyles() {
+    if (document.getElementById(NOISE_STYLE_ID)) return;
+
+    const style = document.createElement("style");
+    style.id = NOISE_STYLE_ID;
+    style.textContent = `
+      .elementor-form .elementor-message,
+      .elementor-form .elementor-error,
+      .elementor-form .elementor-message-danger,
+      .lpsc-container,
+      .lpsc-wrapper,
+      .lpsc-error-msg {
+        display: none !important;
+      }
+    `;
+
+    document.head.appendChild(style);
   }
 
   function setStatus(form, kind, message) {
@@ -222,6 +242,8 @@
   }
 
   async function handleSubmit(event) {
+    event.stopPropagation();
+    event.stopImmediatePropagation();
     event.preventDefault();
 
     const form = event.currentTarget;
@@ -272,8 +294,9 @@
     form.dataset.cfStaticReady = "1";
     removeStaticOnlyNoise(form);
     addHoneypot(form);
+    ensureNoiseStyles();
     ensureStatusElement(form);
-    form.addEventListener("submit", handleSubmit);
+    form.addEventListener("submit", handleSubmit, true);
   }
 
   document.addEventListener("DOMContentLoaded", function () {

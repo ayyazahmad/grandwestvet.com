@@ -44,6 +44,12 @@ function sanitizeFields(fields) {
   return cleaned;
 }
 
+function looksLikeSpamTrapValue(value) {
+  const v = String(value || "").trim().toLowerCase();
+  if (!v) return false;
+  return v.includes("http") || v.includes("www.") || v.includes("@") || v.length > 32;
+}
+
 function cleanLabelText(value) {
   return String(value || "")
     .replace(/[\u{1F300}-\u{1FAFF}]/gu, "")
@@ -295,7 +301,7 @@ export async function onRequestPost(context) {
     return json({ error: "Invalid JSON payload." }, 400);
   }
 
-  if (payload?.honeypot) {
+  if (looksLikeSpamTrapValue(payload?.honeypot)) {
     return json({ ok: true, message: "Thanks. Your message has been sent." });
   }
 
