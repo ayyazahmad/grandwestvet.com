@@ -121,9 +121,46 @@
       .lpsc-error-msg {
         display: none !important;
       }
+
+      .cf-static-form .elementor-button .elementor-button-content-wrapper {
+        align-items: center;
+        display: inline-flex;
+        gap: 5px;
+      }
+
+      .cf-static-form .elementor-button .e-font-icon-svg {
+        height: 1em;
+      }
     `;
 
     document.head.appendChild(style);
+  }
+
+  function replaceNodeWithoutListeners(node) {
+    if (!node || !node.parentNode) return node;
+    const clone = node.cloneNode(true);
+    node.parentNode.replaceChild(clone, node);
+    return clone;
+  }
+
+  function neutralizeElementorRuntime(form) {
+    const widget = form.closest(".elementor-widget-form");
+    if (widget) {
+      widget.removeAttribute("data-widget_type");
+      widget.removeAttribute("data-settings");
+      widget.dataset.cfStaticWidget = "1";
+    }
+
+    form.classList.remove("elementor-form");
+    form.classList.add("cf-static-form");
+    form.setAttribute("novalidate", "novalidate");
+    form.removeAttribute("data-elementor-open-lightbox");
+
+    form
+      .querySelectorAll('button[type="submit"], input[type="submit"]')
+      .forEach((node) => replaceNodeWithoutListeners(node));
+
+    return form;
   }
 
   function removeLegacyStatusNoise(form) {
@@ -365,14 +402,16 @@
 
   function initForm(form) {
     if (form.dataset.cfStaticReady === "1") return;
-    form.dataset.cfStaticReady = "1";
-    removeStaticOnlyNoise(form);
-    removeLegacyStatusNoise(form);
-    attachNoiseObserver(form);
-    addHoneypot(form);
+    let activeForm = form;
+    activeForm.dataset.cfStaticReady = "1";
     ensureNoiseStyles();
-    ensureStatusElement(form);
-    form.addEventListener("submit", handleSubmit, true);
+    activeForm = neutralizeElementorRuntime(activeForm);
+    removeStaticOnlyNoise(activeForm);
+    removeLegacyStatusNoise(activeForm);
+    attachNoiseObserver(activeForm);
+    addHoneypot(activeForm);
+    ensureStatusElement(activeForm);
+    activeForm.addEventListener("submit", handleSubmit, true);
   }
 
   document.addEventListener("DOMContentLoaded", function () {
