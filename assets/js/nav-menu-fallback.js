@@ -477,7 +477,7 @@
           top: 0;
           transition: opacity 0.25s ease, visibility 0.25s ease;
           visibility: hidden;
-          z-index: 2147483000;
+          z-index: 2147483645;
         }
 
         .static-nav-mobile-overlay.is-visible {
@@ -488,7 +488,12 @@
 
         .elementor-widget-nav-menu.static-nav-ready .elementor-menu-toggle {
           position: relative;
-          z-index: 2147483700;
+          z-index: 2147483646;
+        }
+
+        .elementor-widget-nav-menu.static-nav-ready .elementor-menu-toggle.elementor-active {
+          opacity: 0;
+          pointer-events: none;
         }
 
         .elementor-widget-nav-menu.static-nav-ready .elementor-nav-menu--dropdown.elementor-nav-menu__container {
@@ -516,7 +521,7 @@
           transition: transform 0.3s ease, opacity 0.24s ease, visibility 0.24s ease;
           visibility: hidden;
           width: min(23.5rem, calc(100vw - 1.5rem)) !important;
-          z-index: 2147483600;
+          z-index: 2147483647;
         }
 
       .elementor-widget-nav-menu.static-nav-ready .elementor-nav-menu--dropdown .static-modal-head {
