@@ -494,14 +494,92 @@
           z-index: 2147483600;
         }
 
-        .elementor-widget-nav-menu.static-nav-ready .elementor-nav-menu--dropdown .static-modal-head {
-          align-items: center;
-          border-bottom: 1px solid rgba(0, 115, 170, 0.12);
-          display: flex;
-          justify-content: space-between;
-          margin: 0;
-          padding: 0.1rem 0.1rem 0.85rem;
-        }
+      .elementor-widget-nav-menu.static-nav-ready .elementor-nav-menu--dropdown .static-modal-head {
+        align-items: center;
+        border-bottom: 1px solid rgba(0, 115, 170, 0.12);
+        display: flex;
+        justify-content: space-between;
+        margin: 0;
+        padding: 0.1rem 0.1rem 0.85rem;
+      }
+
+      .elementor-widget-nav-menu.static-nav-ready .elementor-nav-menu--dropdown .static-modal-search {
+        margin: 0 0 0.35rem;
+        position: relative;
+      }
+
+      .elementor-widget-nav-menu.static-nav-ready .elementor-nav-menu--dropdown .static-modal-search-form {
+        align-items: stretch;
+        display: flex;
+        gap: 0;
+      }
+
+      .elementor-widget-nav-menu.static-nav-ready .elementor-nav-menu--dropdown .static-modal-search-input {
+        background: #edf7ff;
+        border: 1px solid rgba(0, 115, 170, 0.12);
+        border-radius: 1rem 0 0 1rem;
+        color: #0f172a;
+        flex: 1 1 auto;
+        font-size: 1rem;
+        min-height: 54px;
+        padding: 0.92rem 1rem;
+      }
+
+      .elementor-widget-nav-menu.static-nav-ready .elementor-nav-menu--dropdown .static-modal-search-submit {
+        align-items: center;
+        background: var(--static-nav-accent);
+        border: 0;
+        border-radius: 0 1rem 1rem 0;
+        color: #fff;
+        cursor: pointer;
+        display: inline-flex;
+        flex: 0 0 56px;
+        justify-content: center;
+        min-height: 54px;
+        padding: 0;
+      }
+
+      .elementor-widget-nav-menu.static-nav-ready .elementor-nav-menu--dropdown .static-modal-search-submit svg {
+        height: 18px;
+        width: 18px;
+      }
+
+      .elementor-widget-nav-menu.static-nav-ready .elementor-nav-menu--dropdown .static-modal-search-suggestions {
+        background: rgba(255, 255, 255, 0.995);
+        border: 1px solid rgba(0, 115, 170, 0.12);
+        border-radius: 1rem;
+        box-shadow: 0 18px 42px rgba(15, 23, 42, 0.14);
+        list-style: none;
+        margin: 8px 0 0;
+        max-height: 220px;
+        overflow-y: auto;
+        padding: 6px 0;
+      }
+
+      .elementor-widget-nav-menu.static-nav-ready .elementor-nav-menu--dropdown .static-modal-search-suggestions[hidden] {
+        display: none !important;
+      }
+
+      .elementor-widget-nav-menu.static-nav-ready .elementor-nav-menu--dropdown .static-modal-search-suggestions li {
+        margin: 0;
+      }
+
+      .elementor-widget-nav-menu.static-nav-ready .elementor-nav-menu--dropdown .static-modal-search-suggestions a {
+        color: #0f172a;
+        display: block;
+        font-size: 14px;
+        font-weight: 700;
+        padding: 10px 14px;
+        text-decoration: none;
+      }
+
+      .elementor-widget-nav-menu.static-nav-ready .elementor-nav-menu--dropdown .static-modal-search-suggestions a small {
+        color: #64748b;
+        display: block;
+        font-size: 12px;
+        font-weight: 500;
+        margin-top: 2px;
+      }
 
         .elementor-widget-nav-menu.static-nav-ready .elementor-nav-menu--dropdown .static-modal-brand {
           display: inline-flex;
@@ -962,6 +1040,41 @@
     return closeButton;
   }
 
+  function ensureMobileModalSearch(dropdown) {
+    let wrap = dropdown.querySelector(":scope > .static-modal-search");
+    if (!wrap) {
+      wrap = document.createElement("div");
+      wrap.className = "static-modal-search";
+      const header = dropdown.querySelector(":scope > .static-modal-head");
+      if (header && header.nextSibling) {
+        dropdown.insertBefore(wrap, header.nextSibling);
+      } else if (header) {
+        header.after(wrap);
+      } else {
+        dropdown.prepend(wrap);
+      }
+    }
+
+    if (!wrap.querySelector(".static-modal-search-form")) {
+      wrap.innerHTML = `
+        <form class="static-modal-search-form">
+          <input class="static-modal-search-input" type="search" name="q" placeholder="Search..." autocomplete="off">
+          <button class="static-modal-search-submit" type="submit" aria-label="Search website">
+            <span class="e-font-icon-svg-container" aria-hidden="true"><svg class="fa fa-search e-font-icon-svg e-fas-search" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg"><path fill="currentColor" d="M505 442.7L405.3 343c-4.5-4.5-10.6-7-17-7H372c27.6-35.3 44-79.7 44-128C416 93.1 322.9 0 208 0S0 93.1 0 208s93.1 208 208 208c48.3 0 92.7-16.4 128-44v16.3c0 6.4 2.5 12.5 7 17l99.7 99.7c9.4 9.4 24.6 9.4 33.9 0l28.3-28.3c9.4-9.4 9.4-24.6.1-34zM208 336c-70.7 0-128-57.2-128-128 0-70.7 57.2-128 128-128 70.7 0 128 57.2 128 128 0 70.7-57.2 128-128 128z"></path></svg></span>
+          </button>
+        </form>
+        <ul class="static-modal-search-suggestions" hidden></ul>
+      `;
+    }
+
+    return {
+      wrap,
+      form: wrap.querySelector(".static-modal-search-form"),
+      input: wrap.querySelector(".static-modal-search-input"),
+      list: wrap.querySelector(".static-modal-search-suggestions"),
+    };
+  }
+
   function bindMobileToggle(widget, widgetId) {
     const toggle = widget.querySelector(".elementor-menu-toggle");
     const dropdown = widget.querySelector("nav.elementor-nav-menu--dropdown.elementor-nav-menu__container");
@@ -1035,7 +1148,7 @@
         closeIcon.style.display = shouldExpand ? "inline-block" : "none";
       }
 
-      dropdown.querySelectorAll("a, .submenu-toggle, .static-modal-close").forEach((element) => {
+      dropdown.querySelectorAll("a, .submenu-toggle, .static-modal-close, .static-modal-search-input, .static-modal-search-submit").forEach((element) => {
         if (shouldExpand) {
           element.removeAttribute("tabindex");
         } else {
@@ -1044,7 +1157,7 @@
       });
 
       if (shouldExpand) {
-        const firstFocusable = dropdown.querySelector("a, .submenu-toggle");
+        const firstFocusable = dropdown.querySelector(".static-modal-search-input, a, .submenu-toggle");
         if (firstFocusable) {
           window.setTimeout(() => firstFocusable.focus(), 60);
         }
@@ -1113,7 +1226,7 @@
       if (isDesktop()) {
         setExpanded(false);
         clearMobileDrawerLayout();
-        dropdown.querySelectorAll("a, .submenu-toggle, .static-modal-close").forEach((element) => {
+        dropdown.querySelectorAll("a, .submenu-toggle, .static-modal-close, .static-modal-search-input, .static-modal-search-submit").forEach((element) => {
           element.removeAttribute("tabindex");
         });
       } else if (toggle.getAttribute("aria-expanded") !== "true") {
@@ -1317,7 +1430,12 @@
     if (!slot) {
       slot = document.createElement("div");
       slot.className = "static-header-search-slot";
-      navWidget.appendChild(slot);
+      const toggle = navWidget.querySelector(".elementor-menu-toggle");
+      if (toggle) {
+        navWidget.insertBefore(slot, toggle);
+      } else {
+        navWidget.appendChild(slot);
+      }
     }
 
     let button = slot.querySelector(".static-header-search-btn");
@@ -1356,6 +1474,41 @@
     const index = await loadSearchIndex(indexPath, scriptPath);
 
     wireExistingSearchForms(index, basePrefix, searchPagePath);
+    document.querySelectorAll(".elementor-widget-nav-menu nav.elementor-nav-menu--dropdown.elementor-nav-menu__container").forEach((dropdown) => {
+      const mobileSearch = ensureMobileModalSearch(dropdown);
+      if (!mobileSearch || !mobileSearch.form || !mobileSearch.input || !mobileSearch.list) return;
+
+      const refresh = () => {
+        const matches = searchIndexItems(index, mobileSearch.input.value, 7);
+        mobileSearch.list.replaceChildren();
+        if (!matches.length || !String(mobileSearch.input.value || "").trim()) {
+          mobileSearch.list.hidden = true;
+          return;
+        }
+
+        matches.forEach((item) => {
+          mobileSearch.list.appendChild(
+            createSuggestionItem(item, `${toAbsoluteUrl(searchPagePath)}?q=${encodeURIComponent(item.title)}`)
+          );
+        });
+        mobileSearch.list.hidden = false;
+      };
+
+      mobileSearch.input.addEventListener("input", refresh);
+      mobileSearch.input.addEventListener("focus", refresh);
+      mobileSearch.input.addEventListener("blur", () => {
+        window.setTimeout(() => {
+          mobileSearch.list.hidden = true;
+        }, 140);
+      });
+
+      mobileSearch.form.addEventListener("submit", (event) => {
+        event.preventDefault();
+        const term = String(mobileSearch.input.value || "").trim();
+        if (!term) return;
+        window.location.href = `${toAbsoluteUrl(searchPagePath)}?q=${encodeURIComponent(term)}`;
+      });
+    });
 
     const ui = ensureHeaderSearchUI();
     if (!ui) return;

@@ -6,6 +6,8 @@ const SITE_NAME = "Grand Ave. Pet Hospital";
 const SITE_URL = "https://grandwestvet.com";
 const DEFAULT_LOGO_URL = `${SITE_URL}/assets/images/grand-ave-pet-hospital-logo-email.png`;
 const APPOINTMENT_FORM_IDS = new Set(["341358df"]);
+const CLINIC_PHONE = "+1 519-354-0222";
+const CLINIC_EMAIL = "info@grandwestvet.com";
 
 function json(data, status = 200) {
   return new Response(JSON.stringify(data), {
@@ -232,7 +234,14 @@ function renderAutoReplyHtml({ visitorName, env }) {
               </tr>
               <tr>
                 <td style="padding:16px 22px;background:#f8fbff;border-top:1px solid #dce6f2;font-size:13px;color:#4b5563;">
-                  <div><a href="${SITE_URL}" style="color:#0b74ab;text-decoration:none;">${SITE_URL}</a></div>
+                  <div style="font-weight:700;color:#0f172a;">${escapeHtml(SITE_NAME)}</div>
+                  <div style="margin-top:4px;">Phone: <a href="tel:${escapeHtml(
+                    CLINIC_PHONE.replace(/[^\d+]/g, "")
+                  )}" style="color:#0b74ab;text-decoration:none;">${escapeHtml(CLINIC_PHONE)}</a></div>
+                  <div>Email: <a href="mailto:${escapeHtml(CLINIC_EMAIL)}" style="color:#0b74ab;text-decoration:none;">${escapeHtml(
+                    CLINIC_EMAIL
+                  )}</a></div>
+                  <div style="margin-top:4px;"><a href="${SITE_URL}" style="color:#0b74ab;text-decoration:none;">${SITE_URL}</a></div>
                 </td>
               </tr>
             </table>
@@ -250,6 +259,8 @@ Thank you for contacting ${SITE_NAME}. We have received your appointment request
 
 Warm regards,
 ${SITE_NAME}
+Phone: ${CLINIC_PHONE}
+Email: ${CLINIC_EMAIL}
 ${SITE_URL}`;
 }
 
