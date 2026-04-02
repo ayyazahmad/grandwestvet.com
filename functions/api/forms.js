@@ -2,6 +2,10 @@ const JSON_HEADERS = {
   "Content-Type": "application/json; charset=utf-8",
   "Cache-Control": "no-store",
 };
+const SITE_NAME = "Grand Ave. Pet Hospital";
+const SITE_URL = "https://grandwestvet.com";
+const DEFAULT_LOGO_URL = `${SITE_URL}/wp-content/uploads/2025/02/Grand-Ave-Pet-Hospital-Logo.webp`;
+const APPOINTMENT_FORM_IDS = new Set(["341358df"]);
 
 function json(data, status = 200) {
   return new Response(JSON.stringify(data), {
@@ -38,6 +42,41 @@ function sanitizeFields(fields) {
   }
 
   return cleaned;
+}
+
+function cleanLabelText(value) {
+  return String(value || "")
+    .replace(/[\u{1F300}-\u{1FAFF}]/gu, "")
+    .replace(/[\u2600-\u27BF]/g, "")
+    .replace(/\s+/g, " ")
+    .trim();
+}
+
+function fallbackLabelFromKey(key) {
+  return String(key || "")
+    .replace(/^field_/, "")
+    .replace(/[_-]+/g, " ")
+    .replace(/\s+/g, " ")
+    .trim()
+    .replace(/\b\w/g, (letter) => letter.toUpperCase());
+}
+
+function sanitizeLabels(labels, fields) {
+  const cleaned = {};
+  for (const key of Object.keys(fields)) {
+    const raw = labels && typeof labels === "object" ? labels[key] : "";
+    const safe = cleanLabelText(raw);
+    cleaned[key] = safe || fallbackLabelFromKey(key);
+  }
+  return cleaned;
+}
+
+function buildDisplayFields(fields, labels) {
+  return Object.entries(fields).map(([key, value]) => ({
+    key,
+    label: labels[key] || fallbackLabelFromKey(key),
+    value,
+  }));
 }
 
 function buildRecipients(rawRecipients) {
@@ -81,30 +120,142 @@ function findName(fields) {
   return "";
 }
 
-function renderHtml({ formName, pagePath, pageTitle, fields }) {
-  const rows = Object.entries(fields)
-    .map(([key, value]) => {
-      return `<tr><td style="padding:8px 12px;border:1px solid #d0d7de;font-weight:600;background:#f6f8fa;">${escapeHtml(
-        key
-      )}</td><td style="padding:8px 12px;border:1px solid #d0d7de;">${escapeHtml(value)}</td></tr>`;
+function findFirstField(fields, candidates) {
+  for (const key of candidates) {
+    if (fields[key]) return fields[key];
+  }
+  return "";
+}
+
+function getBrandLogo(env) {
+  const custom = String(env.SITE_LOGO_URL || "").trim();
+  return custom || DEFAULT_LOGO_URL;
+}
+
+function renderAdminHtml({ formName, pagePath, pageTitle, displayFields, env }) {
+  const rows = displayFields
+    .map(({ label, value }) => {
+      return `<tr><td style="padding:12px 14px;border:1px solid #d6deea;background:#f7fbff;font-weight:700;color:#1f2937;width:34%;">${escapeHtml(
+        label
+      )}</td><td style="padding:12px 14px;border:1px solid #d6deea;color:#0f172a;">${escapeHtml(value)}</td></tr>`;
     })
     .join("");
 
-  return `
-    <div style="font-family:Arial,sans-serif;color:#111827;">
-      <h2 style="margin-bottom:8px;">${escapeHtml(formName)}</h2>
-      <p style="margin:0 0 6px;"><strong>Page:</strong> ${escapeHtml(pageTitle)}</p>
-      <p style="margin:0 0 18px;"><strong>Path:</strong> ${escapeHtml(pagePath)}</p>
-      <table style="border-collapse:collapse;width:100%;max-width:720px;">
-        <tbody>${rows}</tbody>
+  return `<!doctype html>
+  <html>
+    <body style="margin:0;background:#eef4fb;font-family:Inter,Segoe UI,Arial,sans-serif;color:#111827;">
+      <table role="presentation" cellpadding="0" cellspacing="0" width="100%" style="padding:28px 12px;">
+        <tr>
+          <td align="center">
+            <table role="presentation" cellpadding="0" cellspacing="0" width="760" style="max-width:760px;background:#ffffff;border:1px solid #dce6f2;border-radius:14px;overflow:hidden;">
+              <tr>
+                <td style="padding:18px 22px;background:linear-gradient(90deg,#0d6ea6,#178dc7);">
+                  <img src="${escapeHtml(getBrandLogo(env))}" alt="${escapeHtml(
+    SITE_NAME
+  )}" style="display:block;max-width:230px;height:auto;">
+                </td>
+              </tr>
+              <tr>
+                <td style="padding:22px;">
+                  <h2 style="margin:0 0 12px;font-size:28px;line-height:1.2;color:#0f172a;">${escapeHtml(formName)}</h2>
+                  <p style="margin:0 0 6px;font-size:15px;color:#334155;"><strong>Page:</strong> ${escapeHtml(pageTitle)}</p>
+                  <p style="margin:0 0 18px;font-size:15px;color:#334155;"><strong>Path:</strong> ${escapeHtml(pagePath)}</p>
+                  <table role="presentation" cellpadding="0" cellspacing="0" width="100%" style="border-collapse:collapse;border-radius:10px;overflow:hidden;">
+                    <tbody>${rows}</tbody>
+                  </table>
+                </td>
+              </tr>
+              <tr>
+                <td style="padding:16px 22px;background:#f8fbff;border-top:1px solid #dce6f2;font-size:13px;color:#4b5563;">
+                  <div style="font-weight:700;color:#0f172a;">${escapeHtml(SITE_NAME)}</div>
+                  <div><a href="${SITE_URL}" style="color:#0b74ab;text-decoration:none;">${SITE_URL}</a></div>
+                  <div style="margin-top:6px;">This notification was generated from your website form system.</div>
+                </td>
+              </tr>
+            </table>
+          </td>
+        </tr>
       </table>
-    </div>
-  `;
+    </body>
+  </html>`;
 }
 
-function renderText({ formName, pagePath, pageTitle, fields }) {
-  const lines = Object.entries(fields).map(([key, value]) => `${key}: ${value}`);
+function renderAdminText({ formName, pagePath, pageTitle, displayFields }) {
+  const lines = displayFields.map(({ label, value }) => `${label}: ${value}`);
   return `${formName}\nPage: ${pageTitle}\nPath: ${pagePath}\n\n${lines.join("\n")}`;
+}
+
+function isAppointmentForm({ formId, formName, pagePath }) {
+  if (APPOINTMENT_FORM_IDS.has(String(formId || "").trim())) {
+    return true;
+  }
+
+  const lowerName = String(formName || "").toLowerCase();
+  const lowerPath = String(pagePath || "").toLowerCase();
+  return lowerName.includes("appointment") || lowerPath.includes("get-an-appointment");
+}
+
+function renderAutoReplyHtml({ visitorName }) {
+  const safeName = escapeHtml(visitorName || "there");
+  return `<!doctype html>
+  <html>
+    <body style="margin:0;background:#eef4fb;font-family:Inter,Segoe UI,Arial,sans-serif;color:#111827;">
+      <table role="presentation" cellpadding="0" cellspacing="0" width="100%" style="padding:28px 12px;">
+        <tr>
+          <td align="center">
+            <table role="presentation" cellpadding="0" cellspacing="0" width="680" style="max-width:680px;background:#ffffff;border:1px solid #dce6f2;border-radius:14px;overflow:hidden;">
+              <tr>
+                <td style="padding:18px 22px;background:linear-gradient(90deg,#0d6ea6,#178dc7);">
+                  <img src="${escapeHtml(DEFAULT_LOGO_URL)}" alt="${escapeHtml(
+    SITE_NAME
+  )}" style="display:block;max-width:230px;height:auto;">
+                </td>
+              </tr>
+              <tr>
+                <td style="padding:22px;">
+                  <h2 style="margin:0 0 14px;font-size:26px;line-height:1.2;color:#0f172a;">Appointment Request Received</h2>
+                  <p style="margin:0 0 12px;font-size:15px;line-height:1.65;color:#334155;">Hi ${safeName},</p>
+                  <p style="margin:0 0 12px;font-size:15px;line-height:1.65;color:#334155;">Thank you for contacting ${escapeHtml(
+    SITE_NAME
+  )}. We have received your appointment request and our team will review it shortly.</p>
+                  <p style="margin:0 0 12px;font-size:15px;line-height:1.65;color:#334155;">If needed, we may contact you for additional details to confirm date and time.</p>
+                  <p style="margin:0;font-size:15px;line-height:1.65;color:#334155;">Warm regards,<br><strong>${escapeHtml(
+    SITE_NAME
+  )}</strong></p>
+                </td>
+              </tr>
+              <tr>
+                <td style="padding:16px 22px;background:#f8fbff;border-top:1px solid #dce6f2;font-size:13px;color:#4b5563;">
+                  <div><a href="${SITE_URL}" style="color:#0b74ab;text-decoration:none;">${SITE_URL}</a></div>
+                </td>
+              </tr>
+            </table>
+          </td>
+        </tr>
+      </table>
+    </body>
+  </html>`;
+}
+
+function renderAutoReplyText({ visitorName }) {
+  return `Hi ${visitorName || "there"},
+
+Thank you for contacting ${SITE_NAME}. We have received your appointment request and our team will review it shortly.
+
+Warm regards,
+${SITE_NAME}
+${SITE_URL}`;
+}
+
+async function sendResendEmail(env, payload) {
+  return fetch("https://api.resend.com/emails", {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${env.RESEND_API_KEY}`,
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(payload),
+  });
 }
 
 export async function onRequestOptions() {
@@ -149,9 +300,12 @@ export async function onRequestPost(context) {
   }
 
   const formName = String(payload?.formName || "Website Form").trim().slice(0, 120);
+  const formId = String(payload?.formId || "").trim().slice(0, 80);
   const pagePath = String(payload?.pagePath || "/").trim().slice(0, 200);
   const pageTitle = String(payload?.pageTitle || "Unknown Page").trim().slice(0, 200);
   const fields = sanitizeFields(payload?.fields);
+  const labels = sanitizeLabels(payload?.labels, fields);
+  const displayFields = buildDisplayFields(fields, labels);
 
   if (!Object.keys(fields).length) {
     return json({ error: "No form fields were submitted." }, 400);
@@ -163,24 +317,18 @@ export async function onRequestPost(context) {
   const subjectSuffix = personName ? ` - ${personName}` : "";
   const subject = `[grandwestvet.com] ${formName}${subjectSuffix}`.slice(0, 200);
 
-  const resendResponse = await fetch("https://api.resend.com/emails", {
-    method: "POST",
-    headers: {
-      Authorization: `Bearer ${env.RESEND_API_KEY}`,
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({
-      from: fromAddress,
-      to: recipients,
-      subject,
-      html: renderHtml({ formName, pagePath, pageTitle, fields }),
-      text: renderText({ formName, pagePath, pageTitle, fields }),
-      replyTo: replyTo || undefined,
-      tags: [
-        { name: "site", value: "grandwestvet" },
-        { name: "form", value: formName.toLowerCase().replace(/[^a-z0-9_-]+/g, "-").slice(0, 256) || "website-form" },
-      ],
-    }),
+  const resendResponse = await sendResendEmail(env, {
+    from: fromAddress,
+    to: recipients,
+    subject,
+    html: renderAdminHtml({ formName, pagePath, pageTitle, displayFields, env }),
+    text: renderAdminText({ formName, pagePath, pageTitle, displayFields }),
+    replyTo: replyTo || undefined,
+    tags: [
+      { name: "site", value: "grandwestvet" },
+      { name: "form", value: formName.toLowerCase().replace(/[^a-z0-9_-]+/g, "-").slice(0, 256) || "website-form" },
+      { name: "form_id", value: formId || "none" },
+    ],
   });
 
   if (!resendResponse.ok) {
@@ -192,6 +340,24 @@ export async function onRequestPost(context) {
       },
       502
     );
+  }
+
+  if (replyTo && isAppointmentForm({ formId, formName, pagePath })) {
+    const visitorName =
+      findFirstField(fields, ["name", "owner_name", "pet_name"]) ||
+      "there";
+    await sendResendEmail(env, {
+      from: fromAddress,
+      to: [replyTo],
+      subject: "We received your appointment request - Grand Ave. Pet Hospital",
+      html: renderAutoReplyHtml({ visitorName }),
+      text: renderAutoReplyText({ visitorName }),
+      replyTo: recipients[0] || undefined,
+      tags: [
+        { name: "site", value: "grandwestvet" },
+        { name: "type", value: "appointment-auto-reply" },
+      ],
+    });
   }
 
   return json({

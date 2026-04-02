@@ -25,6 +25,53 @@
       .replace(/\b\w/g, (letter) => letter.toUpperCase());
   }
 
+  function cleanLabelText(value) {
+    return String(value || "")
+      .replace(/[\u{1F300}-\u{1FAFF}]/gu, "")
+      .replace(/[\u2600-\u27BF]/g, "")
+      .replace(/\s+/g, " ")
+      .trim();
+  }
+
+  function collectFieldLabels(form) {
+    const labels = {};
+    const controls = form.querySelectorAll("input[name], select[name], textarea[name]");
+
+    controls.forEach((control) => {
+      const rawName = control.getAttribute("name") || "";
+      const key = normalizeFieldName(rawName);
+      if (!key || !/^form_fields\[.+\]$/.test(rawName)) {
+        return;
+      }
+
+      let text = "";
+      const id = control.getAttribute("id");
+      if (id) {
+        const linked = form.querySelector(`label[for="${id}"]`);
+        if (linked) {
+          text = linked.textContent || "";
+        }
+      }
+
+      if (!text) {
+        const group = control.closest(".elementor-field-group");
+        const inlineLabel = group && group.querySelector(".elementor-field-label");
+        if (inlineLabel) {
+          text = inlineLabel.textContent || "";
+        }
+      }
+
+      if (!text) {
+        text = control.getAttribute("placeholder") || "";
+      }
+
+      const cleaned = cleanLabelText(text);
+      labels[key] = cleaned || humanize(key);
+    });
+
+    return labels;
+  }
+
   function getFormLabel(form) {
     return (
       form.getAttribute("aria-label") ||
@@ -132,6 +179,7 @@
   function buildPayload(form) {
     const formData = new FormData(form);
     const fields = {};
+    const labels = collectFieldLabels(form);
 
     for (const [rawName, rawValue] of formData.entries()) {
       if (IGNORED_FIELDS.has(rawName) || rawName === HONEYPOT_NAME) {
@@ -161,11 +209,12 @@
 
     return {
       formName: getFormLabel(form),
+      formId: (formData.get("form_id") || "").toString().trim(),
       pagePath: window.location.pathname,
       pageTitle: document.title,
       fields,
       labels: Object.keys(fields).reduce((acc, key) => {
-        acc[key] = humanize(key);
+        acc[key] = labels[key] || humanize(key);
         return acc;
       }, {}),
       honeypot: (formData.get(HONEYPOT_NAME) || "").toString(),
