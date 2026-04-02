@@ -502,9 +502,9 @@
           border: 1px solid rgba(0, 115, 170, 0.1);
           border-radius: 1.75rem !important;
           box-shadow: var(--static-nav-shadow);
-          display: grid;
+          display: flex;
+          flex-direction: column;
           gap: 0.7rem;
-          grid-template-rows: auto 1fr;
           left: 0.75rem !important;
           margin-top: 0;
           max-height: calc(100dvh - 1.5rem) !important;
@@ -657,8 +657,12 @@
 
         .elementor-widget-nav-menu.static-nav-ready .elementor-nav-menu--dropdown .elementor-nav-menu {
           display: flex;
+          flex: 0 0 auto;
           flex-direction: column;
           gap: 0.35rem;
+          justify-content: flex-start !important;
+          margin-top: 0 !important;
+          padding-top: 0 !important;
         }
 
         .elementor-widget-nav-menu.static-nav-ready .elementor-nav-menu--dropdown .menu-item-has-children,
@@ -1129,8 +1133,8 @@
       dropdown.style.setProperty("max-width", "min(23.5rem, calc(100vw - 1.5rem))", "important");
       dropdown.style.setProperty("max-height", "calc(100dvh - 1.5rem)", "important");
       dropdown.style.setProperty("margin-top", "0", "important");
-      dropdown.style.setProperty("display", "grid", "important");
-      dropdown.style.setProperty("grid-template-rows", "auto 1fr", "important");
+      dropdown.style.setProperty("display", "flex", "important");
+      dropdown.style.setProperty("flex-direction", "column", "important");
       dropdown.style.setProperty("overflow-y", "auto", "important");
       dropdown.style.setProperty("z-index", "2147483600", "important");
     };
@@ -1147,7 +1151,7 @@
         "max-height",
         "margin-top",
         "display",
-        "grid-template-rows",
+        "flex-direction",
         "overflow-y",
         "z-index",
       ].forEach((property) => dropdown.style.removeProperty(property));
