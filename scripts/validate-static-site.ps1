@@ -155,6 +155,16 @@ foreach ($relativePath in $syntaxFiles) {
 
 $htmlChecks = @(
     @{
+        Name = "Homepage Google tag top-of-head"
+        Path = "index.html"
+        Markers = @(
+            "<head>",
+            "<!-- Google tag (gtag.js) -->",
+            "https://www.googletagmanager.com/gtag/js?id=G-6MH0FE7867",
+            "gtag('config', 'G-6MH0FE7867');"
+        )
+    },
+    @{
         Name = "Homepage asset refs"
         Path = "index.html"
         Markers = @("assets/js/nav-menu-fallback.js", "assets/js/forms-handler.js")

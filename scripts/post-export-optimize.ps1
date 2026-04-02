@@ -34,6 +34,7 @@ $servicePagesCssPath = "/assets/css/service-pages-fallback.css"
 $heroEnhancementsCssPath = "/assets/css/hero-background-enhancements.css"
 $archiveCardsCssPath = "/assets/css/archive-cards-fallback.css"
 $fontPreloadCssPath = "/assets/css/font-preload.css"
+$googleTagMeasurementId = "G-6MH0FE7867"
 $formsScriptTagPattern = '<script src="[^"]*assets/js/forms-handler\.js(?:\?v=[^"]*)?" defer></script>\s*'
 $navMenuScriptTagPattern = '<script src="[^"]*assets/js/nav-menu-fallback\.js(?:\?v=[^"]*)?" defer></script>\s*'
 $galleryScriptTagPattern = '<script src="[^"]*assets/js/gallery-fallback\.js(?:\?v=[^"]*)?" defer></script>\s*'
@@ -41,6 +42,9 @@ $servicePagesCssTagPattern = '<link rel="stylesheet" href="[^"]*assets/css/servi
 $heroEnhancementsCssTagPattern = '<link rel="stylesheet" href="[^"]*assets/css/hero-background-enhancements\.css(?:\?v=[^"]*)?">\s*'
 $archiveCardsCssTagPattern = '<link rel="stylesheet" href="[^"]*assets/css/archive-cards-fallback\.css(?:\?v=[^"]*)?">\s*'
 $fontPreloadCssTagPattern = '<link rel="stylesheet" href="[^"]*assets/css/font-preload\.css(?:\?v=[^"]*)?">\s*'
+$googleTagScriptSrcPattern = '<!-- Google tag \(gtag\.js\) -->\s*<script[^>]*src="https://www\.googletagmanager\.com/gtag/js\?id=G-6MH0FE7867"[^>]*></script>\s*'
+$googleTagInlinePattern = '<script>\s*window\.dataLayer\s*=\s*window\.dataLayer\s*\|\|\s*\[\];\s*function gtag\(\)\{dataLayer\.push\(arguments\);\}\s*gtag\(''js'',\s*new Date\(\)\);\s*gtag\(''config'',\s*''G-6MH0FE7867''\);\s*</script>\s*'
+$googleTagLoosePattern = '<script[\s\S]*?gtag\(''config'',\s*''G-6MH0FE7867''\);[\s\S]*?</script>\s*'
 $recaptchaScriptPattern = '<script src="https://www\.google\.com/recaptcha/api\.js\?render=explicit&amp;ver=[^"]+" id="elementor-recaptcha_v3-api-js"></script>'
 $oembedLinePattern = '(?m)^.*oEmbed.*\r?\n?'
 $jsonAltPattern = '<link rel="alternate" title="JSON" type="application/json" href="/wp-json/[^"]+">'
@@ -524,6 +528,20 @@ function Build-VersionedStylesheetTag(
     return '<link rel="stylesheet" href="' + $versionedPath + '">'
 }
 
+function Get-GoogleTagSnippet([string]$MeasurementId) {
+    return @"
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=$MeasurementId"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', '$MeasurementId');
+</script>
+"@
+}
+
 $siteRootUri = Get-DirectoryUri -Path $siteRoot
 
 foreach ($file in $htmlFiles) {
@@ -538,6 +556,7 @@ foreach ($file in $htmlFiles) {
     $heroEnhancementsCssTag = Build-VersionedStylesheetTag -StylesheetPath $heroEnhancementsCssPath -CurrentDirectoryUri $currentDirectoryUri -SiteRootUri $siteRootUri -SiteRootPath $siteRoot
     $archiveCardsCssTag = Build-VersionedStylesheetTag -StylesheetPath $archiveCardsCssPath -CurrentDirectoryUri $currentDirectoryUri -SiteRootUri $siteRootUri -SiteRootPath $siteRoot
     $fontPreloadCssTag = Build-VersionedStylesheetTag -StylesheetPath $fontPreloadCssPath -CurrentDirectoryUri $currentDirectoryUri -SiteRootUri $siteRootUri -SiteRootPath $siteRoot
+    $googleTagSnippet = Get-GoogleTagSnippet -MeasurementId $googleTagMeasurementId
 
     $updated = [regex]::Replace($updated, $recaptchaScriptPattern, "")
     $updated = [regex]::Replace($updated, $oembedLinePattern, "")
@@ -553,8 +572,12 @@ foreach ($file in $htmlFiles) {
     $updated = [regex]::Replace($updated, $heroEnhancementsCssTagPattern, "")
     $updated = [regex]::Replace($updated, $archiveCardsCssTagPattern, "")
     $updated = [regex]::Replace($updated, $fontPreloadCssTagPattern, "")
+    $updated = [regex]::Replace($updated, $googleTagScriptSrcPattern, "", [System.Text.RegularExpressions.RegexOptions]::IgnoreCase)
+    $updated = [regex]::Replace($updated, $googleTagInlinePattern, "", [System.Text.RegularExpressions.RegexOptions]::IgnoreCase)
+    $updated = [regex]::Replace($updated, $googleTagLoosePattern, "", [System.Text.RegularExpressions.RegexOptions]::IgnoreCase)
     $updated = Decode-CloudflareEmailsInHtml -Content $updated
     $updated = Convert-MaskUrlsToDataUris -Content $updated -CurrentDirectoryPath $currentDirectoryPath -SiteRootPath $siteRoot
+    $updated = [regex]::Replace($updated, '<head>', "<head>`r`n$googleTagSnippet", [System.Text.RegularExpressions.RegexOptions]::IgnoreCase)
     if ($updated -match 'class=["''][^"'']*elementor-widget-nav-menu[^"'']*["'']' -and $updated -notmatch 'nav-menu-fallback\.js') {
         $updated = $updated -replace '</body>', "$navMenuScriptTag`r`n</body>"
     }
