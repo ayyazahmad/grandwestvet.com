@@ -137,3 +137,16 @@ body.single-post [data-elementor-type="single-post"] > .elementor-element:first-
     height: 201px !important;
   }
 }
+
+/* Home page only: tighten the gap below sticky header */
+body.home .elementor-145 .elementor-element.elementor-element-476953f {
+  --margin-top: 4em;
+  --padding-top: 5em;
+}
+
+@media (max-width: 1024px) and (min-width: 768px) {
+  body.home .elementor-145 .elementor-element.elementor-element-476953f {
+    --margin-top: 2.75em;
+    --padding-top: 3.75em;
+  }
+}
