@@ -1584,6 +1584,98 @@
     });
   }
 
+  function normalizeSidebarThumbnail(link) {
+    if (!(link instanceof HTMLElement)) return;
+
+    const thumb = link.querySelector(".elementor-post__thumbnail");
+    const image = thumb ? thumb.querySelector("img") : null;
+    const size = window.innerWidth <= 767 ? 64 : 72;
+
+    link.style.setProperty("width", `${size}px`, "important");
+    link.style.setProperty("min-width", `${size}px`, "important");
+    link.style.setProperty("max-width", `${size}px`, "important");
+    link.style.setProperty("height", `${size}px`, "important");
+    link.style.setProperty("min-height", `${size}px`, "important");
+    link.style.setProperty("max-height", `${size}px`, "important");
+    link.style.setProperty("flex-basis", `${size}px`, "important");
+    link.style.setProperty("flex", `0 0 ${size}px`, "important");
+    link.style.setProperty("overflow", "hidden", "important");
+    link.style.setProperty("border-radius", "50%", "important");
+    link.style.setProperty("display", "block", "important");
+    link.style.setProperty("line-height", "0", "important");
+
+    if (thumb) {
+      thumb.style.setProperty("width", `${size}px`, "important");
+      thumb.style.setProperty("height", `${size}px`, "important");
+      thumb.style.setProperty("padding-bottom", "0", "important");
+      thumb.style.setProperty("overflow", "hidden", "important");
+      thumb.style.setProperty("border-radius", "50%", "important");
+      thumb.style.setProperty("position", "relative", "important");
+      thumb.style.setProperty("display", "block", "important");
+      thumb.style.setProperty("line-height", "0", "important");
+    }
+
+    if (image) {
+      image.style.setProperty("width", "100%", "important");
+      image.style.setProperty("height", "100%", "important");
+      image.style.setProperty("min-width", "100%", "important");
+      image.style.setProperty("min-height", "100%", "important");
+      image.style.setProperty("max-width", "none", "important");
+      image.style.setProperty("object-fit", "cover", "important");
+      image.style.setProperty("object-position", "center", "important");
+      image.style.setProperty("border-radius", "50%", "important");
+      image.style.setProperty("position", "absolute", "important");
+      image.style.setProperty("inset", "0", "important");
+      image.style.setProperty("display", "block", "important");
+    }
+  }
+
+  function initSidebarThumbnailLocks() {
+    const selector = ".elementor-widget-posts.elementor-posts--thumbnail-left .elementor-post__thumbnail__link";
+
+    const applyAll = (root = document) => {
+      root.querySelectorAll(selector).forEach((link) => {
+        normalizeSidebarThumbnail(link);
+        const image = link.querySelector("img");
+        if (image && !image.dataset.staticThumbLocked) {
+          image.dataset.staticThumbLocked = "true";
+          image.addEventListener("load", () => normalizeSidebarThumbnail(link), { passive: true });
+        }
+      });
+    };
+
+    applyAll();
+    window.addEventListener("load", () => applyAll(), { once: true });
+    window.addEventListener("resize", () => applyAll(), { passive: true });
+    window.setTimeout(() => applyAll(), 180);
+    window.setTimeout(() => applyAll(), 900);
+
+    const observer = new MutationObserver((mutations) => {
+      let shouldApply = false;
+      for (const mutation of mutations) {
+        if (mutation.type === "childList" && mutation.addedNodes.length) {
+          shouldApply = true;
+          break;
+        }
+        if (mutation.type === "attributes") {
+          shouldApply = true;
+          break;
+        }
+      }
+
+      if (shouldApply) {
+        applyAll();
+      }
+    });
+
+    observer.observe(document.body, {
+      subtree: true,
+      childList: true,
+      attributes: true,
+      attributeFilter: ["style", "class", "src", "srcset", "sizes"]
+    });
+  }
+
   function init() {
     const widgets = document.querySelectorAll(".elementor-widget-nav-menu");
     if (!widgets.length) {
@@ -1606,6 +1698,7 @@
     });
 
     initScrollHeaderBehavior();
+    initSidebarThumbnailLocks();
     initSiteSearch().catch(() => {});
   }
 

@@ -158,6 +158,13 @@ body.home .elementor-145 .elementor-element.elementor-element-476953f {
   --padding-top: 5em;
 }
 
+@media (min-width: 768px) {
+  [data-elementor-type="footer"] > .elementor-element:first-child {
+    padding-left: clamp(20px, 2.6vw, 38px) !important;
+    padding-right: clamp(20px, 2.6vw, 38px) !important;
+  }
+}
+
 @media (max-width: 1024px) and (min-width: 768px) {
   body.home .elementor-145 .elementor-element.elementor-element-476953f {
     --margin-top: 2.75em;
