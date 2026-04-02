@@ -1686,7 +1686,7 @@
   }
 
   function initFloatingMapsPopup() {
-    if (!document.querySelector("[data-aso-chatpulse"])) {
+    if (!document.querySelector('[data-aso-chatpulse]')) {
       return;
     }
 
@@ -1694,57 +1694,59 @@
       const style = document.createElement("style");
       style.id = "static-maps-popup-style";
       style.textContent = `
-        .aso-maps-overlay{
-          position:fixed;
-          inset:0;
-          background:transparent;
-          z-index:1200500;
+        .aso-maps-overlay {
+          position: fixed;
+          inset: 0;
+          background: transparent;
+          z-index: 1200500;
         }
-        .aso-maps-panel{
-          position:fixed;
-          width:min(360px, calc(100vw - 28px));
-          height:min(240px, calc(100vh - 40px));
-          max-width:360px;
-          max-height:240px;
-          background:#ffffff;
-          border-radius:22px;
-          overflow:hidden;
-          box-shadow:0 30px 80px rgba(2,6,23,0.28);
+        .aso-maps-panel {
+          position: fixed;
+          width: min(360px, calc(100vw - 28px));
+          height: min(240px, calc(100vh - 40px));
+          max-width: 360px;
+          max-height: 240px;
+          background: #ffffff;
+          border-radius: 22px;
+          overflow: hidden;
+          box-shadow: 0 30px 80px rgba(2, 6, 23, 0.28);
+          z-index: 1200501;
         }
-        .aso-maps-close{
-          position:absolute;
-          top:10px;
-          right:10px;
-          width:40px;
-          height:40px;
-          display:flex;
-          align-items:center;
-          justify-content:center;
-          border:none;
-          border-radius:14px;
-          background:#0072a8;
-          color:#ffffff;
-          font-size:22px;
-          line-height:1;
-          cursor:pointer;
-          z-index:2;
-          box-shadow:0 6px 18px rgba(2,6,23,0.18);
+        .aso-maps-close {
+          position: absolute;
+          top: 10px;
+          right: 10px;
+          width: 40px;
+          height: 40px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          border: none;
+          border-radius: 14px;
+          background: #0072a8;
+          color: #ffffff;
+          font-size: 22px;
+          line-height: 1;
+          cursor: pointer;
+          z-index: 2;
+          box-shadow: 0 6px 18px rgba(2, 6, 23, 0.18);
         }
-        .aso-maps-close:hover{
-          background:#0a85c2;
+        .aso-maps-close:hover,
+        .aso-maps-close:focus {
+          background: #0a85c2;
         }
         .aso-maps-content,
-        .aso-maps-content iframe{
-          width:100% !important;
-          height:100% !important;
+        .aso-maps-content iframe {
+          width: 100% !important;
+          height: 100% !important;
         }
-        .aso-maps-content iframe{
-          display:block;
-          border:none !important;
-          border-radius:22px !important;
-          margin:0 !important;
-          padding:0 !important;
-          background:transparent !important;
+        .aso-maps-content iframe {
+          display: block;
+          border: none !important;
+          border-radius: 22px !important;
+          margin: 0 !important;
+          padding: 0 !important;
+          background: transparent !important;
         }
       `;
       document.head.appendChild(style);
@@ -1755,7 +1757,7 @@
     let activeTrigger = null;
 
     const closeLaunchers = () => {
-      document.querySelectorAll("[data-aso-chatpulse].is-open .aso-chatpulse-launcher").forEach((launcher) => {
+      document.querySelectorAll('[data-aso-chatpulse].is-open .aso-chatpulse-launcher').forEach((launcher) => {
         launcher.click();
       });
     };
@@ -1781,8 +1783,8 @@
       const rect = trigger.getBoundingClientRect();
       const panelWidth = Math.min(360, window.innerWidth - 28);
       const panelHeight = Math.min(240, window.innerHeight - 40);
-      let left = rect.right - panelWidth;
-      let bottom = window.innerHeight - rect.top + gap;
+      let left = rect.left + rect.width - panelWidth;
+      let top = rect.top - panelHeight - gap;
 
       if (left < 14) {
         left = 14;
@@ -1790,19 +1792,18 @@
       if (left + panelWidth > window.innerWidth - 14) {
         left = window.innerWidth - panelWidth - 14;
       }
-      if (bottom + panelHeight > window.innerHeight - 14) {
-        bottom = 14;
-      }
 
-      const topFromBottom = window.innerHeight - bottom - panelHeight;
-      if (topFromBottom < 14) {
-        bottom = Math.max(14, window.innerHeight - rect.bottom + gap);
+      if (top < 14) {
+        top = rect.bottom + gap;
+      }
+      if (top + panelHeight > window.innerHeight - 14) {
+        top = Math.max(14, window.innerHeight - panelHeight - 14);
       }
 
       panel.style.left = `${left}px`;
+      panel.style.top = `${top}px`;
       panel.style.right = "auto";
-      panel.style.top = "auto";
-      panel.style.bottom = `${bottom}px`;
+      panel.style.bottom = "auto";
     };
 
     const decodeMapsHtml = (encoded) => {
@@ -1825,52 +1826,20 @@
 
       const overlay = document.createElement("div");
       overlay.className = "aso-maps-overlay";
-      overlay.style.position = "fixed";
-      overlay.style.inset = "0";
-      overlay.style.background = "transparent";
-      overlay.style.zIndex = "1200500";
 
       const panel = document.createElement("div");
       panel.className = "aso-maps-panel";
       panel.setAttribute("role", "dialog");
       panel.setAttribute("aria-modal", "true");
-      panel.style.position = "fixed";
-      panel.style.width = `min(360px, calc(100vw - 28px))`;
-      panel.style.height = `min(240px, calc(100vh - 40px))`;
-      panel.style.maxWidth = "360px";
-      panel.style.maxHeight = "240px";
-      panel.style.background = "#ffffff";
-      panel.style.borderRadius = "22px";
-      panel.style.overflow = "hidden";
-      panel.style.boxShadow = "0 30px 80px rgba(2,6,23,0.28)";
-      panel.style.zIndex = "1200501";
 
       const closeBtn = document.createElement("button");
       closeBtn.type = "button";
       closeBtn.className = "aso-maps-close";
       closeBtn.setAttribute("aria-label", "Close map");
       closeBtn.textContent = "×";
-      closeBtn.style.position = "absolute";
-      closeBtn.style.top = "10px";
-      closeBtn.style.right = "10px";
-      closeBtn.style.width = "40px";
-      closeBtn.style.height = "40px";
-      closeBtn.style.display = "flex";
-      closeBtn.style.alignItems = "center";
-      closeBtn.style.justifyContent = "center";
-      closeBtn.style.border = "none";
-      closeBtn.style.borderRadius = "14px";
-      closeBtn.style.background = "#0072a8";
-      closeBtn.style.color = "#ffffff";
-      closeBtn.style.fontSize = "22px";
-      closeBtn.style.lineHeight = "1";
-      closeBtn.style.cursor = "pointer";
-      closeBtn.style.zIndex = "2";
 
       const content = document.createElement("div");
       content.className = "aso-maps-content";
-      content.style.width = "100%";
-      content.style.height = "100%";
       content.innerHTML = iframeHtml;
 
       content.querySelectorAll("iframe").forEach((iframe) => {
@@ -1902,8 +1871,7 @@
       });
     };
 
-    const mapTriggers = Array.from(document.querySelectorAll(".aso-chatpulse-maps-trigger[data-maps-html]"));
-    mapTriggers.forEach((trigger) => {
+    document.querySelectorAll(".aso-chatpulse-maps-trigger[data-maps-html]").forEach((trigger) => {
       const encoded = trigger.getAttribute("data-maps-html");
       if (!encoded) {
         return;
@@ -1911,7 +1879,6 @@
 
       triggerMapHtml.set(trigger, encoded);
       trigger.removeAttribute("data-maps-html");
-
       trigger.addEventListener(
         "click",
         (event) => {
@@ -1933,7 +1900,7 @@
 
         const target = event.target instanceof Element ? event.target : null;
         const insideMap = target ? target.closest(".aso-maps-panel") : null;
-        const insideLauncher = target ? target.closest("[data-aso-chatpulse]") : null;
+        const insideLauncher = target ? target.closest('[data-aso-chatpulse]') : null;
         if (!insideMap && !insideLauncher) {
           closeOverlay({ closeLauncher: true });
         }
@@ -1947,6 +1914,7 @@
         if (!activeOverlay) {
           return;
         }
+
         const panel = activeOverlay.querySelector(".aso-maps-panel");
         if (activeTrigger && panel) {
           positionPanel(activeTrigger, panel);
