@@ -1,8 +1,3 @@
 name = "grandwestvet-com"
 pages_build_output_dir = "."
 compatibility_date = "2026-04-02"
-
-[vars]
-CONTACT_FROM_NAME = "Grand Ave. Pet Hospital"
-CONTACT_FROM_EMAIL = "web@grandwestvet.com"
-CONTACT_TO_EMAIL = "info@grandwestvet.com"
