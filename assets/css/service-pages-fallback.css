@@ -19,7 +19,9 @@ body.single-post img.wp-smiley {
   width: 1em !important;
 }
 
-body.single-post .elementor-widget-posts.elementor-posts--thumbnail-left .elementor-post__thumbnail__link {
+body.single-post .elementor-widget-posts.elementor-posts--thumbnail-left .elementor-post__thumbnail__link,
+.elementor-widget-posts.elementor-posts--thumbnail-left .elementor-post__thumbnail__link {
+  aspect-ratio: 1 / 1 !important;
   block-size: 72px !important;
   align-self: flex-start !important;
   display: block !important;
@@ -30,10 +32,14 @@ body.single-post .elementor-widget-posts.elementor-posts--thumbnail-left .elemen
   min-width: 72px !important;
   min-height: 72px !important;
   overflow: hidden !important;
+  border-radius: 50% !important;
+  line-height: 0 !important;
+  position: relative !important;
   width: 72px !important;
 }
 
-body.single-post .elementor-widget-posts.elementor-posts--thumbnail-left .elementor-post__thumbnail {
+body.single-post .elementor-widget-posts.elementor-posts--thumbnail-left .elementor-post__thumbnail,
+.elementor-widget-posts.elementor-posts--thumbnail-left .elementor-post__thumbnail {
   aspect-ratio: 1 / 1;
   border-radius: 50% !important;
   display: block !important;
@@ -45,7 +51,13 @@ body.single-post .elementor-widget-posts.elementor-posts--thumbnail-left .elemen
   width: 72px !important;
 }
 
-body.single-post .elementor-widget-posts.elementor-posts--thumbnail-left .elementor-post__thumbnail img {
+body.single-post .elementor-widget-posts.elementor-posts--thumbnail-left .elementor-post__thumbnail::after,
+.elementor-widget-posts.elementor-posts--thumbnail-left .elementor-post__thumbnail::after {
+  content: none !important;
+}
+
+body.single-post .elementor-widget-posts.elementor-posts--thumbnail-left .elementor-post__thumbnail img,
+.elementor-widget-posts.elementor-posts--thumbnail-left .elementor-post__thumbnail img {
   border-radius: 50% !important;
   display: block !important;
   height: 100% !important;
@@ -59,13 +71,16 @@ body.single-post .elementor-widget-posts.elementor-posts--thumbnail-left .elemen
   width: 100% !important;
 }
 
-body.single-post .elementor-widget-posts.elementor-posts--thumbnail-left .elementor-post {
+body.single-post .elementor-widget-posts.elementor-posts--thumbnail-left .elementor-post,
+.elementor-widget-posts.elementor-posts--thumbnail-left .elementor-post {
   align-items: center !important;
 }
 
 @media (max-width: 767px) {
   body.single-post .elementor-widget-posts.elementor-posts--thumbnail-left .elementor-post__thumbnail__link,
-  body.single-post .elementor-widget-posts.elementor-posts--thumbnail-left .elementor-post__thumbnail {
+  body.single-post .elementor-widget-posts.elementor-posts--thumbnail-left .elementor-post__thumbnail,
+  .elementor-widget-posts.elementor-posts--thumbnail-left .elementor-post__thumbnail__link,
+  .elementor-widget-posts.elementor-posts--thumbnail-left .elementor-post__thumbnail {
     flex-basis: 64px !important;
     height: 64px !important;
     max-width: 64px !important;

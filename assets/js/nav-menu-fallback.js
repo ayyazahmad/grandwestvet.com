@@ -28,7 +28,16 @@
       }
 
       .elementor-widget-nav-menu.static-nav-ready .elementor-widget-container {
+        align-items: center;
+        display: flex;
+        flex-wrap: nowrap;
+        justify-content: flex-end;
         padding-block: 12px;
+        width: 100%;
+      }
+
+      .elementor-widget-nav-menu.static-nav-ready .elementor-widget-container > * {
+        flex: 0 0 auto;
       }
 
       .elementor-widget-nav-menu.static-nav-ready .elementor-nav-menu li,
@@ -86,9 +95,18 @@
       .elementor-widget-nav-menu.static-nav-ready .elementor-nav-menu--main > .elementor-nav-menu {
         align-items: center;
         display: flex;
+        flex: 0 1 auto;
         flex-wrap: nowrap;
         gap: clamp(14px, 1.8vw, 24px);
+        min-width: 0;
         padding-block: 2px;
+      }
+
+      .elementor-widget-nav-menu.static-nav-ready .elementor-nav-menu--main {
+        align-items: center;
+        display: flex;
+        flex: 0 1 auto;
+        min-width: 0;
       }
 
       .elementor-widget-nav-menu.static-nav-ready .elementor-nav-menu--main > .elementor-nav-menu > li {
@@ -259,19 +277,26 @@
         color: var(--static-nav-accent);
         cursor: pointer;
         display: inline-flex;
-        height: 44px;
+        height: 36px;
         justify-content: center;
-        margin-left: 12px;
+        margin-left: 6px;
         padding: 0;
         transition: background-color 0.2s ease, transform 0.2s ease;
-        width: 44px;
+        width: 36px;
       }
 
       .static-header-search-slot {
         align-items: center;
         display: inline-flex;
         flex: 0 0 auto;
-        margin-left: 14px;
+        list-style: none;
+        margin-left: 2px;
+        white-space: nowrap;
+      }
+
+      .elementor-widget-nav-menu.static-nav-ready .elementor-nav-menu--main > .elementor-nav-menu > li.static-header-search-slot {
+        gap: 0;
+        margin-left: 4px;
       }
 
       .static-header-search-btn:hover,
@@ -282,8 +307,8 @@
 
       .static-header-search-btn svg {
         display: block;
-        height: 20px;
-        width: 20px;
+        height: 16px;
+        width: 16px;
       }
 
       .static-search-panel {
@@ -689,9 +714,9 @@
         }
 
         .static-header-search-btn {
-          height: 40px;
-          margin-left: 8px;
-          width: 40px;
+          height: 36px;
+          margin-left: 6px;
+          width: 36px;
         }
 
         .static-search-panel {
@@ -1426,15 +1451,20 @@
     navWidget.style.justifyContent = "flex-end";
     navWidget.style.gap = "0";
 
+    const mainMenu = navWidget.querySelector(".elementor-nav-menu--main > .elementor-nav-menu");
     let slot = navWidget.querySelector(".static-header-search-slot");
     if (!slot) {
-      slot = document.createElement("div");
+      slot = document.createElement(mainMenu ? "li" : "div");
       slot.className = "static-header-search-slot";
-      const toggle = navWidget.querySelector(".elementor-menu-toggle");
-      if (toggle) {
-        navWidget.insertBefore(slot, toggle);
+      if (mainMenu) {
+        mainMenu.appendChild(slot);
       } else {
-        navWidget.appendChild(slot);
+        const toggle = navWidget.querySelector(".elementor-menu-toggle");
+        if (toggle) {
+          navWidget.insertBefore(slot, toggle);
+        } else {
+          navWidget.appendChild(slot);
+        }
       }
     }
 
