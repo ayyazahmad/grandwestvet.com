@@ -150,6 +150,31 @@
         if (node.classList.contains(STATUS_CLASS)) return;
         node.remove();
       });
+
+    scope.querySelectorAll("li, p, div, span, small").forEach((node) => {
+      if (node.classList.contains(STATUS_CLASS)) return;
+      const text = String(node.textContent || "").trim().toLowerCase();
+      if (text !== "error") return;
+
+      const statusRoot = node.closest("." + STATUS_CLASS);
+      if (statusRoot) return;
+
+      node.remove();
+    });
+
+    scope.querySelectorAll("ul, ol").forEach((list) => {
+      if (list.classList.contains(STATUS_CLASS)) return;
+
+      const items = Array.from(list.children).filter((child) => child.tagName === "LI");
+      if (!items.length) return;
+
+      const itemText = items.map((item) => String(item.textContent || "").trim().toLowerCase());
+      const onlyErrors = itemText.every((text) => text === "error" || text === "");
+
+      if (onlyErrors) {
+        list.remove();
+      }
+    });
   }
 
   function attachNoiseObserver(form) {
