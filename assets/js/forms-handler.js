@@ -132,12 +132,40 @@
 
     scope
       .querySelectorAll(
-        ".elementor-message, .elementor-error, .elementor-message-danger, .lpsc-container, .lpsc-wrapper, .lpsc-error-msg"
+        [
+          ".elementor-message",
+          ".elementor-error",
+          ".elementor-message-danger",
+          ".elementor-help-inline",
+          ".e-form__error",
+          ".e-form__indicators__indicator--state-invalid",
+          "ul.elementor-error",
+          "li.elementor-error",
+          ".lpsc-container",
+          ".lpsc-wrapper",
+          ".lpsc-error-msg",
+        ].join(", ")
       )
       .forEach((node) => {
         if (node.classList.contains(STATUS_CLASS)) return;
         node.remove();
       });
+  }
+
+  function attachNoiseObserver(form) {
+    if (form.dataset.cfNoiseObserver === "1") return;
+    form.dataset.cfNoiseObserver = "1";
+
+    const widget = form.closest(".elementor-widget-form");
+    const target = widget || form;
+    const observer = new MutationObserver(() => {
+      removeLegacyStatusNoise(form);
+    });
+
+    observer.observe(target, {
+      childList: true,
+      subtree: true,
+    });
   }
 
   function setStatus(form, kind, message) {
@@ -315,6 +343,7 @@
     form.dataset.cfStaticReady = "1";
     removeStaticOnlyNoise(form);
     removeLegacyStatusNoise(form);
+    attachNoiseObserver(form);
     addHoneypot(form);
     ensureNoiseStyles();
     ensureStatusElement(form);
