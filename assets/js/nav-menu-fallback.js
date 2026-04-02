@@ -1686,7 +1686,7 @@
   }
 
   function initFloatingMapsPopup() {
-    if (!document.querySelector("[data-aso-chatpulse]") || !document.querySelector("[data-maps-html]")) {
+    if (!document.querySelector("[data-aso-chatpulse"])) {
       return;
     }
 
@@ -1750,6 +1750,7 @@
       document.head.appendChild(style);
     }
 
+    const triggerMapHtml = new WeakMap();
     let activeOverlay = null;
     let activeTrigger = null;
 
@@ -1813,7 +1814,7 @@
     };
 
     const renderOverlay = (trigger) => {
-      const html = decodeMapsHtml(trigger.getAttribute("data-maps-html"));
+      const html = decodeMapsHtml(triggerMapHtml.get(trigger));
       if (!html) {
         return;
       }
@@ -1901,24 +1902,36 @@
       });
     };
 
-    document.addEventListener(
-      "click",
-      (event) => {
-        const target = event.target instanceof Element ? event.target : null;
-        const trigger = target ? target.closest("[data-maps-html]") : null;
+    const mapTriggers = Array.from(document.querySelectorAll(".aso-chatpulse-maps-trigger[data-maps-html]"));
+    mapTriggers.forEach((trigger) => {
+      const encoded = trigger.getAttribute("data-maps-html");
+      if (!encoded) {
+        return;
+      }
 
-        if (trigger) {
+      triggerMapHtml.set(trigger, encoded);
+      trigger.removeAttribute("data-maps-html");
+
+      trigger.addEventListener(
+        "click",
+        (event) => {
           event.preventDefault();
           event.stopPropagation();
           event.stopImmediatePropagation();
           renderOverlay(trigger);
-          return;
-        }
+        },
+        true
+      );
+    });
 
+    document.addEventListener(
+      "click",
+      (event) => {
         if (!activeOverlay) {
           return;
         }
 
+        const target = event.target instanceof Element ? event.target : null;
         const insideMap = target ? target.closest(".aso-maps-panel") : null;
         const insideLauncher = target ? target.closest("[data-aso-chatpulse]") : null;
         if (!insideMap && !insideLauncher) {
@@ -1945,6 +1958,8 @@
 
   function init() {
     const widgets = document.querySelectorAll(".elementor-widget-nav-menu");
+
+    initFloatingMapsPopup();
     if (widgets.length) {
       ensureStyle();
 
@@ -1964,7 +1979,6 @@
 
     initScrollHeaderBehavior();
     initSidebarThumbnailLocks();
-    initFloatingMapsPopup();
     initSiteSearch().catch(() => {});
   }
 
