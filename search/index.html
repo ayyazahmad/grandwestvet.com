@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Search - Grand Ave. Pet Hospital</title>
+  <style>
+    :root {
+      --bg: #f5f8fc;
+      --panel: #ffffff;
+      --text: #1e293b;
+      --muted: #64748b;
+      --accent: #0073aa;
+      --border: #d7e1ee;
+    }
+
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      font-family: "Inter", "Segoe UI", Arial, sans-serif;
+      line-height: 1.45;
+    }
+
+    .wrap {
+      margin: 0 auto;
+      max-width: 1020px;
+      padding: 26px 16px 42px;
+    }
+
+    .title {
+      font-family: "DynaPuff", "Segoe UI", Arial, sans-serif;
+      font-size: clamp(30px, 4vw, 46px);
+      letter-spacing: -0.5px;
+      margin: 0 0 8px;
+    }
+
+    .lead {
+      color: var(--muted);
+      margin: 0 0 20px;
+    }
+
+    .search-form {
+      display: grid;
+      gap: 10px;
+      grid-template-columns: 1fr auto;
+      margin-bottom: 20px;
+    }
+
+    .search-input {
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      font-size: 16px;
+      min-height: 48px;
+      padding: 12px 14px;
+    }
+
+    .search-btn {
+      background: var(--accent);
+      border: 0;
+      border-radius: 12px;
+      color: #fff;
+      cursor: pointer;
+      font-size: 15px;
+      font-weight: 700;
+      min-height: 48px;
+      padding: 0 16px;
+    }
+
+    .meta {
+      color: var(--muted);
+      font-size: 14px;
+      margin: 0 0 12px;
+    }
+
+    .results {
+      display: grid;
+      gap: 12px;
+    }
+
+    .card {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 14px 16px;
+    }
+
+    .card a {
+      color: var(--text);
+      font-size: 20px;
+      font-weight: 800;
+      text-decoration: none;
+    }
+
+    .url {
+      color: var(--accent);
+      font-size: 13px;
+      margin-top: 4px;
+      word-break: break-word;
+    }
+
+    .snippet {
+      color: #334155;
+      margin: 8px 0 0;
+    }
+  </style>
+</head>
+<body>
+  <main class="wrap">
+    <h1 class="title">Search</h1>
+    <p class="lead">Find pages, services, and articles across Grand Ave. Pet Hospital.</p>
+    <form class="search-form" id="site-search-form">
+      <input id="site-search-input" class="search-input" type="search" name="q" placeholder="Search..." autocomplete="off">
+      <button class="search-btn" type="submit">Search</button>
+    </form>
+    <p class="meta" id="search-meta">Type to start searching.</p>
+    <section class="results" id="search-results"></section>
+  </main>
+
+  <script>
+    (function () {
+      const form = document.getElementById("site-search-form");
+      const input = document.getElementById("site-search-input");
+      const meta = document.getElementById("search-meta");
+      const resultsEl = document.getElementById("search-results");
+
+      const basePrefix = "../";
+      const indexUrl = new URL(basePrefix + "assets/search-index.json", window.location.href);
+      const params = new URLSearchParams(window.location.search);
+      const initial = params.get("q") || params.get("s") || "";
+
+      function clean(text) {
+        return String(text || "").replace(/\s+/g, " ").trim();
+      }
+
+      function scoreItem(item, q) {
+        const hay = `${item.title} ${item.heading} ${item.snippet}`.toLowerCase();
+        const pos = hay.indexOf(q);
+        return pos === -1 ? 99999 : pos;
+      }
+
+      function runSearch(index, query) {
+        const q = clean(query).toLowerCase();
+        if (!q) return [];
+        return index
+          .map((item) => ({ item, score: scoreItem(item, q) }))
+          .filter((row) => row.score !== 99999)
+          .sort((a, b) => a.score - b.score)
+          .slice(0, 50)
+          .map((row) => row.item);
+      }
+
+      function render(items, query) {
+        resultsEl.replaceChildren();
+        if (!query) {
+          meta.textContent = "Type to start searching.";
+          return;
+        }
+
+        meta.textContent = `${items.length} result${items.length === 1 ? "" : "s"} for "${query}"`;
+        if (!items.length) return;
+
+        items.forEach((item) => {
+          const card = document.createElement("article");
+          card.className = "card";
+          const url = item.url || "/";
+          card.innerHTML = `
+            <a href="${url}">${item.title}</a>
+            <div class="url">${url}</div>
+            <p class="snippet">${item.snippet || item.heading || ""}</p>
+          `;
+          resultsEl.appendChild(card);
+        });
+      }
+
+      async function init() {
+        const index = await fetch(indexUrl.toString()).then((r) => r.ok ? r.json() : []).catch(() => []);
+        const normalized = Array.isArray(index) ? index : [];
+
+        input.value = initial;
+        render(runSearch(normalized, initial), initial);
+
+        form.addEventListener("submit", (event) => {
+          event.preventDefault();
+          const q = clean(input.value);
+          const next = new URL(window.location.href);
+          if (q) next.searchParams.set("q", q);
+          else next.searchParams.delete("q");
+          window.history.replaceState({}, "", next.toString());
+          render(runSearch(normalized, q), q);
+        });
+
+        input.addEventListener("input", () => {
+          const q = clean(input.value);
+          render(runSearch(normalized, q), q);
+        });
+      }
+
+      init();
+    })();
+  </script>
+</body>
+</html>

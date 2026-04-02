@@ -251,6 +251,118 @@
         display: none;
       }
 
+      .static-header-search-btn {
+        align-items: center;
+        background: #ffffff;
+        border: 1px solid rgba(0, 115, 170, 0.18);
+        border-radius: 999px;
+        color: var(--static-nav-accent);
+        cursor: pointer;
+        display: inline-flex;
+        height: 44px;
+        justify-content: center;
+        margin-left: 12px;
+        padding: 0;
+        transition: background-color 0.2s ease, transform 0.2s ease;
+        width: 44px;
+      }
+
+      .static-header-search-btn:hover,
+      .static-header-search-btn:focus {
+        background: rgba(0, 115, 170, 0.08);
+        transform: translateY(-1px);
+      }
+
+      .static-header-search-btn svg {
+        display: block;
+        height: 20px;
+        width: 20px;
+      }
+
+      .static-search-panel {
+        background: rgba(255, 255, 255, 0.99);
+        border: 1px solid rgba(0, 115, 170, 0.14);
+        border-radius: 16px;
+        box-shadow: 0 24px 50px rgba(15, 23, 42, 0.16);
+        max-width: min(560px, calc(100vw - 24px));
+        opacity: 0;
+        padding: 16px;
+        pointer-events: none;
+        position: fixed;
+        right: 12px;
+        top: calc(var(--static-scroll-header-height) + 12px);
+        transform: translateY(-8px);
+        transition: opacity 0.2s ease, transform 0.2s ease, visibility 0.2s ease;
+        visibility: hidden;
+        width: 560px;
+        z-index: 2147483601;
+      }
+
+      .static-search-panel.is-open {
+        opacity: 1;
+        pointer-events: auto;
+        transform: translateY(0);
+        visibility: visible;
+      }
+
+      .static-search-form {
+        align-items: center;
+        display: flex;
+        gap: 10px;
+      }
+
+      .static-search-input {
+        border: 1px solid rgba(0, 115, 170, 0.25);
+        border-radius: 12px;
+        color: #0f172a;
+        flex: 1 1 auto;
+        font-size: 16px;
+        min-height: 46px;
+        padding: 10px 14px;
+      }
+
+      .static-search-submit {
+        background: var(--static-nav-accent);
+        border: 0;
+        border-radius: 12px;
+        color: #fff;
+        cursor: pointer;
+        font-size: 15px;
+        font-weight: 700;
+        min-height: 46px;
+        padding: 0 16px;
+      }
+
+      .static-search-suggestions {
+        list-style: none;
+        margin: 12px 0 0;
+        max-height: 260px;
+        overflow-y: auto;
+        padding: 0;
+      }
+
+      .static-search-suggestions li {
+        border-bottom: 1px solid rgba(0, 115, 170, 0.1);
+        margin: 0;
+      }
+
+      .static-search-suggestions a {
+        color: #0f172a;
+        display: block;
+        font-size: 14px;
+        font-weight: 700;
+        padding: 10px 6px;
+        text-decoration: none;
+      }
+
+      .static-search-suggestions a small {
+        color: #475569;
+        display: block;
+        font-size: 12px;
+        font-weight: 500;
+        margin-top: 2px;
+      }
+
       @media (max-width: 1024px) {
         body.${MODAL_BODY_CLASS} {
           overflow: hidden;
@@ -437,6 +549,19 @@
           font-size: 15px;
           min-height: 44px;
           padding: 10px 14px;
+        }
+
+        .static-header-search-btn {
+          height: 40px;
+          margin-left: 8px;
+          width: 40px;
+        }
+
+        .static-search-panel {
+          max-width: calc(100vw - 16px);
+          right: 8px;
+          top: calc(var(--static-scroll-header-height) + 8px);
+          width: calc(100vw - 16px);
         }
       }
     `;
@@ -942,6 +1067,202 @@
     setExpanded(false);
   }
 
+  function getRuntimeBasePrefix() {
+    const marker = "assets/js/nav-menu-fallback.js";
+    const script =
+      document.currentScript ||
+      Array.from(document.querySelectorAll("script[src]")).find((node) => {
+        const src = node.getAttribute("src") || "";
+        return src.includes(marker);
+      });
+
+    if (!script) return "/";
+    const rawSrc = script.getAttribute("src") || "";
+    const markerIndex = rawSrc.indexOf(marker);
+    if (markerIndex === -1) return "/";
+    const prefix = rawSrc.slice(0, markerIndex);
+    return prefix || "/";
+  }
+
+  function joinPath(prefix, rel) {
+    const a = String(prefix || "/").replace(/\/+$/, "");
+    const b = String(rel || "").replace(/^\/+/, "");
+    if (!a || a === ".") return `./${b}`;
+    if (a === "/") return `/${b}`;
+    return `${a}/${b}`;
+  }
+
+  function toAbsoluteUrl(path) {
+    return new URL(path, window.location.href).toString();
+  }
+
+  async function loadSearchIndex(indexPath) {
+    const response = await fetch(toAbsoluteUrl(indexPath), { cache: "force-cache" });
+    if (!response.ok) return [];
+    const json = await response.json().catch(() => []);
+    if (!Array.isArray(json)) return [];
+    return json
+      .map((item) => ({
+        title: String(item.title || "").trim(),
+        heading: String(item.heading || "").trim(),
+        snippet: String(item.snippet || "").trim(),
+        url: String(item.url || "").trim(),
+      }))
+      .filter((item) => item.title && item.url);
+  }
+
+  function searchIndexItems(index, query, limit = 8) {
+    const q = String(query || "").trim().toLowerCase();
+    if (!q) return [];
+
+    return index
+      .map((item) => {
+        const hay = `${item.title} ${item.heading} ${item.snippet}`.toLowerCase();
+        const pos = hay.indexOf(q);
+        return { item, score: pos === -1 ? 99999 : pos };
+      })
+      .filter((row) => row.score !== 99999)
+      .sort((a, b) => a.score - b.score)
+      .slice(0, limit)
+      .map((row) => row.item);
+  }
+
+  function renderSuggestionList(container, matches, basePrefix) {
+    if (!container) return;
+    container.replaceChildren();
+    if (!matches.length) return;
+
+    matches.forEach((item) => {
+      const li = document.createElement("li");
+      const link = document.createElement("a");
+      link.href = joinPath(basePrefix, item.url.replace(/^\//, ""));
+      link.innerHTML = `${item.title}<small>${item.snippet || item.heading || item.url}</small>`;
+      li.appendChild(link);
+      container.appendChild(li);
+    });
+  }
+
+  function wireExistingSearchForms(index, basePrefix, searchPagePath) {
+    const forms = document.querySelectorAll("form.elementor-search-form");
+    forms.forEach((form, idx) => {
+      const input = form.querySelector('input[type="search"], input[name="s"], input[name="q"]');
+      if (!input) return;
+
+      const listId = `static-search-list-${idx}`;
+      let datalist = document.getElementById(listId);
+      if (!datalist) {
+        datalist = document.createElement("datalist");
+        datalist.id = listId;
+        document.body.appendChild(datalist);
+      }
+      input.setAttribute("list", listId);
+
+      const refreshList = () => {
+        datalist.replaceChildren();
+        const matches = searchIndexItems(index, input.value, 7);
+        matches.forEach((item) => {
+          const opt = document.createElement("option");
+          opt.value = item.title;
+          datalist.appendChild(opt);
+        });
+      };
+
+      input.addEventListener("input", refreshList);
+      input.addEventListener("focus", refreshList);
+
+      form.addEventListener("submit", (event) => {
+        event.preventDefault();
+        const term = String(input.value || "").trim();
+        if (!term) return;
+        window.location.href = `${toAbsoluteUrl(searchPagePath)}?q=${encodeURIComponent(term)}`;
+      });
+    });
+  }
+
+  function ensureHeaderSearchUI() {
+    const navMain = document.querySelector("header.elementor-location-header .elementor-nav-menu--main");
+    if (!navMain) return null;
+
+    let button = navMain.querySelector(".static-header-search-btn");
+    if (!button) {
+      button = document.createElement("button");
+      button.type = "button";
+      button.className = "static-header-search-btn";
+      button.setAttribute("aria-label", "Search website");
+      button.innerHTML =
+        '<svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M10.5 3a7.5 7.5 0 1 1 0 15 7.5 7.5 0 0 1 0-15Zm0 2a5.5 5.5 0 1 0 0 11 5.5 5.5 0 0 0 0-11Zm8.85 12.44 1.41 1.41-3.18 3.18-1.41-1.41 3.18-3.18Z"/></svg>';
+      navMain.appendChild(button);
+    }
+
+    let panel = document.querySelector(".static-search-panel");
+    if (!panel) {
+      panel = document.createElement("div");
+      panel.className = "static-search-panel";
+      panel.innerHTML = `
+        <form class="static-search-form">
+          <input class="static-search-input" type="search" name="q" placeholder="Search services, articles, pages...">
+          <button class="static-search-submit" type="submit">Search</button>
+        </form>
+        <ul class="static-search-suggestions"></ul>
+      `;
+      document.body.appendChild(panel);
+    }
+
+    return { button, panel };
+  }
+
+  async function initSiteSearch() {
+    const basePrefix = getRuntimeBasePrefix();
+    const indexPath = joinPath(basePrefix, "assets/search-index.json");
+    const searchPagePath = joinPath(basePrefix, "search/index.html");
+    const index = await loadSearchIndex(indexPath);
+
+    wireExistingSearchForms(index, basePrefix, searchPagePath);
+
+    const ui = ensureHeaderSearchUI();
+    if (!ui) return;
+
+    const { button, panel } = ui;
+    const form = panel.querySelector(".static-search-form");
+    const input = panel.querySelector(".static-search-input");
+    const list = panel.querySelector(".static-search-suggestions");
+
+    const open = () => {
+      panel.classList.add("is-open");
+      input.focus();
+      renderSuggestionList(list, searchIndexItems(index, input.value, 8), basePrefix);
+    };
+
+    const close = () => {
+      panel.classList.remove("is-open");
+    };
+
+    button.addEventListener("click", () => {
+      if (panel.classList.contains("is-open")) close();
+      else open();
+    });
+
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "Escape") close();
+    });
+
+    document.addEventListener("pointerdown", (event) => {
+      if (!panel.classList.contains("is-open")) return;
+      if (!panel.contains(event.target) && !button.contains(event.target)) close();
+    });
+
+    input.addEventListener("input", () => {
+      renderSuggestionList(list, searchIndexItems(index, input.value, 8), basePrefix);
+    });
+
+    form.addEventListener("submit", (event) => {
+      event.preventDefault();
+      const term = String(input.value || "").trim();
+      if (!term) return;
+      window.location.href = `${toAbsoluteUrl(searchPagePath)}?q=${encodeURIComponent(term)}`;
+    });
+  }
+
   function init() {
     const widgets = document.querySelectorAll(".elementor-widget-nav-menu");
     if (!widgets.length) {
@@ -964,6 +1285,7 @@
     });
 
     initScrollHeaderBehavior();
+    initSiteSearch().catch(() => {});
   }
 
   if (document.readyState === "loading") {
