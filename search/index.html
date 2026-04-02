@@ -114,15 +114,18 @@
       <input id="site-search-input" class="search-input" type="search" name="q" placeholder="Search..." autocomplete="off">
       <button class="search-btn" type="submit">Search</button>
     </form>
+    <ul class="results" id="search-suggestions"></ul>
     <p class="meta" id="search-meta">Type to start searching.</p>
     <section class="results" id="search-results"></section>
   </main>
 
+  <script src="../assets/search-index.js"></script>
   <script>
     (function () {
       const form = document.getElementById("site-search-form");
       const input = document.getElementById("site-search-input");
       const meta = document.getElementById("search-meta");
+      const suggestionsEl = document.getElementById("search-suggestions");
       const resultsEl = document.getElementById("search-results");
 
       const basePrefix = "../";
@@ -154,6 +157,7 @@
       function render(items, query) {
         resultsEl.replaceChildren();
         if (!query) {
+          suggestionsEl.replaceChildren();
           meta.textContent = "Type to start searching.";
           return;
         }
@@ -174,12 +178,27 @@
         });
       }
 
+      function renderSuggestions(items) {
+        suggestionsEl.replaceChildren();
+        items.slice(0, 8).forEach((item) => {
+          const card = document.createElement("article");
+          card.className = "card";
+          card.innerHTML = `
+            <a href="${item.url || "/"}">${item.title}</a>
+            <p class="snippet">${item.snippet || item.heading || ""}</p>
+          `;
+          suggestionsEl.appendChild(card);
+        });
+      }
+
       async function init() {
-        const index = await fetch(indexUrl.toString()).then((r) => r.ok ? r.json() : []).catch(() => []);
+        const fromScript = Array.isArray(window.__STATIC_SEARCH_INDEX__) ? window.__STATIC_SEARCH_INDEX__ : null;
+        const index = fromScript || await fetch(indexUrl.toString()).then((r) => r.ok ? r.json() : []).catch(() => []);
         const normalized = Array.isArray(index) ? index : [];
 
         input.value = initial;
         render(runSearch(normalized, initial), initial);
+        renderSuggestions(runSearch(normalized, initial));
 
         form.addEventListener("submit", (event) => {
           event.preventDefault();
@@ -189,11 +208,13 @@
           else next.searchParams.delete("q");
           window.history.replaceState({}, "", next.toString());
           render(runSearch(normalized, q), q);
+          renderSuggestions(runSearch(normalized, q));
         });
 
         input.addEventListener("input", () => {
           const q = clean(input.value);
           render(runSearch(normalized, q), q);
+          renderSuggestions(runSearch(normalized, q));
         });
       }
 

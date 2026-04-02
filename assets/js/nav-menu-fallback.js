@@ -267,6 +267,13 @@
         width: 44px;
       }
 
+      .static-header-search-slot {
+        align-items: center;
+        display: inline-flex;
+        flex: 0 0 auto;
+        margin-left: 14px;
+      }
+
       .static-header-search-btn:hover,
       .static-header-search-btn:focus {
         background: rgba(0, 115, 170, 0.08);
@@ -357,6 +364,58 @@
 
       .static-search-suggestions a small {
         color: #475569;
+        display: block;
+        font-size: 12px;
+        font-weight: 500;
+        margin-top: 2px;
+      }
+
+      .elementor-search-form {
+        position: relative;
+      }
+
+      .static-inline-search-suggestions {
+        background: rgba(255, 255, 255, 0.995);
+        border: 1px solid rgba(0, 115, 170, 0.12);
+        border-radius: 14px;
+        box-shadow: 0 18px 42px rgba(15, 23, 42, 0.14);
+        left: 0;
+        list-style: none;
+        margin: 8px 0 0;
+        max-height: 280px;
+        overflow-y: auto;
+        padding: 6px 0;
+        position: absolute;
+        right: 0;
+        top: 100%;
+        z-index: 2147483500;
+      }
+
+      .static-inline-search-suggestions[hidden] {
+        display: none !important;
+      }
+
+      .static-inline-search-suggestions li {
+        margin: 0;
+      }
+
+      .static-inline-search-suggestions a {
+        color: #0f172a;
+        display: block;
+        font-size: 14px;
+        font-weight: 700;
+        padding: 10px 14px;
+        text-decoration: none;
+      }
+
+      .static-inline-search-suggestions a:hover,
+      .static-inline-search-suggestions a:focus {
+        background: rgba(0, 115, 170, 0.08);
+        color: var(--static-nav-accent);
+      }
+
+      .static-inline-search-suggestions a small {
+        color: #64748b;
         display: block;
         font-size: 12px;
         font-weight: 500;
@@ -1096,12 +1155,9 @@
     return new URL(path, window.location.href).toString();
   }
 
-  async function loadSearchIndex(indexPath) {
-    const response = await fetch(toAbsoluteUrl(indexPath), { cache: "force-cache" });
-    if (!response.ok) return [];
-    const json = await response.json().catch(() => []);
-    if (!Array.isArray(json)) return [];
-    return json
+  function normalizeSearchIndex(raw) {
+    if (!Array.isArray(raw)) return [];
+    return raw
       .map((item) => ({
         title: String(item.title || "").trim(),
         heading: String(item.heading || "").trim(),
@@ -1109,6 +1165,55 @@
         url: String(item.url || "").trim(),
       }))
       .filter((item) => item.title && item.url);
+  }
+
+  function loadScript(src) {
+    return new Promise((resolve, reject) => {
+      const existing = Array.from(document.querySelectorAll("script[src]")).find((node) => {
+        return (node.getAttribute("src") || "") === src;
+      });
+
+      if (existing) {
+        if (window.__STATIC_SEARCH_INDEX__) {
+          resolve();
+          return;
+        }
+        existing.addEventListener("load", () => resolve(), { once: true });
+        existing.addEventListener("error", () => reject(new Error("Unable to load search index script.")), { once: true });
+        return;
+      }
+
+      const script = document.createElement("script");
+      script.src = src;
+      script.defer = true;
+      script.addEventListener("load", () => resolve(), { once: true });
+      script.addEventListener("error", () => reject(new Error("Unable to load search index script.")), { once: true });
+      document.head.appendChild(script);
+    });
+  }
+
+  async function loadSearchIndex(indexPath, scriptPath) {
+    if (Array.isArray(window.__STATIC_SEARCH_INDEX__) && window.__STATIC_SEARCH_INDEX__.length) {
+      return normalizeSearchIndex(window.__STATIC_SEARCH_INDEX__);
+    }
+
+    try {
+      await loadScript(toAbsoluteUrl(scriptPath));
+      if (Array.isArray(window.__STATIC_SEARCH_INDEX__) && window.__STATIC_SEARCH_INDEX__.length) {
+        return normalizeSearchIndex(window.__STATIC_SEARCH_INDEX__);
+      }
+    } catch (error) {
+      // fall back to fetch below
+    }
+
+    try {
+      const response = await fetch(toAbsoluteUrl(indexPath), { cache: "force-cache" });
+      if (!response.ok) return [];
+      const json = await response.json().catch(() => []);
+      return normalizeSearchIndex(json);
+    } catch (error) {
+      return [];
+    }
   }
 
   function searchIndexItems(index, query, limit = 8) {
@@ -1142,48 +1247,80 @@
     });
   }
 
+  function createSuggestionItem(item, href) {
+    const li = document.createElement("li");
+    const link = document.createElement("a");
+    link.href = href;
+    link.innerHTML = `${item.title}<small>${item.snippet || item.heading || item.url}</small>`;
+    li.appendChild(link);
+    return li;
+  }
+
   function wireExistingSearchForms(index, basePrefix, searchPagePath) {
     const forms = document.querySelectorAll("form.elementor-search-form");
     forms.forEach((form, idx) => {
       const input = form.querySelector('input[type="search"], input[name="s"], input[name="q"]');
       if (!input) return;
 
-      const listId = `static-search-list-${idx}`;
-      let datalist = document.getElementById(listId);
-      if (!datalist) {
-        datalist = document.createElement("datalist");
-        datalist.id = listId;
-        document.body.appendChild(datalist);
+      let list = form.querySelector(".static-inline-search-suggestions");
+      if (!list) {
+        list = document.createElement("ul");
+        list.className = "static-inline-search-suggestions";
+        list.hidden = true;
+        form.appendChild(list);
       }
-      input.setAttribute("list", listId);
 
       const refreshList = () => {
-        datalist.replaceChildren();
         const matches = searchIndexItems(index, input.value, 7);
+        list.replaceChildren();
+        if (!matches.length || !String(input.value || "").trim()) {
+          list.hidden = true;
+          return;
+        }
+
         matches.forEach((item) => {
-          const opt = document.createElement("option");
-          opt.value = item.title;
-          datalist.appendChild(opt);
+          const href = `${toAbsoluteUrl(searchPagePath)}?q=${encodeURIComponent(item.title)}`;
+          list.appendChild(createSuggestionItem(item, href));
         });
+        list.hidden = false;
       };
 
       input.addEventListener("input", refreshList);
       input.addEventListener("focus", refreshList);
+      input.addEventListener("blur", () => {
+        window.setTimeout(() => {
+          list.hidden = true;
+        }, 140);
+      });
 
       form.addEventListener("submit", (event) => {
         event.preventDefault();
+        event.stopPropagation();
+        event.stopImmediatePropagation();
         const term = String(input.value || "").trim();
         if (!term) return;
         window.location.href = `${toAbsoluteUrl(searchPagePath)}?q=${encodeURIComponent(term)}`;
-      });
+      }, true);
     });
   }
 
   function ensureHeaderSearchUI() {
-    const navMain = document.querySelector("header.elementor-location-header .elementor-nav-menu--main");
-    if (!navMain) return null;
+    const navWidget = document.querySelector("header.elementor-location-header .elementor-widget-nav-menu .elementor-widget-container");
+    if (!navWidget) return null;
 
-    let button = navMain.querySelector(".static-header-search-btn");
+    navWidget.style.display = "flex";
+    navWidget.style.alignItems = "center";
+    navWidget.style.justifyContent = "flex-end";
+    navWidget.style.gap = "0";
+
+    let slot = navWidget.querySelector(".static-header-search-slot");
+    if (!slot) {
+      slot = document.createElement("div");
+      slot.className = "static-header-search-slot";
+      navWidget.appendChild(slot);
+    }
+
+    let button = slot.querySelector(".static-header-search-btn");
     if (!button) {
       button = document.createElement("button");
       button.type = "button";
@@ -1191,7 +1328,7 @@
       button.setAttribute("aria-label", "Search website");
       button.innerHTML =
         '<svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M10.5 3a7.5 7.5 0 1 1 0 15 7.5 7.5 0 0 1 0-15Zm0 2a5.5 5.5 0 1 0 0 11 5.5 5.5 0 0 0 0-11Zm8.85 12.44 1.41 1.41-3.18 3.18-1.41-1.41 3.18-3.18Z"/></svg>';
-      navMain.appendChild(button);
+      slot.appendChild(button);
     }
 
     let panel = document.querySelector(".static-search-panel");
@@ -1214,8 +1351,9 @@
   async function initSiteSearch() {
     const basePrefix = getRuntimeBasePrefix();
     const indexPath = joinPath(basePrefix, "assets/search-index.json");
+    const scriptPath = joinPath(basePrefix, "assets/search-index.js");
     const searchPagePath = joinPath(basePrefix, "search/index.html");
-    const index = await loadSearchIndex(indexPath);
+    const index = await loadSearchIndex(indexPath, scriptPath);
 
     wireExistingSearchForms(index, basePrefix, searchPagePath);
 
