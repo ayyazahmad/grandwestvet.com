@@ -26,3 +26,12 @@
 
 /*.xsl
   Cache-Control: public, max-age=3600
+
+/search*
+  X-Robots-Tag: noindex, follow
+
+/__qs/*
+  X-Robots-Tag: noindex, nofollow
+
+/author/*
+  X-Robots-Tag: noindex, follow

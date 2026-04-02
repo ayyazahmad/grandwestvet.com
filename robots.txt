@@ -1,0 +1,6 @@
+User-agent: *
+Allow: /
+Disallow: /search/
+Disallow: /__qs/
+
+Sitemap: https://grandwestvet.com/sitemap_index.xml
