@@ -18,6 +18,7 @@
 		"grandwestvet.contactFromEmail": "web@grandwestvet.com",
 		"grandwestvet.contactToEmail": "info@grandwestvet.com",
 		"grandwestvet.resendApiKeyLocation": "Stored in Cloudflare Pages secret RESEND_API_KEY and local .dev.vars only. Do not commit live key to Git.",
-		"grandwestvet.pushStatus": "Workspace prepared for push, but this folder is not currently a Git working tree."
+		"grandwestvet.pushStatus": "Workspace prepared for push, but this folder is not currently a Git working tree.",
+		"grandwestvet.validationCommand": "powershell -ExecutionPolicy Bypass -File scripts/validate-static-site.ps1"
 	}
 }
