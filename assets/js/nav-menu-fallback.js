@@ -1781,7 +1781,7 @@
       const panelWidth = Math.min(360, window.innerWidth - 28);
       const panelHeight = Math.min(240, window.innerHeight - 40);
       let left = rect.right - panelWidth;
-      let top = rect.top - panelHeight - gap;
+      let bottom = window.innerHeight - rect.top + gap;
 
       if (left < 14) {
         left = 14;
@@ -1789,15 +1789,19 @@
       if (left + panelWidth > window.innerWidth - 14) {
         left = window.innerWidth - panelWidth - 14;
       }
-      if (top < 14) {
-        top = rect.bottom + gap;
+      if (bottom + panelHeight > window.innerHeight - 14) {
+        bottom = 14;
       }
-      if (top + panelHeight > window.innerHeight - 14) {
-        top = Math.max(14, window.innerHeight - panelHeight - 14);
+
+      const topFromBottom = window.innerHeight - bottom - panelHeight;
+      if (topFromBottom < 14) {
+        bottom = Math.max(14, window.innerHeight - rect.bottom + gap);
       }
 
       panel.style.left = `${left}px`;
-      panel.style.top = `${top}px`;
+      panel.style.right = "auto";
+      panel.style.top = "auto";
+      panel.style.bottom = `${bottom}px`;
     };
 
     const decodeMapsHtml = (encoded) => {
