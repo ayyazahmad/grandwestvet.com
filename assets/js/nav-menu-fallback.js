@@ -247,10 +247,6 @@
         top: calc(-1 * var(--static-scroll-header-height) - 10px) !important;
       }
 
-      .static-scroll-header-spacer {
-        height: var(--static-scroll-header-height);
-      }
-
       .static-nav-mobile-overlay {
         display: none;
       }
@@ -642,12 +638,6 @@
     }
 
     const headerTarget = header.querySelector(":scope > .elementor-element") || header;
-    const spacer = document.createElement("div");
-    spacer.className = "static-scroll-header-spacer";
-    if (!header.nextElementSibling || !header.nextElementSibling.classList.contains("static-scroll-header-spacer")) {
-      header.insertAdjacentElement("afterend", spacer);
-    }
-
     headerTarget.classList.add("static-scroll-header-target");
     header.classList.add("static-scroll-header-mounted");
 
@@ -655,10 +645,6 @@
       const height = Math.ceil(headerTarget.getBoundingClientRect().height || 0);
       const finalHeight = height > 0 ? height : 88;
       document.documentElement.style.setProperty("--static-scroll-header-height", `${finalHeight}px`);
-      const targetSpacer = header.nextElementSibling && header.nextElementSibling.classList.contains("static-scroll-header-spacer")
-        ? header.nextElementSibling
-        : spacer;
-      targetSpacer.style.height = `${finalHeight}px`;
     };
 
     let lastY = window.scrollY || 0;
