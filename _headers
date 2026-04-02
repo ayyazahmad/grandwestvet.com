@@ -1,0 +1,28 @@
+/*
+  Cache-Control: public, max-age=0, must-revalidate
+  Referrer-Policy: strict-origin-when-cross-origin
+  X-Content-Type-Options: nosniff
+  X-Frame-Options: SAMEORIGIN
+  Permissions-Policy: camera=(), geolocation=(), microphone=()
+  Content-Security-Policy: default-src 'self'; base-uri 'self'; form-action 'self'; img-src 'self' data: https:; style-src 'self' 'unsafe-inline'; font-src 'self' data:; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://www.google.com https://www.gstatic.com; connect-src 'self' https://www.google-analytics.com https://region1.google-analytics.com; frame-src 'self' https://www.google.com https://maps.google.com; upgrade-insecure-requests
+
+/wp-content/uploads/*
+  Cache-Control: public, max-age=31536000, immutable
+
+/wp-content/plugins/*
+  Cache-Control: public, max-age=31536000, immutable
+
+/wp-content/themes/*
+  Cache-Control: public, max-age=31536000, immutable
+
+/wp-includes/*
+  Cache-Control: public, max-age=31536000, immutable
+
+/assets/*
+  Cache-Control: public, max-age=31536000, immutable
+
+/*.xml
+  Cache-Control: public, max-age=3600
+
+/*.xsl
+  Cache-Control: public, max-age=3600

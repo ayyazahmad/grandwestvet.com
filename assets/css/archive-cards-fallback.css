@@ -1,0 +1,46 @@
+body .elementor-widget-archive-posts[data-widget_type="archive-posts.archive_cards"] .elementor-posts-container.elementor-posts--skin-cards .elementor-post__card {
+  border-radius: 20px;
+  overflow: hidden;
+}
+
+body .elementor-widget-archive-posts[data-widget_type="archive-posts.archive_cards"] .elementor-posts-container.elementor-posts--skin-cards .elementor-post__thumbnail__link {
+  display: block;
+  margin-bottom: 0 !important;
+  overflow: hidden;
+  position: relative;
+}
+
+body .elementor-widget-archive-posts[data-widget_type="archive-posts.archive_cards"] .elementor-posts-container.elementor-posts--skin-cards .elementor-post__thumbnail {
+  background: #eef4f8;
+  overflow: hidden;
+  padding-bottom: 56.25% !important;
+  position: relative !important;
+}
+
+body .elementor-widget-archive-posts[data-widget_type="archive-posts.archive_cards"] .elementor-posts-container.elementor-posts--skin-cards .elementor-post__thumbnail img {
+  height: 100% !important;
+  inset: 0 !important;
+  left: 0 !important;
+  max-width: none !important;
+  object-fit: cover !important;
+  object-position: center !important;
+  position: absolute !important;
+  top: 0 !important;
+  transform: none !important;
+  width: 100% !important;
+}
+
+body .elementor-widget-archive-posts[data-widget_type="archive-posts.archive_cards"] .elementor-posts-container.elementor-posts--skin-cards .elementor-post__thumbnail__link::after {
+  background: none !important;
+  opacity: 0 !important;
+}
+
+body .elementor-widget-archive-posts[data-widget_type="archive-posts.archive_cards"] .elementor-posts-container.elementor-posts--skin-cards .elementor-post__badge {
+  box-shadow: 0 10px 22px rgba(0, 115, 170, 0.18);
+  z-index: 2;
+}
+
+body .elementor-widget-archive-posts[data-widget_type="archive-posts.archive_cards"] .elementor-posts-container.elementor-posts--skin-cards .elementor-post__text {
+  margin-top: 0 !important;
+  padding-top: 24px !important;
+}

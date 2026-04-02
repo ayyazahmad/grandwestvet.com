@@ -1,0 +1,75 @@
+body.single-post img.emoji,
+body.single-post img.wp-smiley {
+  border: 0 !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  display: inline-block !important;
+  float: none !important;
+  height: 1em !important;
+  inline-size: 1em !important;
+  margin: 0 0.28em 0 0 !important;
+  max-inline-size: 1em !important;
+  max-height: 1em !important;
+  max-width: 1em !important;
+  min-height: 1em !important;
+  min-width: 1em !important;
+  object-fit: contain !important;
+  padding: 0 !important;
+  vertical-align: -0.12em !important;
+  width: 1em !important;
+}
+
+body.single-post .elementor-widget-posts.elementor-posts--thumbnail-left .elementor-post__thumbnail__link {
+  block-size: 72px !important;
+  align-self: flex-start !important;
+  display: block !important;
+  flex: 0 0 72px !important;
+  margin-right: 14px !important;
+  max-width: 72px !important;
+  max-height: 72px !important;
+  min-width: 72px !important;
+  min-height: 72px !important;
+  overflow: hidden !important;
+  width: 72px !important;
+}
+
+body.single-post .elementor-widget-posts.elementor-posts--thumbnail-left .elementor-post__thumbnail {
+  aspect-ratio: 1 / 1;
+  border-radius: 50% !important;
+  display: block !important;
+  height: 72px !important;
+  line-height: 0 !important;
+  overflow: hidden !important;
+  padding-bottom: 0 !important;
+  position: relative !important;
+  width: 72px !important;
+}
+
+body.single-post .elementor-widget-posts.elementor-posts--thumbnail-left .elementor-post__thumbnail img {
+  border-radius: 50% !important;
+  display: block !important;
+  height: 100% !important;
+  inset: 0 !important;
+  max-width: none !important;
+  min-height: 100% !important;
+  min-width: 100% !important;
+  object-fit: cover !important;
+  object-position: center !important;
+  position: absolute !important;
+  width: 100% !important;
+}
+
+body.single-post .elementor-widget-posts.elementor-posts--thumbnail-left .elementor-post {
+  align-items: center !important;
+}
+
+@media (max-width: 767px) {
+  body.single-post .elementor-widget-posts.elementor-posts--thumbnail-left .elementor-post__thumbnail__link,
+  body.single-post .elementor-widget-posts.elementor-posts--thumbnail-left .elementor-post__thumbnail {
+    flex-basis: 64px !important;
+    height: 64px !important;
+    max-width: 64px !important;
+    min-width: 64px !important;
+    width: 64px !important;
+  }
+}

@@ -1,0 +1,4 @@
+wp-content/uploads/uploads.zip
+.dev.vars*
+.env*
+!.dev.vars.example

@@ -1,0 +1,10 @@
+RESEND_API_KEY="re_xxxxxxxxx"
+
+# Option A
+RESEND_FROM_EMAIL="Grand Ave. Pet Hospital <hello@send.grandwestvet.com>"
+FORM_TO_EMAIL="info@grandwestvet.com"
+
+# Option B
+CONTACT_FROM_NAME="Grand Ave. Pet Hospital"
+CONTACT_FROM_EMAIL="web@grandwestvet.com"
+CONTACT_TO_EMAIL="info@grandwestvet.com"

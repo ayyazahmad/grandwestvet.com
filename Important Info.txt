@@ -1,0 +1,13 @@
+resend.com account email: info@grandwestvet.com
+
+ESEND_API_KEY: re_SPGXVNVr_5JnammntjPYjCzGN6ZgD4t7y
+CONTACT_FROM_NAME: Grand Ave. Pet Hospital
+CONTACT_FROM_EMAIL: web@grandwestvet.com
+CONTACT_TO_EMAIL: info@grandwestvet.com
+
+
+GitHub repo: https://github.com/ayyazahmad/grandwestvet.com branch: main
+cloudflare deployment url: grandwestvet-com.pages.dev
+local folder: F:\AzAd-Labs\Cloudflare_Pages\grandwestvet.com
+
+
