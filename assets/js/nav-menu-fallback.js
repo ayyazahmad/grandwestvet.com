@@ -1685,29 +1685,239 @@
     });
   }
 
-  function init() {
-    const widgets = document.querySelectorAll(".elementor-widget-nav-menu");
-    if (!widgets.length) {
+  function initFloatingMapsPopup() {
+    if (!document.querySelector("[data-aso-chatpulse]") || !document.querySelector("[data-maps-html]")) {
       return;
     }
 
-    ensureStyle();
+    if (!document.getElementById("static-maps-popup-style")) {
+      const style = document.createElement("style");
+      style.id = "static-maps-popup-style";
+      style.textContent = `
+        .aso-maps-overlay{
+          position:fixed;
+          inset:0;
+          background:transparent;
+          z-index:1200500;
+        }
+        .aso-maps-panel{
+          position:fixed;
+          width:min(360px, calc(100vw - 28px));
+          height:min(240px, calc(100vh - 40px));
+          max-width:360px;
+          max-height:240px;
+          background:#ffffff;
+          border-radius:22px;
+          overflow:hidden;
+          box-shadow:0 30px 80px rgba(2,6,23,0.28);
+        }
+        .aso-maps-close{
+          position:absolute;
+          top:10px;
+          right:10px;
+          width:40px;
+          height:40px;
+          display:flex;
+          align-items:center;
+          justify-content:center;
+          border:none;
+          border-radius:14px;
+          background:#0072a8;
+          color:#ffffff;
+          font-size:22px;
+          line-height:1;
+          cursor:pointer;
+          z-index:2;
+          box-shadow:0 6px 18px rgba(2,6,23,0.18);
+        }
+        .aso-maps-close:hover{
+          background:#0a85c2;
+        }
+        .aso-maps-content,
+        .aso-maps-content iframe{
+          width:100% !important;
+          height:100% !important;
+        }
+        .aso-maps-content iframe{
+          display:block;
+          border:none !important;
+          border-radius:22px !important;
+          margin:0 !important;
+          padding:0 !important;
+          background:transparent !important;
+        }
+      `;
+      document.head.appendChild(style);
+    }
 
-    widgets.forEach((widget, index) => {
-      widget.classList.add("static-nav-ready");
-      const widgetId = widget.dataset.id || `static-nav-${index}`;
+    let activeOverlay = null;
+    let activeTrigger = null;
 
-      widget.querySelectorAll(".elementor-nav-menu").forEach((menuRoot) => {
-        prepareMenuItems(menuRoot, widgetId);
+    const closeLaunchers = () => {
+      document.querySelectorAll("[data-aso-chatpulse].is-open .aso-chatpulse-launcher").forEach((launcher) => {
+        launcher.click();
       });
+    };
 
-      closeAllMenus(widget);
-      bindDesktopMenu(widget);
-      bindMobileToggle(widget, widgetId);
-    });
+    const closeOverlay = ({ closeLauncher = false } = {}) => {
+      if (activeOverlay) {
+        activeOverlay.remove();
+        activeOverlay = null;
+      }
+      activeTrigger = null;
+
+      if (closeLauncher) {
+        closeLaunchers();
+      }
+    };
+
+    const positionPanel = (trigger, panel) => {
+      if (!(trigger instanceof HTMLElement) || !(panel instanceof HTMLElement)) {
+        return;
+      }
+
+      const gap = window.innerWidth <= 767 ? 12 : 16;
+      const rect = trigger.getBoundingClientRect();
+      const panelWidth = Math.min(360, window.innerWidth - 28);
+      const panelHeight = Math.min(240, window.innerHeight - 40);
+      let left = rect.right - panelWidth;
+      let top = rect.top - panelHeight - gap;
+
+      if (left < 14) {
+        left = 14;
+      }
+      if (left + panelWidth > window.innerWidth - 14) {
+        left = window.innerWidth - panelWidth - 14;
+      }
+      if (top < 14) {
+        top = rect.bottom + gap;
+      }
+      if (top + panelHeight > window.innerHeight - 14) {
+        top = Math.max(14, window.innerHeight - panelHeight - 14);
+      }
+
+      panel.style.left = `${left}px`;
+      panel.style.top = `${top}px`;
+    };
+
+    const decodeMapsHtml = (encoded) => {
+      try {
+        return window.atob(encoded || "");
+      } catch {
+        return "";
+      }
+    };
+
+    const renderOverlay = (trigger) => {
+      const html = decodeMapsHtml(trigger.getAttribute("data-maps-html"));
+      if (!html) {
+        return;
+      }
+
+      const iframeMatch = html.match(/<iframe[^>]*>.*?<\/iframe>/is);
+      const iframeHtml = iframeMatch ? iframeMatch[0] : html;
+      closeOverlay();
+
+      const overlay = document.createElement("div");
+      overlay.className = "aso-maps-overlay";
+
+      const panel = document.createElement("div");
+      panel.className = "aso-maps-panel";
+      panel.setAttribute("role", "dialog");
+      panel.setAttribute("aria-modal", "true");
+
+      const closeBtn = document.createElement("button");
+      closeBtn.type = "button";
+      closeBtn.className = "aso-maps-close";
+      closeBtn.setAttribute("aria-label", "Close map");
+      closeBtn.textContent = "×";
+
+      const content = document.createElement("div");
+      content.className = "aso-maps-content";
+      content.innerHTML = iframeHtml;
+
+      panel.appendChild(content);
+      panel.appendChild(closeBtn);
+      overlay.appendChild(panel);
+      document.body.appendChild(overlay);
+      activeOverlay = overlay;
+      activeTrigger = trigger;
+
+      positionPanel(trigger, panel);
+      window.requestAnimationFrame(() => positionPanel(trigger, panel));
+
+      closeBtn.addEventListener("click", () => closeOverlay({ closeLauncher: true }));
+      overlay.addEventListener("click", (event) => {
+        if (event.target === overlay) {
+          closeOverlay({ closeLauncher: true });
+        }
+      });
+    };
+
+    document.addEventListener(
+      "click",
+      (event) => {
+        const target = event.target instanceof Element ? event.target : null;
+        const trigger = target ? target.closest("[data-maps-html]") : null;
+
+        if (trigger) {
+          event.preventDefault();
+          event.stopPropagation();
+          event.stopImmediatePropagation();
+          renderOverlay(trigger);
+          return;
+        }
+
+        if (!activeOverlay) {
+          return;
+        }
+
+        const insideMap = target ? target.closest(".aso-maps-panel") : null;
+        const insideLauncher = target ? target.closest("[data-aso-chatpulse]") : null;
+        if (!insideMap && !insideLauncher) {
+          closeOverlay({ closeLauncher: true });
+        }
+      },
+      true
+    );
+
+    window.addEventListener(
+      "resize",
+      () => {
+        if (!activeOverlay) {
+          return;
+        }
+        const panel = activeOverlay.querySelector(".aso-maps-panel");
+        if (activeTrigger && panel) {
+          positionPanel(activeTrigger, panel);
+        }
+      },
+      { passive: true }
+    );
+  }
+
+  function init() {
+    const widgets = document.querySelectorAll(".elementor-widget-nav-menu");
+    if (widgets.length) {
+      ensureStyle();
+
+      widgets.forEach((widget, index) => {
+        widget.classList.add("static-nav-ready");
+        const widgetId = widget.dataset.id || `static-nav-${index}`;
+
+        widget.querySelectorAll(".elementor-nav-menu").forEach((menuRoot) => {
+          prepareMenuItems(menuRoot, widgetId);
+        });
+
+        closeAllMenus(widget);
+        bindDesktopMenu(widget);
+        bindMobileToggle(widget, widgetId);
+      });
+    }
 
     initScrollHeaderBehavior();
     initSidebarThumbnailLocks();
+    initFloatingMapsPopup();
     initSiteSearch().catch(() => {});
   }
 
