@@ -1,3 +1,45 @@
+@media (min-width: 1025px) {
+  header.elementor-location-header .elementor-widget-nav-menu .elementor-widget-container {
+    align-items: center;
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: flex-end;
+    width: 100%;
+  }
+
+  header.elementor-location-header .elementor-widget-nav-menu .elementor-nav-menu--main {
+    align-items: center;
+    display: flex;
+    min-width: 0;
+  }
+
+  header.elementor-location-header .elementor-widget-nav-menu .elementor-nav-menu--main > .elementor-nav-menu {
+    align-items: center;
+    display: flex;
+    flex-wrap: nowrap;
+    gap: clamp(14px, 1.8vw, 24px);
+    list-style: none;
+    margin: 0;
+    min-width: 0;
+    padding: 2px 0;
+  }
+
+  header.elementor-location-header .elementor-widget-nav-menu .elementor-nav-menu--main > .elementor-nav-menu > li {
+    align-items: center;
+    display: flex;
+    gap: 8px;
+  }
+
+  header.elementor-location-header .elementor-widget-nav-menu .elementor-nav-menu--main > .elementor-nav-menu > li > a,
+  header.elementor-location-header .elementor-widget-nav-menu .elementor-nav-menu--main > .elementor-nav-menu > li > a.elementor-item {
+    align-items: center;
+    display: inline-flex;
+    line-height: 1.1;
+    padding: 14px 0;
+    text-decoration: none;
+  }
+}
+
 body:not(.home) [data-elementor-type="wp-page"] > .elementor-element:first-child[data-settings*="background_background"] {
   isolation: isolate;
   overflow: hidden;
