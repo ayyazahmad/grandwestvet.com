@@ -1,0 +1,121 @@
+header.elementor-location-header .elementor-widget-nav-menu.static-nav-ready {
+  --static-nav-accent: var(--e-global-color-d49ac81, #0073aa);
+  --static-nav-text: var(--e-global-color-secondary, #212528);
+  --static-nav-muted: rgba(33, 37, 40, 0.62);
+}
+
+header.elementor-location-header .elementor-widget-nav-menu.static-nav-ready .elementor-nav-menu,
+header.elementor-location-header .elementor-widget-nav-menu.static-nav-ready .elementor-nav-menu ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+header.elementor-location-header .elementor-widget-nav-menu.static-nav-ready .elementor-widget-container {
+  align-items: center;
+  display: flex;
+  flex-wrap: nowrap;
+  justify-content: flex-end;
+  padding-block: 12px;
+  width: 100%;
+}
+
+header.elementor-location-header .elementor-widget-nav-menu.static-nav-ready .elementor-widget-container > * {
+  flex: 0 0 auto;
+}
+
+header.elementor-location-header .elementor-widget-nav-menu.static-nav-ready .elementor-nav-menu li,
+header.elementor-location-header .elementor-widget-nav-menu.static-nav-ready .elementor-nav-menu a {
+  position: relative;
+}
+
+header.elementor-location-header .elementor-widget-nav-menu.static-nav-ready .menu-item-has-children > a::after,
+header.elementor-location-header .elementor-widget-nav-menu.static-nav-ready .menu-item-has-children > a .sub-arrow,
+header.elementor-location-header .elementor-widget-nav-menu.static-nav-ready .menu-item-has-children > a .e-font-icon-svg,
+header.elementor-location-header .elementor-widget-nav-menu.static-nav-ready .menu-item-has-children > a i {
+  content: none !important;
+  display: none !important;
+}
+
+header.elementor-location-header .elementor-widget-nav-menu.static-nav-ready .elementor-nav-menu--main {
+  align-items: center;
+  display: flex;
+  flex: 0 1 auto;
+  min-width: 0;
+}
+
+header.elementor-location-header .elementor-widget-nav-menu.static-nav-ready .elementor-nav-menu--main > .elementor-nav-menu {
+  align-items: center;
+  display: flex;
+  flex: 0 1 auto;
+  flex-wrap: nowrap;
+  gap: clamp(14px, 1.8vw, 24px);
+  min-width: 0;
+  padding-block: 2px;
+}
+
+header.elementor-location-header .elementor-widget-nav-menu.static-nav-ready .elementor-nav-menu--main > .elementor-nav-menu > li {
+  align-items: center;
+  display: flex;
+  flex: 0 0 auto;
+  gap: 8px;
+}
+
+header.elementor-location-header .elementor-widget-nav-menu.static-nav-ready .elementor-nav-menu--main > .elementor-nav-menu > li > a,
+header.elementor-location-header .elementor-widget-nav-menu.static-nav-ready .elementor-nav-menu--main > .elementor-nav-menu > li > a.elementor-item {
+  align-items: center;
+  background: transparent;
+  border-radius: 0;
+  box-sizing: border-box;
+  color: var(--static-nav-text);
+  display: inline-flex;
+  font-weight: 700;
+  line-height: 1.1;
+  margin-inline: 0;
+  padding: 14px 0 !important;
+  transition: color 0.22s ease, background-color 0.22s ease;
+  white-space: nowrap;
+}
+
+header.elementor-location-header .elementor-widget-nav-menu.static-nav-ready .elementor-nav-menu--main > .elementor-nav-menu > li.current-menu-item > a,
+header.elementor-location-header .elementor-widget-nav-menu.static-nav-ready .elementor-nav-menu--main > .elementor-nav-menu > li.current_page_item > a {
+  color: var(--static-nav-accent);
+}
+
+header.elementor-location-header .elementor-widget-nav-menu.static-nav-ready .static-header-search-slot {
+  align-items: center;
+  display: flex;
+  flex: 0 0 auto;
+  list-style: none;
+  margin-left: 4px;
+  white-space: nowrap;
+}
+
+header.elementor-location-header .elementor-widget-nav-menu.static-nav-ready .static-header-search-btn {
+  align-items: center;
+  background: #ffffff;
+  border: 1px solid rgba(0, 115, 170, 0.18);
+  border-radius: 999px;
+  color: var(--static-nav-accent);
+  cursor: pointer;
+  display: inline-flex;
+  height: 36px;
+  justify-content: center;
+  margin-left: 6px;
+  padding: 0;
+  transition: transform 0.2s ease, background-color 0.2s ease;
+  width: 36px;
+}
+
+header.elementor-location-header .elementor-widget-nav-menu.static-nav-ready .static-header-search-btn .e-font-icon-svg-container,
+header.elementor-location-header .elementor-widget-nav-menu.static-nav-ready .static-header-search-btn svg {
+  display: block;
+  height: 16px;
+  width: 16px;
+}
+
+@media (max-width: 1024px) {
+  header.elementor-location-header .elementor-widget-nav-menu.static-nav-ready .static-header-search-slot {
+    display: none !important;
+  }
+}
