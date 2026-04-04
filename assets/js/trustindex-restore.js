@@ -164,17 +164,17 @@ function initTrustindexRestore() {
     var style = document.createElement("style");
     style.setAttribute("data-gwv-reviews", "1");
     style.textContent =
-      ".gwv-reviews{display:flex;gap:28px;align-items:stretch}" +
-      ".gwv-reviews,.gwv-reviews *{font-family:inherit;box-sizing:border-box}" +
+      ".gwv-reviews{--gwv-font-body:'Inter','Segoe UI',system-ui,-apple-system,BlinkMacSystemFont,'Helvetica Neue',sans-serif;--gwv-font-accent:'Nunito','Inter','Segoe UI',system-ui,-apple-system,BlinkMacSystemFont,'Helvetica Neue',sans-serif;display:flex;gap:28px;align-items:stretch}" +
+      ".gwv-reviews,.gwv-reviews *{box-sizing:border-box}" +
       ".gwv-reviews__summary{flex:0 0 25%;max-width:25%;display:flex;flex-direction:column;justify-content:center;padding:16px 8px 16px 0;min-width:220px}" +
       ".gwv-reviews__summary-row{display:flex;gap:18px;align-items:center}" +
       ".gwv-reviews__brand-image{width:82px;height:82px;object-fit:contain;border-radius:12px;background:#fff}" +
-      ".gwv-reviews__brand-name{font-size:16px;font-weight:700;line-height:1.28;color:#20252d}" +
+      ".gwv-reviews__brand-name{font-family:var(--gwv-font-accent);font-size:16px;font-weight:700;line-height:1.28;color:#20252d}" +
       ".gwv-reviews__stars{margin:8px 0 6px;font-size:20px;line-height:1;color:#d0d0d0}" +
       ".gwv-review-star{display:inline-block;margin-right:1px}" +
       ".gwv-review-star.is-filled{color:#f4b400}" +
-      ".gwv-reviews__count{font-size:14px;line-height:1.45;color:#20252d}" +
-      ".gwv-reviews__button{display:inline-flex;align-items:center;justify-content:center;margin-top:18px;min-height:48px;padding:0 28px;border:1px solid #0b7db7;border-radius:999px;color:#fff !important;text-decoration:none;font-weight:700;background:linear-gradient(135deg,#0b7db7 0%,#0a6ca0 100%);max-width:208px;font-size:15px;box-shadow:0 12px 26px rgba(11,125,183,.22);transition:transform .22s ease,box-shadow .22s ease,background .22s ease}" +
+      ".gwv-reviews__count{font-family:var(--gwv-font-body);font-size:14px;line-height:1.45;color:#20252d}" +
+      ".gwv-reviews__button{display:inline-flex;align-items:center;justify-content:center;margin-top:18px;min-height:48px;padding:0 28px;border:1px solid #0b7db7;border-radius:999px;color:#fff !important;text-decoration:none;font-family:var(--gwv-font-accent);font-weight:700;background:linear-gradient(135deg,#0b7db7 0%,#0a6ca0 100%);max-width:208px;font-size:15px;box-shadow:0 12px 26px rgba(11,125,183,.22);transition:transform .22s ease,box-shadow .22s ease,background .22s ease}" +
       ".gwv-reviews__button:hover,.gwv-reviews__button:focus{color:#fff !important;background:linear-gradient(135deg,#0a6ca0 0%,#095b86 100%);transform:translateY(-1px);box-shadow:0 14px 30px rgba(11,125,183,.28)}" +
       ".gwv-reviews__carousel{position:relative;flex:1 1 auto;min-width:0}" +
       ".gwv-reviews__viewport{overflow:hidden}" +
@@ -182,21 +182,25 @@ function initTrustindexRestore() {
       ".gwv-reviews__card{padding:0 9px;display:flex;align-items:stretch}" +
       ".gwv-reviews__card-inner{height:100%;width:100%;min-height:292px;background:#f7f7f7;border-radius:20px;padding:20px 22px 24px;display:flex;flex-direction:column;justify-content:flex-start}" +
       ".gwv-reviews__card-header{display:flex;align-items:flex-start;gap:14px;margin-bottom:12px}" +
-      ".gwv-reviews__avatar,.gwv-reviews__avatar-fallback{width:52px;height:52px;min-width:52px;min-height:52px;border-radius:50% !important;flex:0 0 auto;overflow:hidden;display:block}" +
-      ".gwv-reviews__avatar{object-fit:cover;object-position:center;background:transparent;clip-path:circle(50% at 50% 50%);-webkit-clip-path:circle(50% at 50% 50%);padding:0;border:none;box-shadow:none}" +
-      ".gwv-reviews__avatar-fallback{display:flex;align-items:center;justify-content:center;background:#0d6b57;color:#fff;font-size:24px;font-weight:700;line-height:1;text-transform:uppercase}" +
+      ".gwv-reviews__avatar-shell,.gwv-reviews__avatar,.gwv-reviews__avatar-fallback{width:52px;height:52px;min-width:52px;min-height:52px;border-radius:50% !important;flex:0 0 auto;overflow:hidden}" +
+      ".gwv-reviews__avatar-shell{position:relative;display:block;background:#edf3f8}" +
+      ".gwv-reviews__avatar{display:block;position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center;background:transparent;padding:0;border:none;box-shadow:none}" +
+      ".gwv-reviews__avatar-fallback{display:flex;align-items:center;justify-content:center;background:#0d6b57;color:#fff;font-family:var(--gwv-font-accent);font-size:24px;font-weight:700;line-height:1;text-transform:uppercase}" +
+      ".gwv-reviews__avatar-shell.has-image .gwv-reviews__avatar-fallback{display:none}" +
+      ".gwv-reviews__avatar-shell.is-image-broken .gwv-reviews__avatar{display:none}" +
+      ".gwv-reviews__avatar-shell.is-image-broken .gwv-reviews__avatar-fallback{display:flex}" +
       ".gwv-reviews__meta{flex:1 1 auto;min-width:0}" +
-      ".gwv-reviews__name{font-size:15px;font-weight:700;line-height:1.24;color:#20252d}" +
-      ".gwv-reviews__date{font-size:13px;line-height:1.35;color:#6b7280;margin-top:3px}" +
+      ".gwv-reviews__name{font-family:var(--gwv-font-accent);font-size:15px;font-weight:700;line-height:1.24;color:#20252d}" +
+      ".gwv-reviews__date{font-family:var(--gwv-font-body);font-size:13px;line-height:1.35;color:#6b7280;margin-top:3px}" +
       ".gwv-reviews__google{width:22px;height:22px;object-fit:contain;flex:0 0 auto;margin-left:8px}" +
       ".gwv-reviews__card-stars{margin-bottom:12px;font-size:17px;line-height:1;color:#d0d0d0}" +
-      ".gwv-reviews__text{font-size:14px;line-height:1.55;color:#20252d;display:-webkit-box;-webkit-line-clamp:5;-webkit-box-orient:vertical;overflow:hidden}" +
+      ".gwv-reviews__text{font-family:var(--gwv-font-body);font-size:14px;line-height:1.55;color:#20252d;display:-webkit-box;-webkit-line-clamp:5;-webkit-box-orient:vertical;overflow:hidden}" +
       ".gwv-reviews__arrow{position:absolute;top:50%;transform:translateY(-50%);width:38px;height:38px;border:none;border-radius:999px;background:#fff;color:#6b7280;font-size:34px;line-height:1;display:flex;align-items:center;justify-content:center;box-shadow:0 8px 22px rgba(15,23,42,.08);cursor:pointer;z-index:3}" +
       ".gwv-reviews__arrow.is-prev{left:-10px}" +
       ".gwv-reviews__arrow.is-next{right:-10px}" +
       "@media (max-width:1199px){.gwv-reviews__summary{flex-basis:28%;max-width:28%}.gwv-reviews__card-inner{min-height:276px;padding:18px 20px 22px}}" +
       "@media (max-width:1024px){.gwv-reviews{flex-direction:column;gap:24px}.gwv-reviews__summary{max-width:none;min-width:0;padding-right:0}.gwv-reviews__arrow.is-prev{left:0}.gwv-reviews__arrow.is-next{right:0}.gwv-reviews__card-inner{min-height:250px}}" +
-      "@media (max-width:767px){.gwv-reviews__summary-row{gap:14px}.gwv-reviews__brand-image{width:70px;height:70px}.gwv-reviews__brand-name{font-size:15px}.gwv-reviews__card{padding:0 6px}.gwv-reviews__card-inner{min-height:0;padding:18px 18px 20px}.gwv-reviews__avatar,.gwv-reviews__avatar-fallback{width:48px;height:48px;min-width:48px;min-height:48px}.gwv-reviews__avatar-fallback{font-size:22px}.gwv-reviews__name{font-size:14px}.gwv-reviews__date,.gwv-reviews__text,.gwv-reviews__count{font-size:13px}.gwv-reviews__text{-webkit-line-clamp:6}.gwv-reviews__arrow{width:34px;height:34px;font-size:28px}}";
+      "@media (max-width:767px){.gwv-reviews__summary-row{gap:14px}.gwv-reviews__brand-image{width:70px;height:70px}.gwv-reviews__brand-name{font-size:15px}.gwv-reviews__card{padding:0 6px}.gwv-reviews__card-inner{min-height:0;padding:18px 18px 20px}.gwv-reviews__avatar-shell,.gwv-reviews__avatar,.gwv-reviews__avatar-fallback{width:48px;height:48px;min-width:48px;min-height:48px}.gwv-reviews__avatar-fallback{font-size:22px}.gwv-reviews__name{font-size:14px}.gwv-reviews__date,.gwv-reviews__text,.gwv-reviews__count{font-size:13px}.gwv-reviews__text{-webkit-line-clamp:6}.gwv-reviews__arrow{width:34px;height:34px;font-size:28px}}";
     document.head.appendChild(style);
   }
 
@@ -221,9 +225,11 @@ function initTrustindexRestore() {
       .slice(0, 2)
       .map(function (part) { return part.charAt(0); })
       .join("") || "G";
-    var avatarMarkup = review.image
-      ? '<img class="gwv-reviews__avatar" alt="' + review.name.replace(/"/g, "&quot;") + '" src="' + review.image + '">'
-      : '<div class="gwv-reviews__avatar-fallback" aria-hidden="true">' + initials + '</div>';
+    var avatarMarkup =
+      '<span class="gwv-reviews__avatar-shell' + (review.image ? " has-image" : " is-image-broken") + '">' +
+        (review.image ? '<img class="gwv-reviews__avatar" alt="' + review.name.replace(/"/g, "&quot;") + '" src="' + review.image + '" loading="lazy" referrerpolicy="no-referrer">' : "") +
+        '<span class="gwv-reviews__avatar-fallback" aria-hidden="true">' + initials + "</span>" +
+      "</span>";
     var card = document.createElement("article");
     card.className = "gwv-reviews__card";
     card.innerHTML =
@@ -239,6 +245,13 @@ function initTrustindexRestore() {
         '<div class="gwv-reviews__card-stars" aria-hidden="true">' + buildStars(review.rating) + '</div>' +
         '<div class="gwv-reviews__text">' + review.text + '</div>' +
       '</div>';
+    var avatar = card.querySelector(".gwv-reviews__avatar");
+    var avatarShell = card.querySelector(".gwv-reviews__avatar-shell");
+    if (avatar && avatarShell) {
+      avatar.addEventListener("error", function () {
+        avatarShell.classList.add("is-image-broken");
+      }, { once: true });
+    }
     return card;
   }
 
