@@ -1,43 +1,43 @@
 <?xml version="1.0" encoding="UTF-8"?><?xml-stylesheet type="text/xsl" href="/main-sitemap.xsl"?>
 <urlset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd http://www.google.com/schemas/sitemap-image/1.1 http://www.google.com/schemas/sitemap-image/1.1/sitemap-image.xsd" xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 	<url>
-		<loc>/category/articles/pet-health-wellness-library/diseases-and-viruses/</loc>
+		<loc>https://grandwestvet.com/category/articles/pet-health-wellness-library/diseases-and-viruses/</loc>
 		<lastmod>2025-02-17T14:35:41+00:00</lastmod>
 	</url>
 	<url>
-		<loc>/category/articles/pet-health-wellness-library/pests-and-parasites/</loc>
+		<loc>https://grandwestvet.com/category/articles/pet-health-wellness-library/pests-and-parasites/</loc>
 		<lastmod>2025-02-17T05:27:04+00:00</lastmod>
 	</url>
 	<url>
-		<loc>/category/articles/choosing-caring-for-your-pet/providing-care/</loc>
+		<loc>https://grandwestvet.com/category/articles/choosing-caring-for-your-pet/providing-care/</loc>
 		<lastmod>2025-02-17T14:40:06+00:00</lastmod>
 	</url>
 	<url>
-		<loc>/category/articles/choosing-caring-for-your-pet/travel-adventure/</loc>
+		<loc>https://grandwestvet.com/category/articles/choosing-caring-for-your-pet/travel-adventure/</loc>
 		<lastmod>2025-02-17T14:46:21+00:00</lastmod>
 	</url>
 	<url>
-		<loc>/category/articles/community-interactive-features/tips-for-pet-owners/</loc>
+		<loc>https://grandwestvet.com/category/articles/community-interactive-features/tips-for-pet-owners/</loc>
 		<lastmod>2025-02-17T05:42:08+00:00</lastmod>
 	</url>
 	<url>
-		<loc>/category/articles/pet-health-wellness-library/fleas-parasites/</loc>
+		<loc>https://grandwestvet.com/category/articles/pet-health-wellness-library/fleas-parasites/</loc>
 		<lastmod>2025-02-17T05:40:04+00:00</lastmod>
 	</url>
 	<url>
-		<loc>/category/articles/pet-health-wellness-library/keeping-pets-healthy/</loc>
+		<loc>https://grandwestvet.com/category/articles/pet-health-wellness-library/keeping-pets-healthy/</loc>
 		<lastmod>2025-02-17T14:52:42+00:00</lastmod>
 	</url>
 	<url>
-		<loc>/category/articles/pet-health-wellness-library/nutrition-food/</loc>
+		<loc>https://grandwestvet.com/category/articles/pet-health-wellness-library/nutrition-food/</loc>
 		<lastmod>2025-02-17T14:52:42+00:00</lastmod>
 	</url>
 	<url>
-		<loc>/category/articles/community-interactive-features/visiting-the-vet/</loc>
+		<loc>https://grandwestvet.com/category/articles/community-interactive-features/visiting-the-vet/</loc>
 		<lastmod>2025-02-17T14:46:21+00:00</lastmod>
 	</url>
 	<url>
-		<loc>/category/veterinary-services/</loc>
+		<loc>https://grandwestvet.com/category/veterinary-services/</loc>
 		<lastmod>2025-06-27T13:53:29+00:00</lastmod>
 	</url>
 </urlset>
